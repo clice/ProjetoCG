@@ -1,7 +1,15 @@
-# Trabalho - Construção de um "Paint" - Computação Gráfica
+# Computação Gráfica
 
-***Equipe:***
-Alexandre Marques Cabral
-Clice Bezerra Brito Romão
+**Equipe:** Alexandre Marques Cabral e Clice Bezerra Brito Romão
 
-## Instruções para execução do projeto
+## Construção de um "Paint"
+
+### Instruções para execução do projeto
+
+Com o OpenGL instalado, é possível utilizar tanto o Code::Blocks para a compilação do projeto como outro meio de compilação também sendo possível por meio do WSL (Windows Subsystem for Linux) instalado no Windows.
+
+Para a utilização do WSL, podesse compilar o projeto utilizando o comando:
+`g++ main.c -o main -lglut -lGLU -lGL`
+
+Para rodar o projeto, utilizasse o comando:
+`./main`
