@@ -1,5 +1,26 @@
 #include <GL/glut.h>
+#include <windows.h>
 
+typedef struct{
+    float x;
+    float y;
+    int h;
+}Ponto;
+
+typedef struct{
+    Ponto a;
+    Ponto b;
+}Reta;
+
+void rotacionar(Ponto p, int teta){
+    float matrizR[3][3];
+    matrizR[0][2] = 0; matrizR[1][2] = 0; matrizR[2][2] = 1; matrizR[2][0] = 0; matrizR[2][1] = 0;
+}
+void transladar(Ponto p, float tx, float ty){
+    float matrizT[3][3];
+    matrizT[0][0] = 1; matrizT[1][1] = 1; matrizT[2][2] = 1; matrizT[2][0] = 0; matrizT[2][1] = 0;
+    matrizT[0][2] = tx; matrizT[1][2] = ty; matrizT[0][1] = 0; matrizT[1][0] = 0;
+}
 void displayMe(void)
 {
     glClear(GL_COLOR_BUFFER_BIT);
@@ -41,8 +62,8 @@ float mousex, mousey;
 
 void init()
 {
-    glClearColor(1.0, 1.0, 1.0, 0.0); 
-    glMatrixMode(GL_PROJECTION); 
+    glClearColor(1.0, 1.0, 1.0, 0.0);
+    glMatrixMode(GL_PROJECTION);
     glOrtho(-Width, Width, -Height, Height, -1.0f, 1.0f);
 }
 
@@ -61,7 +82,7 @@ void mostrarMenu()
     mainmenu = glutCreateMenu(menu);
     glutAddSubMenu("Criar", criar);
     glutAddSubMenu("Selecionar", selecionar);
-    glutAddMenuEntry("Cancelar", 0); 
+    glutAddMenuEntry("Cancelar", 0);
     glutAddMenuEntry("Sair", -1);
 
     glutAttachMenu(GLUT_RIGHT_BUTTON);
