@@ -1,49 +1,22 @@
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <GL/glut.h>
-#include <windows.h>
 
-typedef struct{
-    float x;
-    float y;
-    int h;
-}Ponto;
+// LISTA DE FUNÇÕES
+void opcoesMenu(void);
+void selecionarOpcao(int opcao);
+void telaInicial(void);
 
-typedef struct{
-    Ponto a;
-    Ponto b;
-}Reta;
+// VARIÁVEIS DE TELA
+static int tela;
+static int menuPrincipal;
+static int menuCriarObjetos;
+static int menuSelecionarObjetos;
 
-void rotacionar(Ponto p, int teta){
-    float matrizR[3][3];
-    matrizR[0][2] = 0; matrizR[1][2] = 0; matrizR[2][2] = 1; matrizR[2][0] = 0; matrizR[2][1] = 0;
-}
-void transladar(Ponto p, float tx, float ty){
-    float matrizT[3][3];
-    matrizT[0][0] = 1; matrizT[1][1] = 1; matrizT[2][2] = 1; matrizT[2][0] = 0; matrizT[2][1] = 0;
-    matrizT[0][2] = tx; matrizT[1][2] = ty; matrizT[0][1] = 0; matrizT[1][0] = 0;
-}
-void displayMe(void)
-{
-    glClear(GL_COLOR_BUFFER_BIT);
-    glBegin(GL_POLYGON);
-    glVertex3f(0.5, 0.0, 0.5);
-    glVertex3f(0.5, 0.0, 0.0);
-    glVertex3f(0.0, 0.5, 0.0);
-    glVertex3f(0.0, 0.0, 0.5);
-    glEnd();
-    glFlush();
-}
+// Valor recebido da opção pelo usuário
+static int opcao = 0;
 
-void init(void);
-void createMenu(void);
-void menu(int value);
-
-static int win;
-static int mainmenu;
-static int criar;
-static int selecionar;
-static int val = 0;
-
-int tolerancia = 5;
 int ponto = -1;
 int reta = -1;
 int poligono = -1;
@@ -52,49 +25,48 @@ int estado = 0;
 int desenhandoReta = -1;
 int desenhandoPoligono = -1;
 
-float theta = 0.05;
-float scale = 1.05;
-float border = 1.03;
+// Variáveis das dimensões
+float largura;
+float altura;
 
-float Width = 300;
-float Height = 300;
-float mousex, mousey;
-
-void init()
+// FUNÇÃO PARA DEFINIR AS OPÇÕES DO MENU
+void opcoesMenu()
 {
-    glClearColor(1.0, 1.0, 1.0, 0.0);
-    glMatrixMode(GL_PROJECTION);
-    glOrtho(-Width, Width, -Height, Height, -1.0f, 1.0f);
-}
-
-void mostrarMenu()
-{
-    criar = glutCreateMenu(menu);
+    // Opção de criar ponto, segmento de reta ou poligono
+    menuCriarObjetos = glutCreateMenu(selecionarOpcao);
     glutAddMenuEntry("Ponto", 1);
-    glutAddMenuEntry("Reta", 2);
+    glutAddMenuEntry("Segmento de Reta", 2);
     glutAddMenuEntry("Poligono", 3);
 
-    selecionar = glutCreateMenu(menu);
+    // Opção de selecionar um ponto, segmento de reta ou poligono
+    menuSelecionarObjetos = glutCreateMenu(selecionarOpcao);
     glutAddMenuEntry("Ponto", 4);
-    glutAddMenuEntry("Reta", 5);
+    glutAddMenuEntry("Segmento de Reta", 5);
     glutAddMenuEntry("Poligono", 6);
 
-    mainmenu = glutCreateMenu(menu);
-    glutAddSubMenu("Criar", criar);
-    glutAddSubMenu("Selecionar", selecionar);
+    // Menu principal para mostrar opções
+    menuPrincipal = glutCreateMenu(selecionarOpcao);
+    glutAddSubMenu("Criar", menuCriarObjetos);
+    glutAddSubMenu("Selecionar", menuSelecionarObjetos);
     glutAddMenuEntry("Cancelar", 0);
     glutAddMenuEntry("Sair", -1);
 
+    // Utilizar o botão direito do mouse para acionar o menu
     glutAttachMenu(GLUT_RIGHT_BUTTON);
 }
 
-void menu(int value)
+// FUNÇÃO PARA SELECIONAR OPÇÃO DO MENU
+void selecionarOpcao(int opcaoSelecionada)
 {
-    if (value == -1) {
-        glutDestroyWindow(win);
+    // Se o usuário escolheu "Sair" encerra e finaliza a tela
+    if (opcaoSelecionada == -1) {
+        glutDestroyWindow(tela);
         exit(0);
-    } else {
-        val = value;
+    }
+    // Caso o usuário tenha selecionado alguma outra opção
+    else {
+        printf("Opcao selecionada: %d\n", opcaoSelecionada);
+        opcao = opcaoSelecionada;
         ponto = -1;
         reta = -1;
         poligono = -1;
@@ -106,7 +78,8 @@ void menu(int value)
     glutPostRedisplay();
 }
 
-void display()
+// FUNÇÃO PARA CONFIGURAR A TELA INICIAL
+void telaInicial()
 {
     glClear(GL_COLOR_BUFFER_BIT);
 
@@ -126,16 +99,18 @@ int main(int argc, char** argv)
     // Inicializando o OpenGL
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
-    glutInitWindowSize(600, 600);
+    glutInitWindowSize(800, 600);
     glutInitWindowPosition(100, 100);
-    win = glutCreateWindow("Paint - Computação Gráfica");
+    tela = glutCreateWindow("Paint - Computacao Grafica");
 
     // Mostrar menu
-    mostrarMenu();
+    opcoesMenu();
 
-    init();
+    glClearColor(1.0, 1.0, 1.0, 0.0);
+    glMatrixMode(GL_PROJECTION);
+    glOrtho(-largura, largura, -altura, altura, -1.0f, 1.0f);
 
-    glutDisplayFunc(display);
+    glutDisplayFunc(telaInicial);
     glutMainLoop();
     return 0;
 }
