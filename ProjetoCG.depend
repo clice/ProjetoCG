@@ -1,0 +1,35 @@
+# depslib dependency file v1.0
+1705266105 source:c:\users\clice\projects\projetocg\main.c
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+	<GL/glut.h>
+	"cor.h"
+	"ponto.h"
+
+1705266250 c:\users\clice\projects\projetocg\ponto.h
+	"cor.h"
+
+1705263951 source:c:\users\clice\projects\projetocg\ponto.c
+	<stdlib.h>
+	<GL/glut.h>
+	"cor.h"
+	"ponto.h"
+	"matriz.h"
+
+1705261535 source:c:\users\clice\projects\projetocg\matriz.c
+	<math.h>
+	<stdlib.h>
+	<GL/glut.h>
+	"matriz.h"
+
+1705262589 c:\users\clice\projects\projetocg\matriz.h
+
+1705263933 c:\users\clice\projects\projetocg\cor.h
+
+1705261535 c:\users\clice\projects\projetocg\matriz.c
+	<math.h>
+	<stdlib.h>
+	<GL/glut.h>
+	"matriz.h"
+

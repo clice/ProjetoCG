@@ -31,9 +31,19 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="README.md" />
+		<Unit filename="cor.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="matriz.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="matriz.h" />
+		<Unit filename="ponto.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ponto.h" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>

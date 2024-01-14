@@ -3,16 +3,31 @@
 #include <stdlib.h>
 #include <GL/glut.h>
 
+#include "cor.h"
+#include "ponto.h"
+
+///////////////////////////////////////////////////////////////////
+
 // LISTA DE FUNÇÕES
+int main(int argc, char** argv);
+void telaInicial(void);
 void opcoesMenu(void);
 void selecionarOpcao(int opcao);
-void telaInicial(void);
+void funcoesMouse(int botao, int estado, int x, int y);
 
 // VARIÁVEIS DE TELA
 static int tela;
 static int menuPrincipal;
 static int menuCriarObjetos;
 static int menuSelecionarObjetos;
+
+// VARIÁVEIS DAS CORES
+Cor vermelho = { 1.0, 0.0, 0.0 };
+Cor verde = { 0.0, 1.0, 0.0 };
+Cor azul = { 0.0, 0.0, 1.0 };
+
+//
+ListaPontos * listaPontos = NULL;
 
 // Valor recebido da opção pelo usuário
 static int opcao = 0;
@@ -28,6 +43,36 @@ int desenhandoPoligono = -1;
 // Variáveis das dimensões
 float largura;
 float altura;
+
+// Variáveis da posição do mouse
+float mouseX, mouseY;
+
+///////////////////////////////////////////////////////////////////
+
+int main(int argc, char** argv)
+{
+    // Inicializando o OpenGL
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+    glutInitWindowSize(800, 600);
+    glutInitWindowPosition(100, 100);
+    tela = glutCreateWindow("Paint - Computacao Grafica");
+
+    // Mostrar menu
+    opcoesMenu();
+
+    //
+    listaPontos = criarListaPontos();
+
+    glClearColor(1.0, 1.0, 1.0, 0.0);
+    glMatrixMode(GL_PROJECTION);
+    glOrtho(-largura, largura, -altura, altura, -1.0f, 1.0f);
+
+    glutMouseFunc(funcoesMouse);
+    glutDisplayFunc(telaInicial);
+    glutMainLoop();
+    return 0;
+}
 
 // FUNÇÃO PARA DEFINIR AS OPÇÕES DO MENU
 void opcoesMenu()
@@ -89,28 +134,43 @@ void telaInicial()
     // desenhaPlano();
     // desenhaPoligonos(Poligonos, poligono, borda);
     // desenhaRetas(Retas, reta);
-    // desenhaPontos(Pontos, ponto);
+    desenharPontos(listaPontos, ponto);
 
     glutSwapBuffers();
 }
 
-int main(int argc, char** argv)
+void funcoesMouse(int botao, int estado, int x, int y)
 {
-    // Inicializando o OpenGL
-    glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
-    glutInitWindowSize(800, 600);
-    glutInitWindowPosition(100, 100);
-    tela = glutCreateWindow("Paint - Computacao Grafica");
+    // Localização atualizada do mouse
+    mouseX = x - largura;
+    mouseY = altura - y;
 
-    // Mostrar menu
-    opcoesMenu();
+    ////////// Opções Criar
+    // Se o botão esquerdo do mouse foi pressionado e a opção for 1 (Criar ponto)
+    if (botao == GLUT_LEFT_BUTTON && estado == GLUT_DOWN && opcao == 1) {
+        adicionarPonto(listaPontos, mouseX, mouseY);
+    }
+    // Se o botão esquerdo do mouse foi pressionado e a opção for 2 (Criar segmento de reta)
+    else if (botao == GLUT_LEFT_BUTTON && estado == GLUT_DOWN && opcao == 2) {
 
-    glClearColor(1.0, 1.0, 1.0, 0.0);
-    glMatrixMode(GL_PROJECTION);
-    glOrtho(-largura, largura, -altura, altura, -1.0f, 1.0f);
+    }
+    // Se o botão esquerdo do mouse foi pressionado e a opção for 3 (Criar polígono)
+    else if (botao == GLUT_LEFT_BUTTON && estado == GLUT_DOWN && opcao == 3) {
 
-    glutDisplayFunc(telaInicial);
-    glutMainLoop();
-    return 0;
+    }
+    ////////// Opção Selecionar
+    // Se o botão esquerdo do mouse foi pressionado e a opção for 3 (Selecionar ponto)
+    else if (botao == GLUT_LEFT_BUTTON && estado == GLUT_DOWN && opcao == 4) {
+
+    }
+    // Se o botão esquerdo do mouse foi pressionado e a opção for 3 (Selecionar segmento de reta)
+    else if (botao == GLUT_LEFT_BUTTON && estado == GLUT_DOWN && opcao == 5) {
+
+    }
+    // Se o botão esquerdo do mouse foi pressionado e a opção for 3 (Selecionar polígono)
+    else if (botao == GLUT_LEFT_BUTTON && estado == GLUT_DOWN && opcao == 6) {
+
+    }
+
+    glutPostRedisplay();
 }
