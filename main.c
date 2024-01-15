@@ -3,6 +3,9 @@
 #include <stdlib.h>
 #include <GL/glut.h>
 
+#include "reta.h"
+
+
 // LISTA DE FUNÇÕES
 void opcoesMenu(void);
 void selecionarOpcao(int opcao);
