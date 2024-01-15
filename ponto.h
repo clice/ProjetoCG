@@ -18,9 +18,9 @@ typedef struct
  */
 typedef struct
 {
-    float x;   // Valor da prioridade da nase
-    float y;   // Quantidade de passageiros
-    Cor cor;   //
+    float x;   // Posição na largura
+    float y;   // Posição na altura
+    Cor cor;   // Estrutura das cores
 } Ponto;
 
 /*
@@ -35,15 +35,16 @@ typedef struct
 ///////////////////////////////////////////////////////////////////
 
 /*
- * DECLARAÇÃO AS FUNÇÕEES DO HEADER
+ * DECLARAÇÕES DAS FUNÇÕEES
  */
 ListaPontos * criarListaPontos();
 
 int adicionarPonto(float x, float y, ListaPontos * listaPontos);
 int removerPonto(int ponto, ListaPontos * listaPontos);
-int selecionarPonto(float x, float y, int ponto, ListaPontos * listaPontos);
+int selecionarPonto(float pontoX, float pontoY, float mouseX, float mouseY, int aux);
 
 void desenharPontos(int ponto, ListaPontos * listaPontos);
+void imprimirListaPontos(ListaPontos * listaPontos);
 
 int transladarPonto(int ponto, ListaPontos * listaPontos);
 int rotacionarPonto(int ponto, ListaPontos * listaPontos);

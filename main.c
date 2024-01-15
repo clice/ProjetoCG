@@ -20,6 +20,9 @@ static int menuSelecionarObjetos;
  */
 static int opcao = 0;
 
+/*
+ * INICIALIZANDO VARIÁVEIS PARA PONTO, RETA E POLIGONO
+ */
 int ponto = -1;
 int reta = -1;
 int poligono = -1;
@@ -54,7 +57,7 @@ void telaInicial();
 void opcoesMenu();
 void selecionarOpcao(int opcaoSelecionada);
 void funcoesMouse(int botao, int estado, int x, int y);
-void funcoesTeclado(int x, int y, int tecla);
+void funcoesTeclado(int tecla, int x, int y);
 
 /*
  * FUNÇÃO PARA INICIAR O SISTEMA
@@ -109,6 +112,7 @@ void telaInicial()
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
+    // Inicializando os desenhos da tela
     desenharTela();
     desenharPontos(ponto, listaPontos);
 
@@ -155,10 +159,10 @@ void selecionarOpcao(int opcaoSelecionada)
     }
     // Caso o usuário tenha selecionado alguma outra opção
     else {
-        printf("Opcao selecionada: %d\n", opcao);
         opcao = opcaoSelecionada;
+        printf("Opcao selecionada: %d\n", opcao);
         estado = 0;
-
+        printf("Estado: %d\n", estado);
         ponto = -1;
     }
 
@@ -206,10 +210,25 @@ void funcoesMouse(int botao, int estado, int x, int y)
     glutPostRedisplay();
 }
 
- /*
+/*
  * FUNÇÃO PARA DEFINIR O USO DO TECLADO PELO USUÁRIO
  */
-void funcoesTeclado(int x, int y, int tecla)
+void funcoesTeclado(int tecla, int x, int y)
 {
+    printf("Tecla: %d\n", tecla);
+    printf("x: %f, y: %f\n", x, y);
+    printf("ponto: %d\n", ponto);
 
+    // Opções Selecionar
+    if (tecla == GLUT_KEY_F1) {
+        printf("entrou1\n");
+        if (opcao == 4 && ponto != -1) {
+            printf("entrou2\n");
+            if (removerPonto(ponto, listaPontos)) {
+                printf("entrou3\n");
+                if (estado != 0) estado = 0;
+                ponto = -1;
+            }
+        }
+    }
 }
