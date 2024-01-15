@@ -1,0 +1,10 @@
+# depslib dependency file v1.0
+1705357909 source:c:\users\clice\projects\cg\main\projetocg\main.c
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+	<GL/glut.h>
+	"ponto.h"
+
+1705357889 c:\users\clice\projects\cg\main\projetocg\ponto.h
+
