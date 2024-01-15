@@ -8,8 +8,9 @@
 
 Com o OpenGL instalado, é possível utilizar tanto o Code::Blocks para a compilação do projeto como outro meio de compilação também sendo possível por meio do WSL (Windows Subsystem for Linux) instalado no Windows.
 
-Para a utilização do WSL, podesse compilar o projeto utilizando o comando:
+#### Para a utilização do WSL:
+**Para compilar o código:**
 `g++ main.c -o main -lglut -lGLU -lGL`
 
-Para rodar o projeto, utilizasse o comando:
+**Para executar o código:**
 `./main`

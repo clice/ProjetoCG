@@ -3,53 +3,63 @@
 #include <stdlib.h>
 #include <GL/glut.h>
 
-#include "cor.h"
 #include "ponto.h"
 
 ///////////////////////////////////////////////////////////////////
 
-// LISTA DE FUNÇÕES
-int main(int argc, char** argv);
-void telaInicial(void);
-void opcoesMenu(void);
-void selecionarOpcao(int opcao);
-void funcoesMouse(int botao, int estado, int x, int y);
-
-// VARIÁVEIS DE TELA
+/*
+ * VARIÁVEIS DE TELA
+ */
 static int tela;
 static int menuPrincipal;
 static int menuCriarObjetos;
 static int menuSelecionarObjetos;
 
-// VARIÁVEIS DAS CORES
-Cor vermelho = { 1.0, 0.0, 0.0 };
-Cor verde = { 0.0, 1.0, 0.0 };
-Cor azul = { 0.0, 0.0, 1.0 };
-
-//
-ListaPontos * listaPontos = NULL;
-
-// Valor recebido da opção pelo usuário
+/*
+ * VALOR RECEBIDO PELO USUÁRIO PARA OPÇÃO
+ */
 static int opcao = 0;
 
 int ponto = -1;
 int reta = -1;
 int poligono = -1;
 
-int estado = 0;
+/*
+ *
+ */
 int desenhandoReta = -1;
 int desenhandoPoligono = -1;
 
-// Variáveis das dimensões
-float largura;
-float altura;
-
-// Variáveis da posição do mouse
-float mouseX, mouseY;
+/*
+ * VARIÁVEIS DO MOUSE
+ */
+float largura = 400;
+float altura = 300;
+float mouseX;
+float mouseY;
+int estado = 0;
 
 ///////////////////////////////////////////////////////////////////
 
-int main(int argc, char** argv)
+ListaPontos * listaPontos = NULL;
+
+///////////////////////////////////////////////////////////////////
+
+/*
+ * LISTA DE FUNÇÕES
+ */
+int main(int argc, char ** argv);
+void desenharTela();
+void telaInicial();
+void opcoesMenu();
+void selecionarOpcao(int opcaoSelecionada);
+void funcoesMouse(int botao, int estado, int x, int y);
+void funcoesTeclado(int x, int y, int tecla);
+
+/*
+ * FUNÇÃO PARA INICIAR O SISTEMA
+ */
+int main (int argc, char ** argv)
 {
     // Inicializando o OpenGL
     glutInit(&argc, argv);
@@ -64,17 +74,50 @@ int main(int argc, char** argv)
     //
     listaPontos = criarListaPontos();
 
-    glClearColor(1.0, 1.0, 1.0, 0.0);
+    glClearColor(1.0, 1.0, 1.0, 0.0); // Cor do background
     glMatrixMode(GL_PROJECTION);
     glOrtho(-largura, largura, -altura, altura, -1.0f, 1.0f);
 
     glutMouseFunc(funcoesMouse);
+    glutSpecialFunc(funcoesTeclado);
     glutDisplayFunc(telaInicial);
     glutMainLoop();
     return 0;
 }
 
-// FUNÇÃO PARA DEFINIR AS OPÇÕES DO MENU
+/*
+ * FUNÇÃO PARA DEFINIR AS OPÇÕES DO MENU
+ */
+void desenharTela()
+{
+    glColor3f(0.0, 0.0, 0.0);
+    glBegin(GL_LINES);
+    glVertex2i(-400, 0);
+    glVertex2i(400, 0);
+    glVertex2i(0, -300);
+    glVertex2i(0, 300);
+    glEnd();
+}
+
+/*
+ * FUNÇÃO PARA CONFIGURAR A TELA INICIAL
+ */
+void telaInicial()
+{
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
+    desenharTela();
+    desenharPontos(ponto, listaPontos);
+
+    glutSwapBuffers();
+}
+
+/*
+ * FUNÇÃO PARA DEFINIR AS OPÇÕES DO MENU
+ */
 void opcoesMenu()
 {
     // Opção de criar ponto, segmento de reta ou poligono
@@ -100,7 +143,9 @@ void opcoesMenu()
     glutAttachMenu(GLUT_RIGHT_BUTTON);
 }
 
-// FUNÇÃO PARA SELECIONAR OPÇÃO DO MENU
+/*
+ * FUNÇÃO PARA SELECIONAR A OPCAO INDICADA PELO USUÁRIO
+ */
 void selecionarOpcao(int opcaoSelecionada)
 {
     // Se o usuário escolheu "Sair" encerra e finaliza a tela
@@ -110,67 +155,61 @@ void selecionarOpcao(int opcaoSelecionada)
     }
     // Caso o usuário tenha selecionado alguma outra opção
     else {
-        printf("Opcao selecionada: %d\n", opcaoSelecionada);
+        printf("Opcao selecionada: %d\n", opcao);
         opcao = opcaoSelecionada;
-        ponto = -1;
-        reta = -1;
-        poligono = -1;
         estado = 0;
-        desenhandoReta = -1;
-        desenhandoPoligono = -1;
+
+        ponto = -1;
     }
 
     glutPostRedisplay();
 }
 
-// FUNÇÃO PARA CONFIGURAR A TELA INICIAL
-void telaInicial()
-{
-    glClear(GL_COLOR_BUFFER_BIT);
-
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-
-    // desenhaPlano();
-    // desenhaPoligonos(Poligonos, poligono, borda);
-    // desenhaRetas(Retas, reta);
-    desenharPontos(listaPontos, ponto);
-
-    glutSwapBuffers();
-}
-
+/*
+ * FUNÇÃO PARA DEFINIR O USO DO MOUSE PELO USUÁRIO
+ */
 void funcoesMouse(int botao, int estado, int x, int y)
 {
     // Localização atualizada do mouse
-    mouseX = x - largura;
-    mouseY = altura - y;
+    mouseX = x - largura;  // Localização do eixo x (horizontal - largura)
+    mouseY = altura - y;   // Localização do eixo y (vertical - altura)
+
+    printf("mouseX: %f, mouseY: %f\n", mouseX, mouseY);
 
     ////////// Opções Criar
     // Se o botão esquerdo do mouse foi pressionado e a opção for 1 (Criar ponto)
-    if (botao == GLUT_LEFT_BUTTON && estado == GLUT_DOWN && opcao == 1) {
-        adicionarPonto(listaPontos, mouseX, mouseY);
+    if (opcao == 1 && botao == GLUT_LEFT_BUTTON && estado == GLUT_DOWN) {
+        adicionarPonto(mouseX, mouseY, listaPontos);
     }
     // Se o botão esquerdo do mouse foi pressionado e a opção for 2 (Criar segmento de reta)
-    else if (botao == GLUT_LEFT_BUTTON && estado == GLUT_DOWN && opcao == 2) {
+    else if (opcao == 2 && botao == GLUT_LEFT_BUTTON && estado == GLUT_DOWN) {
 
     }
     // Se o botão esquerdo do mouse foi pressionado e a opção for 3 (Criar polígono)
-    else if (botao == GLUT_LEFT_BUTTON && estado == GLUT_DOWN && opcao == 3) {
+    else if (opcao == 3 && botao == GLUT_LEFT_BUTTON && estado == GLUT_DOWN) {
 
     }
     ////////// Opção Selecionar
     // Se o botão esquerdo do mouse foi pressionado e a opção for 3 (Selecionar ponto)
-    else if (botao == GLUT_LEFT_BUTTON && estado == GLUT_DOWN && opcao == 4) {
+    else if (opcao == 4 && botao == GLUT_LEFT_BUTTON && estado == GLUT_DOWN) {
 
     }
     // Se o botão esquerdo do mouse foi pressionado e a opção for 3 (Selecionar segmento de reta)
-    else if (botao == GLUT_LEFT_BUTTON && estado == GLUT_DOWN && opcao == 5) {
+    else if (opcao == 5 && botao == GLUT_LEFT_BUTTON && estado == GLUT_DOWN) {
 
     }
     // Se o botão esquerdo do mouse foi pressionado e a opção for 3 (Selecionar polígono)
-    else if (botao == GLUT_LEFT_BUTTON && estado == GLUT_DOWN && opcao == 6) {
+    else if (opcao == 6 && botao == GLUT_LEFT_BUTTON && estado == GLUT_DOWN) {
 
     }
 
     glutPostRedisplay();
+}
+
+ /*
+ * FUNÇÃO PARA DEFINIR O USO DO TECLADO PELO USUÁRIO
+ */
+void funcoesTeclado(int x, int y, int tecla)
+{
+
 }

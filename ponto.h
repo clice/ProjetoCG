@@ -1,34 +1,51 @@
 #ifndef PONTO_H
 #define PONTO_H
 
-#include "cor.h"
+#define MAX_PONTOS 1000
 
-// ESTRUTURA PARA REPRESENTAR O PONTO
-typedef struct {
-    float x; // Posição da largura
-    float y; // Posição da altura
-    Cor cor; // Cor do ponto
+/*
+ * ESTRUTURA PARA AS CORES
+ */
+typedef struct
+{
+    float red;     // Valor da cor vermelha
+    float green;   // Valor da cor verde
+    float blue;    // Valor da cor azul
+} Cor;
+
+/*
+ * ESTRUTURA PARA O PONTO
+ */
+typedef struct
+{
+    float x;   // Valor da prioridade da nase
+    float y;   // Quantidade de passageiros
+    Cor cor;   //
 } Ponto;
 
-// ESTRUTURA PARA A LISTA DE PONTOS
-typedef struct {
-    int qtdPontos;      // Quantidade de pontos na lista
-    Ponto pontos[1000]; // Vetor de pontos com a estrutura Ponto
+/*
+ * ESTRUTURA PARA LISTA DE PONTOS
+ */
+typedef struct
+{
+    int qtdPontos;    			// Quantidade de pontos na lista
+    Ponto pontos[MAX_PONTOS];   // Dados dos pontos da lista de pontos
 } ListaPontos;
 
+///////////////////////////////////////////////////////////////////
+
+/*
+ * DECLARAÇÃO AS FUNÇÕEES DO HEADER
+ */
 ListaPontos * criarListaPontos();
 
-int adicionarPonto(ListaPontos * listaPontos, float x, float y);
-int removerPonto(ListaPontos * listaPontos, int ponto);
-int selecionarPonto(ListaPontos * listaPontos, float x, float y, int ponto);
+int adicionarPonto(float x, float y, ListaPontos * listaPontos);
+int removerPonto(int ponto, ListaPontos * listaPontos);
+int selecionarPonto(float x, float y, int ponto, ListaPontos * listaPontos);
 
-void desenharPontos(ListaPontos * listaPontos, int ponto);
+void desenharPontos(int ponto, ListaPontos * listaPontos);
 
-int transladarPonto(ListaPontos * listaPontos, int ponto);
-int rotacionarPonto(ListaPontos * listaPontos, int ponto);
-
-// int pickPonto(float px, float py, float mx, float my, int t);
-// int transladarPonto(Lista_Pontos *, int p, Matriz_Transformacao *);
-// int rotacionarPonto(Lista_Pontos *, int p, Matriz_Transformacao *);
+int transladarPonto(int ponto, ListaPontos * listaPontos);
+int rotacionarPonto(int ponto, ListaPontos * listaPontos);
 
 #endif // PONTO_H

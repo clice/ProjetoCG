@@ -33,3 +33,29 @@
 	<GL/glut.h>
 	"matriz.h"
 
+1705323380 source:c:\users\clice\projects\cg\projetocg\main.c
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+	<GL/glut.h>
+	"ponto.h"
+
+1705323279 c:\users\clice\projects\cg\projetocg\cor.h
+
+1705323405 c:\users\clice\projects\cg\projetocg\ponto.h
+
+1705323279 source:c:\users\clice\projects\cg\projetocg\matriz.c
+	<math.h>
+	<stdlib.h>
+	<GL/glut.h>
+	"matriz.h"
+
+1705323279 c:\users\clice\projects\cg\projetocg\matriz.h
+
+1705323279 source:c:\users\clice\projects\cg\projetocg\ponto.c
+	<stdlib.h>
+	<GL/glut.h>
+	"cor.h"
+	"ponto.h"
+	"matriz.h"
+

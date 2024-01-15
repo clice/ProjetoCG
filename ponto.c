@@ -1,40 +1,42 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include <GL/glut.h>
 
-#include "cor.h"
 #include "ponto.h"
-#include "matriz.h"
-
-
-Cor preto = { 0.0, 0.0, 0.0 };
 
 /*
- * FUNÇÃO PARA CRIAR A LISTA DE PONTOS INICIAL (ZERADA)
-*/
+ * DECLARAÇÃO DAS CORES FIXAS
+ */
+Cor vermelha = { 1.0, 0.0, 0.0 };
+Cor verde = { 0.0, 1.0, 0.0 };
+Cor azul = { 0.0, 0.0, 1.0 };
+Cor preta = { 0.0, 0.0, 0.0 };
+
+/*
+ * FUNÇÃO PARA CRIAR A LISTA DE PONTOS
+ */
 ListaPontos * criarListaPontos()
 {
-    // Ponteiro da lista de pontos
-    ListaPontos * listaPontos = (ListaPontos *)malloc(sizeof(ListaPontos));
-    listaPontos->qtdPontos = 0; // Inicializa com zero pontos
-    return listaPontos;
+	// Ponteiro da lista de pontos
+	ListaPontos * listaPontos = (ListaPontos *)malloc(sizeof(ListaPontos));
+	listaPontos->qtdPontos = 0;
+	return listaPontos;
 }
 
+///////////////////////////////////////////////////////////////////
+
 /*
- * FUNÇÃO PARA ADICIONAR UM PONTO A LISTA
- * Parametros:
- * ListaPontos * listaPontos (lista de pontos)
- * float x ()
- * float y ()
-*/
-int adicionarPonto(ListaPontos * listaPontos, float x, float y)
+ * FUNÇÃO PARA CRIAR A LISTA DE PONTOS
+ */
+int adicionarPonto(float x, float y, ListaPontos * listaPontos)
 {
     // Se a lista está vazia
-    if (listaPontos == NULL || listaPontos->qtdPontos == 1000) {
+    if (listaPontos == NULL || listaPontos->qtdPontos == MAX_PONTOS) {
         return 0;
     }
     // Adicionar o ponto
     else {
-        Ponto ponto = { x, y };
+        Ponto ponto = { x, y, verde };
         listaPontos->pontos[listaPontos->qtdPontos] = ponto;
         listaPontos->qtdPontos++;
         return 1;
@@ -42,9 +44,9 @@ int adicionarPonto(ListaPontos * listaPontos, float x, float y)
 }
 
 /*
- * FUNÇÃO PARA REMOVER UM PONTO DA LISTA
-*/
-int removerPonto(ListaPontos * listaPontos, int ponto)
+ * FUNÇÃO PARA CRIAR A LISTA DE PONTOS
+ */
+int removerPonto(int ponto, ListaPontos * listaPontos)
 {
     // Se a lista de pontos estiver vazia ou a quantidade de pontos for zero
     if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
@@ -64,9 +66,9 @@ int removerPonto(ListaPontos * listaPontos, int ponto)
 }
 
 /*
- * FUNÇÃO PARA SELECIONAR UM PONTO
-*/
-int selecionarPonto(ListaPontos * listaPontos, float x, float y, int ponto)
+ * FUNÇÃO PARA CRIAR A LISTA DE PONTOS
+ */
+int selecionarPonto(float x, float y, int ponto, ListaPontos * listaPontos)
 {
     if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
         return 0;
@@ -82,12 +84,14 @@ int selecionarPonto(ListaPontos * listaPontos, float x, float y, int ponto)
     }
 }
 
+///////////////////////////////////////////////////////////////////
+
 /*
- * FUNÇÃO PARA DESENHAR OS PONTOS DA LISTA NA TELA
-*/
-void desenharPontos(ListaPontos * listaPontos, int ponto)
+ * FUNÇÃO PARA CRIAR A LISTA DE PONTOS
+ */
+void desenharPontos(int ponto, ListaPontos * listaPontos)
 {
-    glPointSize(5.0);
+    glPointSize(3.0);
     glBegin(GL_POINTS);
 
     for (int i = 0; i < listaPontos->qtdPontos; i++){
@@ -102,7 +106,7 @@ void desenharPontos(ListaPontos * listaPontos, int ponto)
     if (ponto != -1) {
         glPointSize(7.0);
         glBegin(GL_POINTS);
-        glColor3f(preto.red, preto.green, preto.blue);
+        glColor3f(preta.red, preta.green, preta.blue);
         glVertex2f(listaPontos->pontos[ponto].x, listaPontos->pontos[ponto].y);
         glEnd();
         glPointSize(5.0);
@@ -113,8 +117,12 @@ void desenharPontos(ListaPontos * listaPontos, int ponto)
     }
 }
 
-// FUNÇÃO PARA TRANSLADAR UM PONTO (ARRASTAR E SOLTAR)
-int transladarPonto(ListaPontos * listaPontos, int ponto)
+///////////////////////////////////////////////////////////////////
+
+/*
+ * FUNÇÃO PARA CRIAR A LISTA DE PONTOS
+ */
+int transladarPonto(int ponto, ListaPontos * listaPontos)
 {
     if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
         return 0;
@@ -123,8 +131,10 @@ int transladarPonto(ListaPontos * listaPontos, int ponto)
     }
 }
 
-// FUNÇÃO PARA ROTACIONAR UM PONTO EM RELAÇÃO AO CENTRO DO OBJETO
-int rotacionarPonto(ListaPontos * listaPontos, int ponto)
+/*
+ * FUNÇÃO PARA CRIAR A LISTA DE PONTOS
+ */
+int rotacionarPonto(int ponto, ListaPontos * listaPontos)
 {
     if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
         return 0;
