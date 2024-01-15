@@ -3,8 +3,8 @@
 #include <stdlib.h>
 #include <GL/glut.h>
 
+#include "ponto.h"
 #include "reta.h"
-
 
 // LISTA DE FUNÇÕES
 void opcoesMenu(void);

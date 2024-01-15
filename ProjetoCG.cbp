@@ -34,6 +34,18 @@
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="matriz.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="matriz.h" />
+		<Unit filename="ponto.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ponto.h" />
+		<Unit filename="reta.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="reta.h" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
