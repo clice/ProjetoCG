@@ -23,6 +23,7 @@ static int opcao = 0;
 /*
  * INICIALIZANDO VARIÁVEIS PARA PONTO, RETA E POLIGONO
  */
+int aux = -1;
 int ponto = -1;
 int reta = -1;
 int poligono = -1;
@@ -40,7 +41,7 @@ float largura = 400;
 float altura = 300;
 float mouseX;
 float mouseY;
-int estado = 0;
+int estadoMouse = 0;
 
 ///////////////////////////////////////////////////////////////////
 
@@ -56,7 +57,7 @@ void desenharTela();
 void telaInicial();
 void opcoesMenu();
 void selecionarOpcao(int opcaoSelecionada);
-void funcoesMouse(int botao, int estado, int x, int y);
+void funcoesMouse(int botaoMouse, int estadoMouse, int x, int y);
 void funcoesTeclado(int tecla, int x, int y);
 
 /*
@@ -93,13 +94,13 @@ int main (int argc, char ** argv)
  */
 void desenharTela()
 {
-    glColor3f(0.0, 0.0, 0.0);
-    glBegin(GL_LINES);
-    glVertex2i(-400, 0);
-    glVertex2i(400, 0);
-    glVertex2i(0, -300);
-    glVertex2i(0, 300);
-    glEnd();
+    // glColor3f(0.0, 0.0, 0.0);
+    // glBegin(GL_LINES);
+    // glVertex2i(-400, 0);
+    // glVertex2i(400, 0);
+    // glVertex2i(0, -300);
+    // glVertex2i(0, 300);
+    // glEnd();
 }
 
 /*
@@ -161,8 +162,8 @@ void selecionarOpcao(int opcaoSelecionada)
     else {
         opcao = opcaoSelecionada;
         printf("Opcao selecionada: %d\n", opcao);
-        estado = 0;
-        printf("Estado: %d\n", estado);
+        estadoMouse = 0;
+        printf("Estado: %d\n", estadoMouse);
         ponto = -1;
     }
 
@@ -172,39 +173,52 @@ void selecionarOpcao(int opcaoSelecionada)
 /*
  * FUNÇÃO PARA DEFINIR O USO DO MOUSE PELO USUÁRIO
  */
-void funcoesMouse(int botao, int estado, int x, int y)
+void funcoesMouse(int botaoMouse, int estadoMouse, int x, int y)
 {
+    printf("x: %d, y: %d\n", x, y);
+    printf("largura: %f, altura: %f\n", largura, altura);
+
     // Localização atualizada do mouse
     mouseX = x - largura;  // Localização do eixo x (horizontal - largura)
     mouseY = altura - y;   // Localização do eixo y (vertical - altura)
 
     printf("mouseX: %f, mouseY: %f\n", mouseX, mouseY);
 
-    ////////// Opções Criar
-    // Se o botão esquerdo do mouse foi pressionado e a opção for 1 (Criar ponto)
-    if (opcao == 1 && botao == GLUT_LEFT_BUTTON && estado == GLUT_DOWN) {
-        adicionarPonto(mouseX, mouseY, listaPontos);
-    }
-    // Se o botão esquerdo do mouse foi pressionado e a opção for 2 (Criar segmento de reta)
-    else if (opcao == 2 && botao == GLUT_LEFT_BUTTON && estado == GLUT_DOWN) {
+    // Se o botão esquerdo do mouse foi pressionado
+    if (botaoMouse == GLUT_LEFT_BUTTON && estadoMouse == GLUT_DOWN) {
+        ////////// Opções Criar
+        // Se a opção for 1 (Criar ponto)
+        if (opcao == 1) { 
+            adicionarPonto(mouseX, mouseY, listaPontos);
+        }
+        // Se a opção for 2 (Criar segmento de reta)
+        else if (opcao == 2) {
 
-    }
-    // Se o botão esquerdo do mouse foi pressionado e a opção for 3 (Criar polígono)
-    else if (opcao == 3 && botao == GLUT_LEFT_BUTTON && estado == GLUT_DOWN) {
+        }
+        // Se a opção for 3 (Criar polígono)
+        else if (opcao == 3) {
 
-    }
-    ////////// Opção Selecionar
-    // Se o botão esquerdo do mouse foi pressionado e a opção for 3 (Selecionar ponto)
-    else if (opcao == 4 && botao == GLUT_LEFT_BUTTON && estado == GLUT_DOWN) {
+        }
 
-    }
-    // Se o botão esquerdo do mouse foi pressionado e a opção for 3 (Selecionar segmento de reta)
-    else if (opcao == 5 && botao == GLUT_LEFT_BUTTON && estado == GLUT_DOWN) {
+        ////////// Opção Selecionar
+        // Se a opção for 4 (Selecionar ponto)
+        else if (opcao == 4) {
+            ponto = selecionarPonto(listaPontos, mouseX, mouseY, aux);
+            printf("-----mouseX: %f, mouseY: %f\n", mouseX, mouseY);
+            MatrizTransformacao * matrizTranslacao = criarMatrizTranslacao(
+                    mouseX - listaPontos->pontos[ponto].x,
+                    mouseY - listaPontos->pontos[ponto].y
+                );
+            transladarPonto(ponto, listaPontos, matrizTranslacao);
+        }
+        // Se a opção for 5 (Selecionar segmento de reta)
+        else if (opcao == 5) {
 
-    }
-    // Se o botão esquerdo do mouse foi pressionado e a opção for 3 (Selecionar polígono)
-    else if (opcao == 6 && botao == GLUT_LEFT_BUTTON && estado == GLUT_DOWN) {
+        }
+        // Se a opção for 6 (Selecionar polígono)
+        else if (opcao == 6) {
 
+        }
     }
 
     glutPostRedisplay();
@@ -226,7 +240,7 @@ void funcoesTeclado(int tecla, int x, int y)
             printf("entrou2\n");
             if (removerPonto(ponto, listaPontos)) {
                 printf("entrou3\n");
-                if (estado != 0) estado = 0;
+                if (estadoMouse != 0) estadoMouse = 0;
                 ponto = -1;
             }
         }

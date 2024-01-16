@@ -8,23 +8,24 @@
 
 1705357889 c:\users\clice\projects\cg\main\projetocg\ponto.h
 
-1705422039 source:c:\users\clice\projects\cg\ponto\projetocg\main.c
+1705431419 source:c:\users\clice\projects\cg\ponto\projetocg\main.c
 	<math.h>
 	<stdio.h>
 	<stdlib.h>
 	<GL/glut.h>
 	"ponto.h"
 
-1705421993 c:\users\clice\projects\cg\ponto\projetocg\ponto.h
+1705428918 c:\users\clice\projects\cg\ponto\projetocg\ponto.h
 	"matriz.h"
 
-1705421973 source:c:\users\clice\projects\cg\ponto\projetocg\ponto.c
+1705428966 source:c:\users\clice\projects\cg\ponto\projetocg\ponto.c
 	<stdio.h>
 	<stdlib.h>
 	<GL/glut.h>
 	"ponto.h"
 
-1705421818 source:c:\users\clice\projects\cg\ponto\projetocg\matriz.c
+1705426546 source:c:\users\clice\projects\cg\ponto\projetocg\matriz.c
+	<math.h>
 	<stdio.h>
 	<stdlib.h>
 	<GL/glut.h>
