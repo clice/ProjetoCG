@@ -30,7 +30,7 @@ typedef struct
  */
 typedef struct
 {
-    int qtdPontos;    			       // Quantidade de pontos na lista
+    int qtdPontos;    			// Quantidade de pontos na lista
     Ponto pontos[MAX_PONTOS];   // Dados dos pontos da lista de pontos
 } ListaPontos;
 
@@ -47,6 +47,7 @@ int selecionarPonto(ListaPontos * listaPontos, float mouseX, float mouseY, int a
 
 void desenharPontos(int ponto, ListaPontos * listaPontos);
 void imprimirListaPontos(ListaPontos * listaPontos);
+void salvarPontos(ListaPontos * listaPontos);
 
 int transladarPonto(int ponto, ListaPontos * listaPontos, MatrizTransformacao * matrizTranslacao);
 int rotacionarPonto(int ponto, ListaPontos * listaPontos, MatrizTransformacao * matrizRotacao);

@@ -141,6 +141,7 @@ void opcoesMenu()
     menuPrincipal = glutCreateMenu(selecionarOpcao);
     glutAddSubMenu("Criar", menuCriarObjetos);
     glutAddSubMenu("Selecionar", menuSelecionarObjetos);
+    glutAddMenuEntry("Salvar", 7);
     glutAddMenuEntry("Cancelar", 0);
     glutAddMenuEntry("Sair", -1);
 
@@ -163,7 +164,6 @@ void selecionarOpcao(int opcaoSelecionada)
         opcao = opcaoSelecionada;
         printf("Opcao selecionada: %d\n", opcao);
         estadoMouse = 0;
-        printf("Estado: %d\n", estadoMouse);
         ponto = -1;
     }
 
@@ -219,6 +219,16 @@ void funcoesMouse(int botaoMouse, int estadoMouse, int x, int y)
         else if (opcao == 6) {
 
         }
+
+        ////////// Opção Salvar
+        else if (opcao == 7) {
+             salvarPontos(listaPontos);
+        }
+
+        ////////// Opção Cancelar
+        else if (opcao == 0) {
+
+        }
     }
 
     glutPostRedisplay();
@@ -235,11 +245,8 @@ void funcoesTeclado(int tecla, int x, int y)
 
     // Opções Selecionar
     if (tecla == GLUT_KEY_F1) {
-        printf("entrou1\n");
         if (opcao == 4 && ponto != -1) {
-            printf("entrou2\n");
             if (removerPonto(ponto, listaPontos)) {
-                printf("entrou3\n");
                 if (estadoMouse != 0) estadoMouse = 0;
                 ponto = -1;
             }
