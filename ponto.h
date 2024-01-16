@@ -47,8 +47,8 @@ int selecionarPonto(float pontoX, float pontoY, float mouseX, float mouseY, int 
 void desenharPontos(int ponto, ListaPontos * listaPontos);
 void imprimirListaPontos(ListaPontos * listaPontos);
 
-void transladarPonto(Ponto p, float tx, float ty);
-void rotacionarPonto(Ponto p, int teta);
+int transladarPonto(Ponto p, ListaPontos * listaPontos, float ty, float tx);
+int rotacionarPonto(int ponto, ListaPontos * listaPontos);
 void escalarPonto(Ponto p, float sx, float sy);
 
 

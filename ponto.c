@@ -129,12 +129,20 @@ void imprimirListaPontos(ListaPontos * listaPontos)
 /*
  * FUNÇÃO PARA CRIAR A LISTA DE PONTOS
  */
-int transladarPonto(int ponto, ListaPontos * listaPontos)
+int transladarPonto(Ponto p, ListaPontos * listaPontos, float ty, float tx)
 {
     if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
         return 0;
     } else {
+        MatrizPonto* mp = criarMatrizPonto(p.x, p.y);
+        MatrizTransformacao* transl = criarMatrizTranslacao(tx, ty);
+        mp = multiplicarMatrizPonto(mp, transl);
+        p.x = mp->matriz[0][0];
+        p.y = mp->matriz[0][1];
+        free(mp);
+        free(transl);
         return 1;
+
     }
 }
 

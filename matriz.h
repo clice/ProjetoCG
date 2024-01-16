@@ -1,14 +1,34 @@
 #ifndef MATRIZ_H_INCLUDED
 #define MATRIZ_H_INCLUDED
+
+/*
+ * ESTRUTURA PARA A MATRIZ DO PONTO
+ */
 typedef struct
 {
-    float tx, ty;
-    float d1, d2;
-    float sen;
-    float matriz[3][3];
-    matriz[0][0] = d1; matriz[1][1] = d2; matriz[2][2] = 1 ;
-    matriz[0][1] = sen*(-1); matriz[0][2] = tx; matriz[1][2] = ty;
-    matriz[1][0] = sen; matriz[2][0] = 0.0; matriz[2][1] = 0.0;
-}matrixP;
+    float matriz[3][1];     // Matriz para armazenar as informações do ponto (largura, altura e cor)
+} MatrizPonto;
+
+/*
+ * ESTRUTURA PARA A MATRIZ DA TRANSFORMAÇÃO
+ */
+typedef struct
+{
+    float matriz[3][3];   // Matriz para o cálculo da transformação realizada
+} MatrizTransformacao;
+
+///////////////////////////////////////////////////////////////////
+
+/*
+ * DECLARAÇÕES DAS FUNÇÕES
+ */
+MatrizPonto * criarMatrizPonto(float x, float y);
+MatrizPonto * multiplicarMatrizPonto(MatrizPonto * matrizPonto, MatrizTransformacao * matrizTransformacao);
+
+MatrizTransformacao * criarMatrizTransformacao();
+MatrizTransformacao * criarMatrizTranslacao(float tX, float tY);
+MatrizTransformacao * criarMatrizRotacao(float theta);
+MatrizTransformacao * criarMatrizEscalar(float escala);
+MatrizTransformacao * multiplicarMatrizesTransformacao(MatrizTransformacao * matrizTransformacao1, MatrizTransformacao * matrizTransformacao2);
 
 #endif // MATRIZ_H_INCLUDED
