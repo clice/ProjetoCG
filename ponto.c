@@ -69,10 +69,22 @@ int removerPonto(int ponto, ListaPontos * listaPontos)
 /*
  * FUNÇÃO PARA CRIAR A LISTA DE PONTOS
  */
-int selecionarPonto(float pontoX, float pontoY, float mouseX, float mouseY, int aux)
+int selecionarPonto(ListaPontos * listaPontos, float mouseX, float mouseY, int aux)
 {
-    // if (mouseX <= pontoX + aux && mouseX >= pontoX - aux) {
-    //     return 1;
+    // // Se a lista de pontos estiver vazia ou a quantidade de pontos for zero
+    // if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
+    //     return 0;
+    // }
+    // //
+    // else {
+    //     //
+    //     for (int i = 0; i < listaPontos->qtdPontos; i++) {
+    //         if () {
+    //             return 1;
+    //         }
+    //     }
+
+    //     return -1;
     // }
 
     return 0;
