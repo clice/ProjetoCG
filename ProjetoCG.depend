@@ -8,7 +8,7 @@
 
 1705357889 c:\users\clice\projects\cg\main\projetocg\ponto.h
 
-1705420061 source:c:\users\clice\projects\cg\ponto\projetocg\main.c
+1705422039 source:c:\users\clice\projects\cg\ponto\projetocg\main.c
 	<math.h>
 	<stdio.h>
 	<stdlib.h>
@@ -30,5 +30,5 @@
 	<GL/glut.h>
 	"matriz.h"
 
-1705421800 c:\users\clice\projects\cg\ponto\projetocg\matriz.h
+1705426493 c:\users\clice\projects\cg\ponto\projetocg\matriz.h
 

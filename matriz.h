@@ -25,6 +25,10 @@ typedef struct
 MatrizPonto * criarMatrizPonto(float x, float y);
 MatrizPonto * multiplicarMatrizPonto(MatrizPonto * matrizPonto, MatrizTransformacao * matrizTransformacao);
 
-
+MatrizTransformacao * criarMatrizTransformacao();
+MatrizTransformacao * criarMatrizTranslacao(float tX, float tY);
+MatrizTransformacao * criarMatrizRotacao(float theta);
+MatrizTransformacao * criarMatrizEscalar(float escala);
+MatrizTransformacao * multiplicarMatrizesTransformacao(MatrizTransformacao * matrizTransformacao1, MatrizTransformacao * matrizTransformacao2);
 
 #endif // MATRIZ_H
