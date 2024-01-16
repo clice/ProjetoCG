@@ -7,18 +7,18 @@
 /*
  * DECLARAÇÃO DAS CORES FIXAS
  */
-struct Cor vermelha = { 1.0, 0.0, 0.0 };
-struct Cor verde = { 0.0, 1.0, 0.0 };
-struct Cor azul = { 0.0, 0.0, 1.0 };
-struct Cor preta = { 0.0, 0.0, 0.0 };
+Cor vermelha = { 1.0, 0.0, 0.0 };
+Cor verde = { 0.0, 1.0, 0.0 };
+Cor azul = { 0.0, 0.0, 1.0 };
+Cor preta = { 0.0, 0.0, 0.0 };
 
 /*
  * FUNÇÃO PARA CRIAR A LISTA DE PONTOS
  */
-struct ListaPontos * criarListaPontos()
+ListaPontos * criarListaPontos()
 {
 	// Ponteiro da lista de pontos
-	struct ListaPontos * listaPontos = (struct ListaPontos *)malloc(sizeof(struct ListaPontos));
+	ListaPontos * listaPontos = (ListaPontos *)malloc(sizeof(ListaPontos));
 	listaPontos->qtdPontos = 0;
 	return listaPontos;
 }
@@ -28,7 +28,7 @@ struct ListaPontos * criarListaPontos()
 /*
  * FUNÇÃO PARA CRIAR A LISTA DE PONTOS
  */
-int adicionarPonto(float x, float y, struct ListaPontos * listaPontos)
+int adicionarPonto(float x, float y, ListaPontos * listaPontos)
 {
     // Se a lista está vazia
     if (listaPontos == NULL || listaPontos->qtdPontos == MAX_PONTOS) {
@@ -37,8 +37,7 @@ int adicionarPonto(float x, float y, struct ListaPontos * listaPontos)
     // Adicionar o ponto
     else {
         // Adicionando na lista a posição x e y, assim como a cor vermelha fixa para os pontos
-        struct Ponto ponto = { x, y, vermelha };
-        printf("listaPontos->qtdPontos: %d\n", listaPontos->qtdPontos);
+        Ponto ponto = { x, y, vermelha };
         listaPontos->pontos[listaPontos->qtdPontos] = ponto;
         listaPontos->qtdPontos++;
         return 1;
@@ -48,7 +47,7 @@ int adicionarPonto(float x, float y, struct ListaPontos * listaPontos)
 /*
  * FUNÇÃO PARA CRIAR A LISTA DE PONTOS
  */
-int removerPonto(int ponto, struct ListaPontos * listaPontos)
+int removerPonto(int ponto, ListaPontos * listaPontos)
 {
     // Se a lista de pontos estiver vazia ou a quantidade de pontos for zero
     if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
@@ -76,7 +75,7 @@ int selecionarPonto(float pontoX, float pontoY, float mouseX, float mouseY, int 
     //     return 1;
     // }
 
-    // return 0;
+    return 0;
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -84,18 +83,16 @@ int selecionarPonto(float pontoX, float pontoY, float mouseX, float mouseY, int 
 /*
  * FUNÇÃO PARA CRIAR A LISTA DE PONTOS
  */
-void desenharPontos(int ponto, struct ListaPontos * listaPontos)
+void desenharPontos(int ponto, ListaPontos * listaPontos)
 {
     glPointSize(3.0);
     glBegin(GL_POINTS);
 
     for (int i = 0; i < listaPontos->qtdPontos; i++) {
-        if (i != ponto) {
-            // Imprimindo os valores e intensidades de cores RGB
-            glColor3f(listaPontos->pontos[i].cor.red, listaPontos->pontos[i].cor.green, listaPontos->pontos[i].cor.blue);
-            // Posicionando o ponto na largura e altura corretas do mouse
-            glVertex2f(listaPontos->pontos[i].x, listaPontos->pontos[i].y);
-        }
+        // Imprimindo os valores e intensidades de cores RGB
+        glColor3f(listaPontos->pontos[i].cor.red, listaPontos->pontos[i].cor.green, listaPontos->pontos[i].cor.blue);
+        // Posicionando o ponto na largura e altura corretas do mouse
+        glVertex2f(listaPontos->pontos[i].x, listaPontos->pontos[i].y);
     }
 
     glEnd();
@@ -117,10 +114,10 @@ void desenharPontos(int ponto, struct ListaPontos * listaPontos)
 /*
  * FUNÇÃO PARA IMPRIMIR LISTA DE PONTOS
  */
-void imprimirListaPontos(struct ListaPontos * listaPontos)
+void imprimirListaPontos(ListaPontos * listaPontos)
 {
     for (int i = 0; i < listaPontos->qtdPontos; i++) {
-        printf("%d: x: %d, y: %d\n", i + 1, listaPontos->pontos[i].x, listaPontos->pontos[i].y);
+        printf("%d: x: %f, y: %f\n", i + 1, listaPontos->pontos[i].x, listaPontos->pontos[i].y);
     }
 }
 
@@ -129,11 +126,17 @@ void imprimirListaPontos(struct ListaPontos * listaPontos)
 /*
  * FUNÇÃO PARA CRIAR A LISTA DE PONTOS
  */
-int transladarPonto(int ponto, struct ListaPontos * listaPontos)
+int transladarPonto(int ponto, ListaPontos * listaPontos, MatrizTransformacao * matrizTranslacao)
 {
     if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
         return 0;
-    } else {
+    }
+    //
+    else {
+        MatrizPonto * matrizComposta = criarMatrizPonto(listaPontos->pontos[ponto].x, listaPontos->pontos[ponto].y);
+        matrizComposta = multiplicarMatrizPonto(matrizComposta, matrizTranslacao);
+        listaPontos->pontos[ponto].x = matrizComposta->matriz[0][0];
+        listaPontos->pontos[ponto].y = matrizComposta->matriz[0][1];
         return 1;
     }
 }
@@ -141,11 +144,13 @@ int transladarPonto(int ponto, struct ListaPontos * listaPontos)
 /*
  * FUNÇÃO PARA CRIAR A LISTA DE PONTOS
  */
-int rotacionarPonto(int ponto, struct ListaPontos * listaPontos)
+int rotacionarPonto(int ponto, ListaPontos * listaPontos, MatrizTransformacao * matrizRotacao)
 {
     if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
         return 0;
-    } else {
+    }
+    //
+    else {
         return 1;
     }
 }

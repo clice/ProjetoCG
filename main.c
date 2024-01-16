@@ -44,7 +44,7 @@ int estado = 0;
 
 ///////////////////////////////////////////////////////////////////
 
-struct ListaPontos * listaPontos = NULL;
+ListaPontos * listaPontos = NULL;
 
 ///////////////////////////////////////////////////////////////////
 
@@ -216,7 +216,7 @@ void funcoesMouse(int botao, int estado, int x, int y)
 void funcoesTeclado(int tecla, int x, int y)
 {
     printf("Tecla: %d\n", tecla);
-    printf("x: %f, y: %f\n", x, y);
+    printf("x: %d, y: %d\n", x, y);
     printf("ponto: %d\n", ponto);
 
     // Opções Selecionar

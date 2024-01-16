@@ -3,50 +3,52 @@
 
 #define MAX_PONTOS 1000
 
+#include "matriz.h"
+
 /*
  * ESTRUTURA PARA AS CORES
  */
-struct Cor
+typedef struct
 {
     float red;     // Valor da cor vermelha
     float green;   // Valor da cor verde
     float blue;    // Valor da cor azul
-};
+} Cor;
 
 /*
  * ESTRUTURA PARA O PONTO
  */
-struct Ponto
+typedef struct
 {
     float x;   // Posição na largura
     float y;   // Posição na altura
-    struct Cor cor;   // Estrutura das cores
-};
+    Cor cor;   // Estrutura das cores
+} Ponto;
 
 /*
  * ESTRUTURA PARA LISTA DE PONTOS
  */
-struct ListaPontos
+typedef struct
 {
-    int qtdPontos;    			// Quantidade de pontos na lista
-    struct Ponto pontos[MAX_PONTOS];   // Dados dos pontos da lista de pontos
-};
+    int qtdPontos;    			       // Quantidade de pontos na lista
+    Ponto pontos[MAX_PONTOS];   // Dados dos pontos da lista de pontos
+} ListaPontos;
 
 ///////////////////////////////////////////////////////////////////
 
 /*
- * DECLARAÇÕES DAS FUNÇÕEES
+ * DECLARAÇÕES DAS FUNÇÕES
  */
-struct ListaPontos * criarListaPontos();
+ListaPontos * criarListaPontos();
 
-int adicionarPonto(float x, float y, struct ListaPontos * listaPontos);
-int removerPonto(int ponto, struct ListaPontos * listaPontos);
+int adicionarPonto(float x, float y, ListaPontos * listaPontos);
+int removerPonto(int ponto, ListaPontos * listaPontos);
 int selecionarPonto(float pontoX, float pontoY, float mouseX, float mouseY, int aux);
 
-void desenharPontos(int ponto, struct ListaPontos * listaPontos);
-void imprimirListaPontos(struct ListaPontos * listaPontos);
+void desenharPontos(int ponto, ListaPontos * listaPontos);
+void imprimirListaPontos(ListaPontos * listaPontos);
 
-int transladarPonto(int ponto, struct ListaPontos * listaPontos);
-int rotacionarPonto(int ponto, struct ListaPontos * listaPontos);
+int transladarPonto(int ponto, ListaPontos * listaPontos, MatrizTransformacao * matrizTranslacao);
+int rotacionarPonto(int ponto, ListaPontos * listaPontos, MatrizTransformacao * matrizRotacao);
 
 #endif // PONTO_H
