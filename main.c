@@ -141,6 +141,7 @@ void opcoesMenu()
     menuPrincipal = glutCreateMenu(selecionarOpcao);
     glutAddSubMenu("Criar", menuCriarObjetos);
     glutAddSubMenu("Selecionar", menuSelecionarObjetos);
+    glutAddMenuEntry("Salvar", 7);
     glutAddMenuEntry("Cancelar", 0);
     glutAddMenuEntry("Sair", -1);
 
@@ -163,7 +164,6 @@ void selecionarOpcao(int opcaoSelecionada)
         opcao = opcaoSelecionada;
         printf("Opcao selecionada: %d\n", opcao);
         estadoMouse = 0;
-        printf("Estado: %d\n", estadoMouse);
         ponto = -1;
     }
 
@@ -188,7 +188,7 @@ void funcoesMouse(int botaoMouse, int estadoMouse, int x, int y)
     if (botaoMouse == GLUT_LEFT_BUTTON && estadoMouse == GLUT_DOWN) {
         ////////// Opções Criar
         // Se a opção for 1 (Criar ponto)
-        if (opcao == 1) { 
+        if (opcao == 1) {
             adicionarPonto(mouseX, mouseY, listaPontos);
         }
         // Se a opção for 2 (Criar segmento de reta)
@@ -203,7 +203,7 @@ void funcoesMouse(int botaoMouse, int estadoMouse, int x, int y)
         ////////// Opção Selecionar
         // Se a opção for 4 (Selecionar ponto)
         else if (opcao == 4) {
-            ponto = selecionarPonto(listaPontos, mouseX, mouseY, aux);
+            ponto = selecionarPonto(mouseX, mouseY, aux, listaPontos);
             printf("-----mouseX: %f, mouseY: %f\n", mouseX, mouseY);
             MatrizTransformacao * matrizTranslacao = criarMatrizTranslacao(
                     mouseX - listaPontos->pontos[ponto].x,
@@ -217,6 +217,16 @@ void funcoesMouse(int botaoMouse, int estadoMouse, int x, int y)
         }
         // Se a opção for 6 (Selecionar polígono)
         else if (opcao == 6) {
+
+        }
+
+        ////////// Opção Salvar
+        else if (opcao == 7) {
+             salvarPontos(listaPontos);
+        }
+
+        ////////// Opção Cancelar
+        else if (opcao == 0) {
 
         }
     }
@@ -235,11 +245,8 @@ void funcoesTeclado(int tecla, int x, int y)
 
     // Opções Selecionar
     if (tecla == GLUT_KEY_F1) {
-        printf("entrou1\n");
         if (opcao == 4 && ponto != -1) {
-            printf("entrou2\n");
-            if (removerPonto(ponto, listaPontos)) {
-                printf("entrou3\n");
+            if (excluirPonto(ponto, listaPontos)) {
                 if (estadoMouse != 0) estadoMouse = 0;
                 ponto = -1;
             }
