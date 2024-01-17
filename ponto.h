@@ -43,7 +43,7 @@ ListaPontos * criarListaPontos();
 
 int adicionarPonto(float x, float y, ListaPontos * listaPontos);
 int removerPonto(int ponto, ListaPontos * listaPontos);
-int selecionarPonto(ListaPontos * listaPontos, float mouseX, float mouseY, int aux);
+int selecionarPonto(float mouseX, float mouseY, int aux, ListaPontos * listaPontos);
 
 void desenharPontos(int ponto, ListaPontos * listaPontos);
 void imprimirListaPontos(ListaPontos * listaPontos);

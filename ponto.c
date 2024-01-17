@@ -26,7 +26,7 @@ ListaPontos * criarListaPontos()
 ///////////////////////////////////////////////////////////////////
 
 /*
- * FUNÇÃO PARA CRIAR A LISTA DE PONTOS
+ * FUNÇÃO PARA ADICIONAR UM PONTO A TELA
  */
 int adicionarPonto(float x, float y, ListaPontos * listaPontos)
 {
@@ -45,7 +45,7 @@ int adicionarPonto(float x, float y, ListaPontos * listaPontos)
 }
 
 /*
- * FUNÇÃO PARA CRIAR A LISTA DE PONTOS
+ * FUNÇÃO PARA REMOVER UM PONTO DA TELA
  */
 int removerPonto(int ponto, ListaPontos * listaPontos)
 {
@@ -53,7 +53,7 @@ int removerPonto(int ponto, ListaPontos * listaPontos)
     if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
         return 0;
     }
-    // Caso
+    // 
     else {
         // Laço para percorrer a lista de pontos de trás para frente
         for (int i = listaPontos->qtdPontos - 1; i > ponto; i--) {
@@ -67,9 +67,9 @@ int removerPonto(int ponto, ListaPontos * listaPontos)
 }
 
 /*
- * FUNÇÃO PARA CRIAR A LISTA DE PONTOS
+ * FUNÇÃO PARA SELECIONAR UM PONTO DA TELA
  */
-int selecionarPonto(ListaPontos * listaPontos, float mouseX, float mouseY, int aux)
+int selecionarPonto(float mouseX, float mouseY, int aux, ListaPontos * listaPontos)
 {
     // // Se a lista de pontos estiver vazia ou a quantidade de pontos for zero
     // if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
@@ -93,7 +93,7 @@ int selecionarPonto(ListaPontos * listaPontos, float mouseX, float mouseY, int a
 ///////////////////////////////////////////////////////////////////
 
 /*
- * FUNÇÃO PARA CRIAR A LISTA DE PONTOS
+ * FUNÇÃO PARA DESENHAR OS PONTOS NA TELA
  */
 void desenharPontos(int ponto, ListaPontos * listaPontos)
 {
@@ -179,7 +179,7 @@ void salvarPontos(ListaPontos * listaPontos)
 ///////////////////////////////////////////////////////////////////
 
 /*
- * FUNÇÃO PARA CRIAR A LISTA DE PONTOS
+ * FUNÇÃO PARA TRANSLADAR UM PONTO (ARRASTAR E SOLTAR)
  */
 int transladarPonto(int ponto, ListaPontos * listaPontos, MatrizTransformacao * matrizTranslacao)
 {
@@ -197,7 +197,7 @@ int transladarPonto(int ponto, ListaPontos * listaPontos, MatrizTransformacao * 
 }
 
 /*
- * FUNÇÃO PARA CRIAR A LISTA DE PONTOS
+ * FUNÇÃO PARA ROTACIONAR UM PONTO
  */
 int rotacionarPonto(int ponto, ListaPontos * listaPontos, MatrizTransformacao * matrizRotacao)
 {

@@ -188,7 +188,7 @@ void funcoesMouse(int botaoMouse, int estadoMouse, int x, int y)
     if (botaoMouse == GLUT_LEFT_BUTTON && estadoMouse == GLUT_DOWN) {
         ////////// Opções Criar
         // Se a opção for 1 (Criar ponto)
-        if (opcao == 1) { 
+        if (opcao == 1) {
             adicionarPonto(mouseX, mouseY, listaPontos);
         }
         // Se a opção for 2 (Criar segmento de reta)
@@ -203,7 +203,7 @@ void funcoesMouse(int botaoMouse, int estadoMouse, int x, int y)
         ////////// Opção Selecionar
         // Se a opção for 4 (Selecionar ponto)
         else if (opcao == 4) {
-            ponto = selecionarPonto(listaPontos, mouseX, mouseY, aux);
+            ponto = selecionarPonto(mouseX, mouseY, aux, listaPontos);
             printf("-----mouseX: %f, mouseY: %f\n", mouseX, mouseY);
             MatrizTransformacao * matrizTranslacao = criarMatrizTranslacao(
                     mouseX - listaPontos->pontos[ponto].x,
