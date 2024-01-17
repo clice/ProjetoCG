@@ -246,7 +246,7 @@ void funcoesTeclado(int tecla, int x, int y)
     // Opções Selecionar
     if (tecla == GLUT_KEY_F1) {
         if (opcao == 4 && ponto != -1) {
-            if (removerPonto(ponto, listaPontos)) {
+            if (excluirPonto(ponto, listaPontos)) {
                 if (estadoMouse != 0) estadoMouse = 0;
                 ponto = -1;
             }

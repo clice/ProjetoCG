@@ -25,9 +25,9 @@ int adicionarReta(float mouseX, float mouseY, int reta, ListaRetas * listaRetas)
 }
 
 /*
- * FUNÇÃO PARA REMOVER UMA RETA DA TELA
+ * FUNÇÃO PARA EXCLUIR UMA RETA DA TELA
  */
-int removerReta(int reta, ListaRetas * listaRetas)
+int excluirReta(int reta, ListaRetas * listaRetas)
 {
 	return 0;
 }

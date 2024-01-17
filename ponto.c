@@ -45,9 +45,9 @@ int adicionarPonto(float x, float y, ListaPontos * listaPontos)
 }
 
 /*
- * FUNÇÃO PARA REMOVER UM PONTO DA TELA
+ * FUNÇÃO PARA EXCLUIR UM PONTO DA TELA
  */
-int removerPonto(int ponto, ListaPontos * listaPontos)
+int excluirPonto(int ponto, ListaPontos * listaPontos)
 {
     // Se a lista de pontos estiver vazia ou a quantidade de pontos for zero
     if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
@@ -60,7 +60,7 @@ int removerPonto(int ponto, ListaPontos * listaPontos)
             listaPontos->pontos[i] = listaPontos->pontos[i - 1];
         }
 
-        // Remover uma unidade da quantidade de pontos
+        // Diminuir uma unidade da quantidade de pontos
         listaPontos->qtdPontos--;
         return 1;
     }
