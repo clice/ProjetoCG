@@ -131,7 +131,7 @@ void salvarPontos(ListaPontos * listaPontos)
     // Se a lista de pontos não está vazia
     if (listaPontos != NULL) {
         // Nome do arquivo
-        const char * nomeArquivo = "pontos.txt";
+        const char * nomeArquivo = "arquivos/poligonos/poligonos.txt";
 
         // Abrir o arquivo para salvar a lista
         FILE * arquivo = fopen(nomeArquivo, "w");
