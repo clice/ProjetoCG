@@ -5,12 +5,9 @@
 #include "ponto.h"
 
 /*
- * DECLARAÇÃO DAS CORES FIXAS
+ * DECLARAÇÃO DA COR FIXA
  */
 Cor vermelha = { 1.0, 0.0, 0.0 };
-Cor verde = { 0.0, 1.0, 0.0 };
-Cor azul = { 0.0, 0.0, 1.0 };
-Cor preta = { 0.0, 0.0, 0.0 };
 
 /*
  * FUNÇÃO PARA CRIAR A LISTA DE PONTOS
@@ -37,8 +34,9 @@ int adicionarPonto(float x, float y, ListaPontos * listaPontos)
     // Adicionar o ponto
     else {
         // Adicionando na lista a posição x e y, assim como a cor vermelha fixa para os pontos
-        Ponto ponto = { x, y, vermelha };
-        listaPontos->pontos[listaPontos->qtdPontos] = ponto;
+        listaPontos->pontos[listaPontos->qtdPontos].x = x;
+        listaPontos->pontos[listaPontos->qtdPontos].y = y;
+        listaPontos->pontos[listaPontos->qtdPontos].cor = vermelha;
         listaPontos->qtdPontos++;
         return 1;
     }
@@ -53,11 +51,16 @@ int excluirPonto(int ponto, ListaPontos * listaPontos)
     if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
         return 0;
     }
-    // 
+    // Excluir ponto
     else {
         // Laço para percorrer a lista de pontos de trás para frente
-        for (int i = listaPontos->qtdPontos - 1; i > ponto; i--) {
-            listaPontos->pontos[i] = listaPontos->pontos[i - 1];
+        // for (int i = listaPontos->qtdPontos - 1; i >= ponto; i--) {
+        //     listaPontos->pontos[i - 1] = listaPontos->pontos[i];
+        // }
+        printf("ponto: %d\n", ponto);
+        // Laço para percorrer a lista de pontos de trás para frente
+        for (int i = ponto; i < listaPontos->qtdPontos; i++) {
+            listaPontos->pontos[i] = listaPontos->pontos[i + 1];
         }
 
         // Diminuir uma unidade da quantidade de pontos
@@ -97,7 +100,7 @@ int selecionarPonto(float mouseX, float mouseY, int aux, ListaPontos * listaPont
  */
 void desenharPontos(int ponto, ListaPontos * listaPontos)
 {
-    glPointSize(3.0);
+    glPointSize(2.0);
     glBegin(GL_POINTS);
 
     for (int i = 0; i < listaPontos->qtdPontos; i++) {
@@ -108,19 +111,6 @@ void desenharPontos(int ponto, ListaPontos * listaPontos)
     }
 
     glEnd();
-
-    // if (ponto != -1) {
-    //     glPointSize(7.0);
-    //     glBegin(GL_POINTS);
-    //     glColor3f(preta.red, preta.green, preta.blue);
-    //     glVertex2f(listaPontos->pontos[ponto].x, listaPontos->pontos[ponto].y);
-    //     glEnd();
-    //     glPointSize(5.0);
-    //     glBegin(GL_POINTS);
-    //     glColor3f(listaPontos->pontos[ponto].cor.red, listaPontos->pontos[ponto].cor.green, listaPontos->pontos[ponto].cor.blue);
-    //     glVertex2f(listaPontos->pontos[ponto].x, listaPontos->pontos[ponto].y);
-    //     glEnd();
-    // }
 }
 
 /*
@@ -129,7 +119,7 @@ void desenharPontos(int ponto, ListaPontos * listaPontos)
 void imprimirListaPontos(ListaPontos * listaPontos)
 {
     for (int i = 0; i < listaPontos->qtdPontos; i++) {
-        printf("%d: x: %f, y: %f\n", i + 1, listaPontos->pontos[i].x, listaPontos->pontos[i].y);
+        printf("%d: x: %.1f, y: %.1f\n", i + 1, listaPontos->pontos[i].x, listaPontos->pontos[i].y);
     }
 }
 
@@ -138,6 +128,7 @@ void imprimirListaPontos(ListaPontos * listaPontos)
  */
 void salvarPontos(ListaPontos * listaPontos)
 {
+    // Se a lista de pontos não está vazia
     if (listaPontos != NULL) {
         // Nome do arquivo
         const char * nomeArquivo = "pontos.txt";
@@ -156,11 +147,14 @@ void salvarPontos(ListaPontos * listaPontos)
 
         // Escrever os elementos da lista no arquivo (x, y, red, green, blue)
         for (int i = 0; i < listaPontos->qtdPontos; i++) {
-            fprintf(arquivo, "%f ", listaPontos->pontos[i].x);
-            fprintf(arquivo, "%f ", listaPontos->pontos[i].y);
-            fprintf(arquivo, "%f ", listaPontos->pontos[i].cor.red);
-            fprintf(arquivo, "%f ", listaPontos->pontos[i].cor.green);
-            fprintf(arquivo, "%f", listaPontos->pontos[i].cor.blue);
+            // Salvar posições dos pontos
+            fprintf(arquivo, "%.1f ", listaPontos->pontos[i].x);
+            fprintf(arquivo, "%.1f ", listaPontos->pontos[i].y);
+
+            // Salvar os dados do RGB
+            fprintf(arquivo, "%.1f ", listaPontos->pontos[i].cor.red);
+            fprintf(arquivo, "%.1f ", listaPontos->pontos[i].cor.green);
+            fprintf(arquivo, "%.1f", listaPontos->pontos[i].cor.blue);
             fprintf(arquivo, "\n"); // Mover para a próxima linha do arquivo
         }
 
@@ -183,10 +177,11 @@ void salvarPontos(ListaPontos * listaPontos)
  */
 int transladarPonto(int ponto, ListaPontos * listaPontos, MatrizTransformacao * matrizTranslacao)
 {
+    // Se a lista de pontos estiver vazia ou a quantidade de pontos for zero
     if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
         return 0;
     }
-    //
+    // Transladar ponto
     else {
         MatrizPonto * matrizComposta = criarMatrizPonto(listaPontos->pontos[ponto].x, listaPontos->pontos[ponto].y);
         matrizComposta = multiplicarMatrizPonto(matrizComposta, matrizTranslacao);
@@ -201,10 +196,11 @@ int transladarPonto(int ponto, ListaPontos * listaPontos, MatrizTransformacao * 
  */
 int rotacionarPonto(int ponto, ListaPontos * listaPontos, MatrizTransformacao * matrizRotacao)
 {
+    // Se a lista de pontos estiver vazia ou a quantidade de pontos for zero
     if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
         return 0;
     }
-    //
+    // Rotacionar ponto
     else {
         MatrizPonto * matrizPonto = criarMatrizPonto(listaPontos->pontos[ponto].x, listaPontos->pontos[ponto].y);
         matrizPonto = multiplicarMatrizPonto(matrizPonto, matrizRotacao);

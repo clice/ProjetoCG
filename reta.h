@@ -12,8 +12,8 @@
 typedef struct
 {
     Ponto inicial;   // Ponto inicial da reta
-    Ponto centro;    // Ponto central da reta
-    Ponto fim;       // Ponto final da reta
+    Ponto central;   // Ponto central da reta
+    Ponto final;     // Ponto final da reta
 } Reta;
 
 /*
@@ -32,7 +32,7 @@ typedef struct
  */
 ListaRetas * criarListaRetas();
 
-int adicionarReta(float mouseX, float mouseY, int reta, ListaRetas * listaRetas);
+int adicionarReta(float x, float y, int reta, ListaRetas * listaRetas);
 int excluirReta(int reta, ListaRetas * listaRetas);
 int selecionarReta(float mouseX, float mouseY, int aux, ListaRetas * listaRetas);
 

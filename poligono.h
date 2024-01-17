@@ -41,7 +41,7 @@ typedef struct
  */
 ListaPoligonos * criarListaPoligonos();
 
-int adicionarListaPoligono(float mouseX, float mouseY, int poligono, ListaPoligonos * listaPoligonos);
+int adicionarPoligono(float mouseX, float mouseY, int poligono, ListaPoligonos * listaPoligonos);
 int excluirPoligono(int poligono, ListaPoligonos * listaPoligonos);
 int selecionarPoligono(float mouseX, float mouseY, int aux, ListaPoligonos * listaPoligonos);
 

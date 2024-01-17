@@ -176,13 +176,13 @@ void selecionarOpcao(int opcaoSelecionada)
 void funcoesMouse(int botaoMouse, int estadoMouse, int x, int y)
 {
     printf("x: %d, y: %d\n", x, y);
-    printf("largura: %f, altura: %f\n", largura, altura);
+    printf("largura: %.1f, altura: %.1f\n", largura, altura);
 
     // Localização atualizada do mouse
     mouseX = x - largura;  // Localização do eixo x (horizontal - largura)
     mouseY = altura - y;   // Localização do eixo y (vertical - altura)
 
-    printf("mouseX: %f, mouseY: %f\n", mouseX, mouseY);
+    printf("mouseX: %.1f, mouseY: %.1f\n", mouseX, mouseY);
 
     // Se o botão esquerdo do mouse foi pressionado
     if (botaoMouse == GLUT_LEFT_BUTTON && estadoMouse == GLUT_DOWN) {
@@ -193,7 +193,7 @@ void funcoesMouse(int botaoMouse, int estadoMouse, int x, int y)
         }
         // Se a opção for 2 (Criar segmento de reta)
         else if (opcao == 2) {
-
+            // adicionarReta();
         }
         // Se a opção for 3 (Criar polígono)
         else if (opcao == 3) {
@@ -204,7 +204,7 @@ void funcoesMouse(int botaoMouse, int estadoMouse, int x, int y)
         // Se a opção for 4 (Selecionar ponto)
         else if (opcao == 4) {
             ponto = selecionarPonto(mouseX, mouseY, aux, listaPontos);
-            printf("-----mouseX: %f, mouseY: %f\n", mouseX, mouseY);
+            printf("-----mouseX: %.1f, mouseY: %.1f\n", mouseX, mouseY);
             MatrizTransformacao * matrizTranslacao = criarMatrizTranslacao(
                     mouseX - listaPontos->pontos[ponto].x,
                     mouseY - listaPontos->pontos[ponto].y
@@ -222,7 +222,7 @@ void funcoesMouse(int botaoMouse, int estadoMouse, int x, int y)
 
         ////////// Opção Salvar
         else if (opcao == 7) {
-             salvarPontos(listaPontos);
+            salvarPontos(listaPontos);
         }
 
         ////////// Opção Cancelar
