@@ -170,7 +170,7 @@ void salvarPontos(ListaPontos * listaPontos)
         // Fechar arquivo
         fclose(arquivo);
 
-        printf("Lista salva com sucesso!\n");
+        printf("Lista de pontos salva com sucesso!\n");
     }
     // Se a lista de pontos está vazia
     else {

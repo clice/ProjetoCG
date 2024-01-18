@@ -27,33 +27,40 @@ ListaRetas * criarListaRetas()
 /*
  * FUNÇÃO PARA ADICIONAR UMA RETA A TELA
  */
-int adicionarReta(float x, float y, int aux, ListaRetas * listaRetas)
+int adicionarReta(float x, float y, int statusObjeto, ListaRetas * listaRetas)
 {
+	float centralX, centralY;
+
 	// Se a lista de retas estiver vazia ou cheia
 	if (listaRetas == NULL || listaRetas->qtdRetas == MAX_RETAS) {
 		return 0;
 	}
 	// Adicionar a reta
 	else {
-		if (aux == -1) {
-			// Iniciando o ponto inicial da reta
+		// Se a reta tem somente o ponto inicial (está sendo desenhada ainda)
+		if (statusObjeto == -1) {
+			// Adicionar o ponto inicial da reta com as posições x e y, e a cor azul fixa
 			listaRetas->retas[listaRetas->qtdRetas].inicial.x = x;
 			listaRetas->retas[listaRetas->qtdRetas].inicial.y = y;
 			listaRetas->retas[listaRetas->qtdRetas].inicial.cor = azul;
 			return 1;
-		} else {
-			// Iniciando o ponto central da reta
-			listaRetas->retas[listaRetas->qtdRetas].central.x = x;
-			listaRetas->retas[listaRetas->qtdRetas].central.y = y;
-			listaRetas->retas[listaRetas->qtdRetas].central.cor = preta;
-
-			// Iniciando o ponto final da reta
+		} 
+		// Se o ponto final da reta foi informado (finalizando o desenho da reta)
+		else {
+			// Adicionar o ponto final da reta com as posições x e y, e a cor azul fixa
 			listaRetas->retas[listaRetas->qtdRetas].final.x = x;
 			listaRetas->retas[listaRetas->qtdRetas].final.y = y;
 			listaRetas->retas[listaRetas->qtdRetas].final.cor = azul;
 
+			// Calcular o ponto central da reta e adiciona a lista com as posições x e y, e a cor preta fixa
+			listaRetas->retas[listaRetas->qtdRetas].central.x = (listaRetas->retas[listaRetas->qtdRetas].inicial.x + listaRetas->retas[listaRetas->qtdRetas].final.x) / 2;
+			listaRetas->retas[listaRetas->qtdRetas].central.y = (listaRetas->retas[listaRetas->qtdRetas].inicial.y + listaRetas->retas[listaRetas->qtdRetas].final.y) / 2;
+			listaRetas->retas[listaRetas->qtdRetas].central.cor = preta;
+
 			// Acrescentando uma reta a lista
 			listaRetas->qtdRetas++;
+
+			// Retorna ao status inicial do objeto
 			return -1;
 		}		
 	}
@@ -149,7 +156,7 @@ void imprimirListaRetas(ListaRetas * listaRetas)
 {
 	for (int i = 0; i < listaRetas->qtdRetas; i++) {
 		printf("Ponto %d:\n", i + 1);
-		
+
 		printf("Inicial:\nx: %.1f, y: %.1f, cor: { %.1f, %.1f, %.1f }\n", 
             listaRetas->retas[i].inicial.x, 
             listaRetas->retas[i].inicial.y, 
@@ -186,7 +193,7 @@ void salvarRetas(ListaRetas * listaRetas)
 	// Se a lista de retas não está vazia
 	if (listaRetas != NULL) {
 		// Nome do arquivo
-		const char * nomeArquivo = "retas.txt";
+		const char * nomeArquivo = "arquivos/retas/retas.txt";
 
 		// Abrir o arquivo para salvar a lista
 		FILE * arquivo = fopen(nomeArquivo, "w");
@@ -232,12 +239,13 @@ void salvarRetas(ListaRetas * listaRetas)
 			fprintf(arquivo, "%.1f ", listaRetas->retas[i].final.cor.red);
 			fprintf(arquivo, "%.1f ", listaRetas->retas[i].final.cor.green);
 			fprintf(arquivo, "%.1f ", listaRetas->retas[i].final.cor.blue);
+			fprintf(arquivo, "\n"); // Mover para a próxima linha do arquivo
 		}
 
 		// Fechar arquivo
 		fclose(arquivo);
 
-		printf("Lista salva com sucesso!");
+		printf("Lista de retas salva com sucesso!");
 	}
 	// Se a lista de retas está vazia
 	else {

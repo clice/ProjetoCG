@@ -19,28 +19,29 @@ static int menuSelecionarObjetos;
 /*
  * VALOR RECEBIDO PELO USUÁRIO PARA OPÇÃO
  */
-static int opcao = 0;
+static int opcao = 0;  // Opção selecionada pelo usuário
 
 /*
  * INICIALIZANDO VARIÁVEIS PARA PONTO, RETA E POLIGONO
  */
-int aux = -1;
+int statusObjeto = -1; // Indica se o objeto ainda está sendo desenhado (desenhando: 1; finalizado: -1)
 
-int ponto = -1;
-int reta = -1;
+int ponto = -1;        // 
+int reta = -1;         // 
 
 /*
  *
  */
 
+
 /*
  * VARIÁVEIS DO MOUSE
  */
-float largura = 400;
-float altura = 300;
-float mouseX;
-float mouseY;
-int estadoMouse = 0;
+float largura = 400;   // Largura fixa da tela (metade dos pixels que formam a tela: eixo x)
+float altura = 300;    // Altura fixa da tela (metade dos pixels que formam a tela: eixo y)
+float mouseX;          // Posição do mouse no eixo x
+float mouseY;          // Posição do mouse no eixo y
+int statusMouse = 0;   // Indica se o mouse foi clicado ou não (não foi clicado: 0; clicado: 1)
 
 ///////////////////////////////////////////////////////////////////
 
@@ -60,7 +61,7 @@ void desenharTela();
 void telaInicial();
 void opcoesMenu();
 void selecionarOpcao(int opcaoSelecionada);
-void funcoesMouse(int botaoMouse, int estadoMouse, int x, int y);
+void funcoesMouse(int botaoMouse, int statusMouse, int x, int y);
 void funcoesTeclado(int tecla, int x, int y);
 
 /*
@@ -169,12 +170,13 @@ void selecionarOpcao(int opcaoSelecionada)
     }
     // Caso o usuário tenha selecionado alguma outra opção
     else {
-        aux = -1;
+        // Reinicializa todas as variáveis para o valor inicial (valor que tem enquanto não estão sendo manipuladas)
+        statusObjeto = -1;
         
         ponto = -1;
         reta = -1;
 
-        estadoMouse = 0;
+        statusMouse = 0;
 
         opcao = opcaoSelecionada;
         printf("Opcao selecionada: %d\n", opcao);
@@ -186,14 +188,14 @@ void selecionarOpcao(int opcaoSelecionada)
 /*
  * FUNÇÃO PARA DEFINIR O USO DO MOUSE PELO USUÁRIO
  */
-void funcoesMouse(int botaoMouse, int estadoMouse, int x, int y)
+void funcoesMouse(int botaoMouse, int statusMouse, int x, int y)
 {
     // Localização atualizada do mouse
     mouseX = x - largura;  // Localização do eixo x (horizontal - largura)
     mouseY = altura - y;   // Localização do eixo y (vertical - altura)
 
     // Se o botão esquerdo do mouse foi pressionado
-    if (botaoMouse == GLUT_LEFT_BUTTON && estadoMouse == GLUT_DOWN) {
+    if (botaoMouse == GLUT_LEFT_BUTTON && statusMouse == GLUT_DOWN) {
         printf("mouseX: %.1f, mouseY: %.1f\n", mouseX, mouseY);
 
         ////////// Opções Criar
@@ -204,7 +206,7 @@ void funcoesMouse(int botaoMouse, int estadoMouse, int x, int y)
         }
         // Se a opção for 2 (Criar segmento de reta)
         else if (opcao == 2) {
-            aux = adicionarReta(mouseX, mouseY, aux, listaRetas);
+            statusObjeto = adicionarReta(mouseX, mouseY, statusObjeto, listaRetas);
             imprimirListaRetas(listaRetas);
         }
         // Se a opção for 3 (Criar polígono)
@@ -234,7 +236,7 @@ void funcoesMouse(int botaoMouse, int estadoMouse, int x, int y)
         ////////// Opção Salvar objetos
         else if (opcao == 7) {
             salvarPontos(listaPontos);
-            // salvarRetas(listaRetas);
+            salvarRetas(listaRetas);
             // salvarPoligonos(listaPoligonos);
         }
 
@@ -263,7 +265,7 @@ void funcoesTeclado(int tecla, int x, int y)
     if (tecla == GLUT_KEY_F1) {
         if (opcao == 4 && ponto != -1) {
             if (excluirPonto(ponto, listaPontos)) {
-                if (estadoMouse != 0) estadoMouse = 0;
+                if (statusMouse != 0) statusMouse = 0;
                 ponto = -1;
             }
         }
