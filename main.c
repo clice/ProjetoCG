@@ -142,6 +142,7 @@ void opcoesMenu()
     glutAddSubMenu("Criar", menuCriarObjetos);
     glutAddSubMenu("Selecionar", menuSelecionarObjetos);
     glutAddMenuEntry("Salvar", 7);
+    glutAddMenuEntry("Carregar", 8);
     glutAddMenuEntry("Cancelar", 0);
     glutAddMenuEntry("Sair", -1);
 
@@ -220,9 +221,18 @@ void funcoesMouse(int botaoMouse, int estadoMouse, int x, int y)
 
         }
 
-        ////////// Opção Salvar
+        ////////// Opção Salvar objetos
         else if (opcao == 7) {
             salvarPontos(listaPontos);
+            // salvarRetas(listaRetas);
+            // salvarPoligonos(listaPoligonos);
+        }
+
+        ////////// Opção Carregar objetos
+        else if (opcao == 8) {
+            carregarPontos();
+            // carregarRetas(listaRetas);
+            // carregarPoligonos(listaPoligonos);
         }
 
         ////////// Opção Cancelar

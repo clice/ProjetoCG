@@ -58,10 +58,20 @@ void imprimirListaPoligonos(ListaPoligonos * listaPoligonos)
     
 }
 
+///////////////////////////////////////////////////////////////////
+
 /*
  * FUNÇÃO PARA SALVAR A LISTA DE POLÍGONOS
  */
 void salvarPoligonos(ListaPoligonos * listaPoligonos)
+{
+    
+}
+
+/*
+ * FUNÇÃO PARA CARREGAR A LISTA DE POLÍGONOS NA TELA
+ */
+void carregarPoligonos(ListaPoligonos * listaPoligonos)
 {
     
 }

@@ -129,6 +129,8 @@ void imprimirListaRetas(ListaRetas * listaRetas)
 
 }
 
+///////////////////////////////////////////////////////////////////
+
 /*
  * FUNÇÃO PARA SALVAR A LISTA DE RETAS
  */
@@ -195,6 +197,14 @@ void salvarRetas(ListaRetas * listaRetas)
 		printf("A lista de retas esta vazia. Nada foi salvo no arquivo.\n");
 		return;
 	}
+}
+
+/*
+ * FUNÇÃO PARA CARREGAR A LISTA DE RETAS NA TELA
+ */
+void carregarRetas(ListaRetas * listaRetas)
+{
+
 }
 
 ///////////////////////////////////////////////////////////////////

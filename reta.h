@@ -38,7 +38,9 @@ int selecionarReta(float mouseX, float mouseY, int aux, ListaRetas * listaRetas)
 
 void desenharRetas(int reta, ListaRetas * listaRetas);
 void imprimirListaRetas(ListaRetas * listaRetas);
+
 void salvarRetas(ListaRetas * listaRetas);
+void carregarRetas(ListaRetas * listaRetas);
 
 int transladarReta(int reta, ListaRetas * listaRetas, MatrizTransformacao * matrizTranslacao);
 int rotacionarReta(int reta, ListaRetas * listaRetas, MatrizTransformacao * matrizRotacao);
