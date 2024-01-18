@@ -6,7 +6,7 @@
 #include "matriz.h"
 
 /*
- * ESTRUTURA PARA AS CORES
+ * ESTRUTURA PARA AS CORES USANDO RGB
  */
 typedef struct
 {

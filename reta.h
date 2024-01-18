@@ -32,7 +32,7 @@ typedef struct
  */
 ListaRetas * criarListaRetas();
 
-int adicionarReta(float x, float y, int reta, ListaRetas * listaRetas);
+int adicionarReta(float x, float y, int aux, ListaRetas * listaRetas);
 int excluirReta(int reta, ListaRetas * listaRetas);
 int selecionarReta(float mouseX, float mouseY, int aux, ListaRetas * listaRetas);
 

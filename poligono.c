@@ -7,7 +7,7 @@
 /*
  * FUNÇÃO PARA CRIAR A LISTA DE POLÍGONOS
  */
-ListaPoligonos * listaPoligonos()
+ListaPoligonos * criarListaPoligonos()
 {
 	ListaPoligonos * listaPoligonos = (ListaPoligonos *)malloc(sizeof(ListaPoligonos));
 	listaPoligonos->qtdPoligonos = 0;

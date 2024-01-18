@@ -27,7 +27,7 @@ ListaPontos * criarListaPontos()
  */
 int adicionarPonto(float x, float y, ListaPontos * listaPontos)
 {
-    // Se a lista está vazia
+    // Se a lista de pontos está vazia ou cheia
     if (listaPontos == NULL || listaPontos->qtdPontos == MAX_PONTOS) {
         return 0;
     }
@@ -100,7 +100,7 @@ int selecionarPonto(float mouseX, float mouseY, int aux, ListaPontos * listaPont
  */
 void desenharPontos(int ponto, ListaPontos * listaPontos)
 {
-    glPointSize(2.0);
+    glPointSize(3.0);
     glBegin(GL_POINTS);
 
     for (int i = 0; i < listaPontos->qtdPontos; i++) {
@@ -119,7 +119,14 @@ void desenharPontos(int ponto, ListaPontos * listaPontos)
 void imprimirListaPontos(ListaPontos * listaPontos)
 {
     for (int i = 0; i < listaPontos->qtdPontos; i++) {
-        printf("%d: x: %.1f, y: %.1f\n", i + 1, listaPontos->pontos[i].x, listaPontos->pontos[i].y);
+        printf("%d: x: %.1f, y: %.1f, cor: { %.1f, %.1f, %.1f }\n", 
+            i + 1, 
+            listaPontos->pontos[i].x, 
+            listaPontos->pontos[i].y, 
+            listaPontos->pontos[i].cor.red,
+            listaPontos->pontos[i].cor.green,
+            listaPontos->pontos[i].cor.blue
+        );
     }
 }
 
@@ -196,30 +203,31 @@ void carregarPontos()
     }
 
     // Ler as dimensões da lista no arquivo
-    fscanf(arquivo, "%d\n", qtdPontos);
-    printf("%d\n", qtdPontos);
-    listaPontos->qtdPontos = qtdPontos; // Adicionando a quantidade de pontos na lista
+    fscanf(arquivo, "%d", qtdPontos);
+
+    // Adicionando a quantidade de pontos na lista
+    listaPontos->qtdPontos = *qtdPontos;
 
     // Ler os elementos da lista no arquivo (x, y, red, green, blue)
-    for (int i = 0; i < *qtdPontos; i++) {
-        printf("%.1f ", auxListaPontos[0][0]);
-        printf("%.1f ", auxListaPontos[0][1]);
-        printf("%.1f ", auxListaPontos[0][2]);
-        printf("%.1f ", auxListaPontos[0][3]);
-        printf("%.1f\n", auxListaPontos[0][4]);
+    for (int i = 0; i < 9; i++) {
+        printf("Lista de pontos carregada com sucesso!\n");
+        // // Salvar posições dos pontos
+        // fscanf(arquivo, "%.1f ", &listaPontos->pontos[i].x);
+        // fscanf(arquivo, "%.1f ", &listaPontos->pontos[i].y);
 
-        // Salvar posições dos pontos
-        fscanf(arquivo, "%.1f ", &auxListaPontos[0][0]);
-        fscanf(arquivo, "%.1f ", &auxListaPontos[0][1]);
+        // // Salvar os dados do RGB
+        // fscanf(arquivo, "%.1f ", &listaPontos->pontos[i].cor.red);
+        // fscanf(arquivo, "%.1f ", &listaPontos->pontos[i].cor.green);
+        // fscanf(arquivo, "%.1f", &listaPontos->pontos[i].cor.blue);
+        // fscanf(arquivo, "\n"); // Mover para a próxima linha do arquivo
 
-        // Salvar os dados do RGB
-        fscanf(arquivo, "%.1f ", &auxListaPontos[0][2]);
-        fscanf(arquivo, "%.1f ", &auxListaPontos[0][3]);
-        fscanf(arquivo, "%.1f", &auxListaPontos[0][4]);
-        fscanf(arquivo, "\n"); // Mover para a próxima linha do arquivo
+        // printf("%.1f ", &auxListaPontos[0][0]);
+        // printf("%.1f ", &auxListaPontos[0][1]);
+        // printf("%.1f ", &auxListaPontos[0][2]);
+        // printf("%.1f ", &auxListaPontos[0][3]);
+        // printf("%.1f\n", &auxListaPontos[0][4]);
 
         // Adicionando os dados na lista de pontos
-        // listaPontos->pontos[i].x = auxListaPontos[0][0];
     }
 
     // Desenhar na tela os pontos da lista
