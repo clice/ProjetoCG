@@ -41,13 +41,15 @@ typedef struct
  */
 ListaPoligonos * criarListaPoligonos();
 
-int adicionarListaPoligono(float mouseX, float mouseY, int poligono, ListaPoligonos * listaPoligonos);
+int adicionarPoligono(float mouseX, float mouseY, int poligono, ListaPoligonos * listaPoligonos);
 int excluirPoligono(int poligono, ListaPoligonos * listaPoligonos);
 int selecionarPoligono(float mouseX, float mouseY, int aux, ListaPoligonos * listaPoligonos);
 
 void desenharPoligonos(int poligono, ListaPoligonos * listaPoligonos);
 void imprimirListaPoligonos(ListaPoligonos * listaPoligonos);
+
 void salvarPoligonos(ListaPoligonos * listaPoligonos);
+void carregarPoligonos(ListaPoligonos * listaPoligonos);
 
 int transladarPoligono(int poligono, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizTranslacao);
 int rotacionarPoligono(int poligono, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizRotacao);

@@ -7,7 +7,7 @@
 /*
  * FUNÇÃO PARA CRIAR A LISTA DE POLÍGONOS
  */
-ListaPoligonos * listaPoligonos()
+ListaPoligonos * criarListaPoligonos()
 {
 	ListaPoligonos * listaPoligonos = (ListaPoligonos *)malloc(sizeof(ListaPoligonos));
 	listaPoligonos->qtdPoligonos = 0;
@@ -58,10 +58,20 @@ void imprimirListaPoligonos(ListaPoligonos * listaPoligonos)
     
 }
 
+///////////////////////////////////////////////////////////////////
+
 /*
  * FUNÇÃO PARA SALVAR A LISTA DE POLÍGONOS
  */
 void salvarPoligonos(ListaPoligonos * listaPoligonos)
+{
+    
+}
+
+/*
+ * FUNÇÃO PARA CARREGAR A LISTA DE POLÍGONOS NA TELA
+ */
+void carregarPoligonos(ListaPoligonos * listaPoligonos)
 {
     
 }

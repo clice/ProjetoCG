@@ -32,6 +32,7 @@
 			<Add option="-Wall" />
 		</Compiler>
 		<Unit filename="README.md" />
+		<Unit filename="arquivos/pontos/pontos.txt" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -39,11 +40,18 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="matriz.h" />
+		<Unit filename="poligono.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="poligono.h" />
 		<Unit filename="ponto.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="ponto.h" />
-		<Unit filename="pontos.txt" />
+		<Unit filename="reta.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="reta.h" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
