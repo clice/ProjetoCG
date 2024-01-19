@@ -242,14 +242,26 @@ void funcoesMovimento(int x, int y)
     ////////// Transladar ponto
     // Se estiver na opção selecionar ponto e um ponto já estiver selecionado, mouse fica transladando o ponto
     if (opcao == 4 && chave != -1) {
-        // Realizar o cálculo da transformação para movimentar o mouse - Translação
-        MatrizTransformacao * matrizTranslacao = criarMatrizTranslacao(
+        // Realizar o cálculo da transformação para movimentar o ponto
+        MatrizTransformacao * matrizTranslacaoPonto = criarMatrizTranslacao(
             mouseX - listaPontos->pontos[chave].x,
             mouseY - listaPontos->pontos[chave].y
         );
 
         // Realizar a translação do ponto selecionado
-        transladarPonto(chave, listaPontos, matrizTranslacao);
+        transladarPonto(chave, listaPontos, matrizTranslacaoPonto);
+    }
+
+    ////////// Transladar reta
+    else if (opcao == 5 && chave != -1) {
+        // Realizar o cálculo da transformação para movimentar a reta
+        MatrizTransformacao * matrizTranslacaoReta = criarMatrizTranslacao(
+            mouseX - listaRetas->retas[chave].central.x,
+            mouseY - listaRetas->retas[chave].central.y
+        );
+
+        // Realizar a translação da reta selecionada
+        transladarReta(chave, listaRetas, matrizTranslacaoReta);
     }
 
     glutPostRedisplay();

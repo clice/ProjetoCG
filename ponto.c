@@ -254,7 +254,11 @@ int transladarPonto(int chave, ListaPontos * listaPontos, MatrizTransformacao * 
     }
     // Transladar ponto
     else {
+        // Criar a matriz composta com a posição do mouse onde o objeto foi clicado
+        // para realizar a mudança de local do ponto onde foi selecionado
         MatrizPonto * matrizComposta = criarMatrizPonto(listaPontos->pontos[chave].x, listaPontos->pontos[chave].y);
+
+        // 
         matrizComposta = multiplicarMatrizPonto(matrizComposta, matrizTranslacao);
 
         // Modifica a posição do ponto a partir do resultado do cálculo da translação

@@ -252,7 +252,7 @@ int verificarPontoNaReta(float mouseX, float mouseY, float x1, float y1, float x
 
 	// Substituindo na equação por um dos pontos conhecidos, assim encontramos o valor de b
 	b = (y1 - (x1 * m));
-	
+
 	// Realiza o cálculo para saber o valor da coordenada y
 	aux = (mouseX * m) + b;
 
@@ -296,7 +296,7 @@ void desenharRetas(ListaRetas * listaRetas)
 /*
  * FUNÇÃO PARA TRANSLADAR UMA RETA (ARRASTAR E SOLTAR)
  */
-int transladarReta(int reta, ListaRetas * listaRetas, MatrizTransformacao * matrizTranslacao)
+int transladarReta(int chave, ListaRetas * listaRetas, MatrizTransformacao * matrizTranslacao)
 {
     // Se a lista de retas estiver vazia ou a quantidade de retas for zero
 	if (listaRetas == NULL || listaRetas->qtdRetas == 0) {
@@ -305,6 +305,28 @@ int transladarReta(int reta, ListaRetas * listaRetas, MatrizTransformacao * matr
 	}
 	//
 	else {
+		// Criar a matriz composta com a posição do mouse onde o objeto foi clicado
+		// para realizar a mudança de local do ponto onde foi selecionado
+		MatrizPonto * matrizInicial = criarMatrizPonto(listaRetas->retas[chave].inicial.x, listaRetas->retas[chave].inicial.y);
+		MatrizPonto * matrizCentral = criarMatrizPonto(listaRetas->retas[chave].central.x, listaRetas->retas[chave].central.y);
+		MatrizPonto * matrizFinal = criarMatrizPonto(listaRetas->retas[chave].final.x, listaRetas->retas[chave].final.y);
+
+		//
+		matrizInicial = multiplicarMatrizPonto(matrizInicial, matrizTranslacao);
+		matrizCentral = multiplicarMatrizPonto(matrizCentral, matrizTranslacao);
+		matrizFinal = multiplicarMatrizPonto(matrizFinal, matrizTranslacao);
+
+		//
+		listaRetas->retas[chave].inicial.x = matrizInicial->matriz[0][0];
+		listaRetas->retas[chave].inicial.y = matrizInicial->matriz[0][1];
+
+		//
+		listaRetas->retas[chave].central.x = matrizCentral->matriz[0][0];
+		listaRetas->retas[chave].central.y = matrizCentral->matriz[0][1];
+
+		//
+		listaRetas->retas[chave].final.x = matrizFinal->matriz[0][0];
+		listaRetas->retas[chave].final.y = matrizFinal->matriz[0][1];
 		return 1;
 	}
 }
