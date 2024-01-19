@@ -28,7 +28,7 @@ typedef struct
 ///////////////////////////////////////////////////////////////////
 
 /*
- * DECLARAÇÕES DAS FUNÇÕES
+ * DECLARAÃ‡Ã•ES DAS FUNÃ‡Ã•ES
  */
 ListaRetas * criarListaRetas();
 

@@ -20,8 +20,8 @@ typedef struct
  */
 typedef struct
 {
-    float x;   // Posição na largura
-    float y;   // Posição na altura
+    float x;   // PosiÃ§Ã£o na largura
+    float y;   // PosiÃ§Ã£o na altura
     Cor cor;   // Estrutura das cores
 } Ponto;
 
@@ -30,14 +30,14 @@ typedef struct
  */
 typedef struct
 {
-    int qtdPontos;    			// Quantidade de pontos na lista
+    int qtdPontos;              // Quantidade de pontos na lista
     Ponto pontos[MAX_PONTOS];   // Dados dos pontos da lista de pontos
 } ListaPontos;
 
 ///////////////////////////////////////////////////////////////////
 
 /*
- * DECLARAÇÕES DAS FUNÇÕES
+ * DECLARAÃ‡Ã•ES DAS FUNÃ‡Ã•ES
  */
 ListaPontos * criarListaPontos();
 

@@ -5,35 +5,35 @@
 #include "ponto.h"
 
 /*
- * DECLARA«√O DAS CORES FIXAS
+ * DECLARA√á√ÉO DAS CORES FIXAS
  */
 Cor vermelha = { 1.0, 0.0, 0.0 };
 
 /*
- * FUN«√O PARA CRIAR A LISTA DE PONTOS
+ * FUN√á√ÉO PARA CRIAR A LISTA DE PONTOS
  */
 ListaPontos * criarListaPontos()
 {
-	// Ponteiro da lista de pontos
-	ListaPontos * listaPontos = (ListaPontos *)malloc(sizeof(ListaPontos));
-	listaPontos->qtdPontos = 0;
-	return listaPontos;
+    // Ponteiro da lista de pontos
+    ListaPontos * listaPontos = (ListaPontos *)malloc(sizeof(ListaPontos));
+    listaPontos->qtdPontos = 0;
+    return listaPontos;
 }
 
 ///////////////////////////////////////////////////////////////////
 
 /*
- * FUN«√O PARA ADICIONAR UM PONTO A TELA
+ * FUN√á√ÉO PARA ADICIONAR UM PONTO A TELA
  */
 int adicionarPonto(float x, float y, ListaPontos * listaPontos)
 {
-    // Se a lista est· vazia
+    // Se a lista est√° vazia
     if (listaPontos == NULL || listaPontos->qtdPontos == MAX_PONTOS) {
         return 0;
     }
     // Adicionar o ponto
     else {
-        // Adicionando na lista a posiÁ„o x e y, assim como a cor vermelha fixa para os pontos
+        // Adicionando na lista a posi√ß√£o x e y, assim como a cor vermelha fixa para os pontos
         listaPontos->pontos[listaPontos->qtdPontos].x = x;
         listaPontos->pontos[listaPontos->qtdPontos].y = y;
         listaPontos->pontos[listaPontos->qtdPontos].cor = vermelha;
@@ -43,7 +43,7 @@ int adicionarPonto(float x, float y, ListaPontos * listaPontos)
 }
 
 /*
- * FUN«√O PARA EXCLUIR UM PONTO DA TELA
+ * FUN√á√ÉO PARA EXCLUIR UM PONTO DA TELA
  */
 int excluirPonto(int statusObjeto, ListaPontos * listaPontos)
 {
@@ -53,11 +53,11 @@ int excluirPonto(int statusObjeto, ListaPontos * listaPontos)
     }
     // Excluir ponto
     else {
-        // LaÁo para percorrer a lista de pontos de tr·s para frente
+        // La√ßo para percorrer a lista de pontos de tr√°s para frente
         // for (int i = listaPontos->qtdPontos - 1; i >= ponto; i--) {
         //     listaPontos->pontos[i - 1] = listaPontos->pontos[i];
         // }
-        // LaÁo para percorrer a lista de pontos de tr·s para frente
+        // La√ßo para percorrer a lista de pontos de tr√°s para frente
         // for (int i = statusObjeto; i < listaPontos->qtdPontos; i++) {
         //     listaPontos->pontos[i] = listaPontos->pontos[i + 1];
         // }
@@ -69,7 +69,7 @@ int excluirPonto(int statusObjeto, ListaPontos * listaPontos)
 }
 
 /*
- * FUN«√O PARA SELECIONAR UM PONTO DA TELA
+ * FUN√á√ÉO PARA SELECIONAR UM PONTO DA TELA
  */
 int selecionarPonto(float mouseX, float mouseY, ListaPontos * listaPontos)
 {
@@ -81,8 +81,8 @@ int selecionarPonto(float mouseX, float mouseY, ListaPontos * listaPontos)
     else {
         // Vai procurar na lista de pontos algum ponto que esteja sendo clicado pelo mouse
         for (int i = 0; i < listaPontos->qtdPontos; i++) {
-            if (mouseX <= listaPontos->pontos[i].x + 3 && mouseX >= listaPontos->pontos[i].x - 3) { // O 3 È o valor de toler‚ncia para a regi„o de detecÁ„o
-                if (mouseY <= listaPontos->pontos[i].y + 3 && mouseY >= listaPontos->pontos[i].y - 3) { // O valor È 3 porque È metade do size do ponto
+            if (mouseX <= listaPontos->pontos[i].x + 3 && mouseX >= listaPontos->pontos[i].x - 3) { // O 3 √© o valor de toler√¢ncia para a regi√£o de detec√ß√£o
+                if (mouseY <= listaPontos->pontos[i].y + 3 && mouseY >= listaPontos->pontos[i].y - 3) { // O valor √© 3 porque √© metade do size do ponto
                     return i;
                 }
             }
@@ -95,7 +95,7 @@ int selecionarPonto(float mouseX, float mouseY, ListaPontos * listaPontos)
 ///////////////////////////////////////////////////////////////////
 
 /*
- * FUN«√O PARA DESENHAR OS PONTOS NA TELA
+ * FUN√á√ÉO PARA DESENHAR OS PONTOS NA TELA
  */
 void desenharPontos(ListaPontos * listaPontos)
 {
@@ -113,7 +113,7 @@ void desenharPontos(ListaPontos * listaPontos)
 }
 
 /*
- * FUN«√O PARA IMPRIMIR LISTA DE PONTOS
+ * FUN√á√ÉO PARA IMPRIMIR LISTA DE PONTOS
  */
 void imprimirListaPontos(ListaPontos * listaPontos)
 {
@@ -132,11 +132,11 @@ void imprimirListaPontos(ListaPontos * listaPontos)
 ///////////////////////////////////////////////////////////////////
 
 /*
- * FUN«√O PARA SALVAR A LISTA DE PONTOS
+ * FUN√á√ÉO PARA SALVAR A LISTA DE PONTOS
  */
 void salvarPontos(ListaPontos * listaPontos)
 {
-    // Se a lista de pontos n„o est· vazia
+    // Se a lista de pontos n√£o est√° vazia
     if (listaPontos != NULL) {
         // Nome do arquivo
         const char * nomeArquivo = "arquivos/pontos/pontos.txt";
@@ -150,12 +150,12 @@ void salvarPontos(ListaPontos * listaPontos)
             return;
         }
 
-        // Escrever as dimensıes da lista no arquivo
+        // Escrever as dimens√µes da lista no arquivo
         fprintf(arquivo, "%d\n", listaPontos->qtdPontos);
 
         // Escrever os elementos da lista no arquivo (x, y, red, green, blue)
         for (int i = 0; i < listaPontos->qtdPontos; i++) {
-            // Salvar posiÁıes dos pontos
+            // Salvar posi√ß√µes dos pontos
             fprintf(arquivo, "%.1f ", listaPontos->pontos[i].x);
             fprintf(arquivo, "%.1f ", listaPontos->pontos[i].y);
 
@@ -163,7 +163,7 @@ void salvarPontos(ListaPontos * listaPontos)
             fprintf(arquivo, "%.1f ", listaPontos->pontos[i].cor.red);
             fprintf(arquivo, "%.1f ", listaPontos->pontos[i].cor.green);
             fprintf(arquivo, "%.1f", listaPontos->pontos[i].cor.blue);
-            fprintf(arquivo, "\n"); // Mover para a prÛxima linha do arquivo
+            fprintf(arquivo, "\n"); // Mover para a pr√≥xima linha do arquivo
         }
 
         // Fechar arquivo
@@ -171,7 +171,7 @@ void salvarPontos(ListaPontos * listaPontos)
 
         printf("Lista de pontos salva com sucesso!\n");
     }
-    // Se a lista de pontos est· vazia
+    // Se a lista de pontos est√° vazia
     else {
         printf("A lista de pontos esta vazia. Nada foi salvo no arquivo.\n");
         return;
@@ -179,7 +179,7 @@ void salvarPontos(ListaPontos * listaPontos)
 }
 
 /*
- * FUN«√O PARA CARREGAR A LISTA DE PONTOS NA TELA
+ * FUN√á√ÉO PARA CARREGAR A LISTA DE PONTOS NA TELA
  */
 void carregarPontos()
 {
@@ -201,7 +201,7 @@ void carregarPontos()
         return;
     }
 
-    // Ler as dimensıes da lista no arquivo
+    // Ler as dimens√µes da lista no arquivo
     fscanf(arquivo, "%d", qtdPontos);
 
     // Adicionando a quantidade de pontos na lista
@@ -210,7 +210,7 @@ void carregarPontos()
     // Ler os elementos da lista no arquivo (x, y, red, green, blue)
     for (int i = 0; i < 9; i++) {
         printf("Lista de pontos carregada com sucesso!\n");
-        // // Salvar posiÁıes dos pontos
+        // // Salvar posi√ß√µes dos pontos
         // fscanf(arquivo, "%.1f ", &listaPontos->pontos[i].x);
         // fscanf(arquivo, "%.1f ", &listaPontos->pontos[i].y);
 
@@ -218,7 +218,7 @@ void carregarPontos()
         // fscanf(arquivo, "%.1f ", &listaPontos->pontos[i].cor.red);
         // fscanf(arquivo, "%.1f ", &listaPontos->pontos[i].cor.green);
         // fscanf(arquivo, "%.1f", &listaPontos->pontos[i].cor.blue);
-        // fscanf(arquivo, "\n"); // Mover para a prÛxima linha do arquivo
+        // fscanf(arquivo, "\n"); // Mover para a pr√≥xima linha do arquivo
 
         // printf("%.1f ", &auxListaPontos[0][0]);
         // printf("%.1f ", &auxListaPontos[0][1]);
@@ -241,7 +241,7 @@ void carregarPontos()
 ///////////////////////////////////////////////////////////////////
 
 /*
- * FUN«√O PARA TRANSLADAR UM PONTO (ARRASTAR E SOLTAR)
+ * FUN√á√ÉO PARA TRANSLADAR UM PONTO (ARRASTAR E SOLTAR)
  */
 int transladarPonto(int ponto, ListaPontos * listaPontos, MatrizTransformacao * matrizTranslacao)
 {
@@ -260,7 +260,7 @@ int transladarPonto(int ponto, ListaPontos * listaPontos, MatrizTransformacao * 
 }
 
 /*
- * FUN«√O PARA ROTACIONAR UM PONTO
+ * FUN√á√ÉO PARA ROTACIONAR UM PONTO
  */
 int rotacionarPonto(int ponto, ListaPontos * listaPontos, MatrizTransformacao * matrizRotacao)
 {

@@ -6,21 +6,21 @@
  */
 typedef struct
 {
-    float matriz[3][1];     // Matriz para armazenar as informações do ponto (largura, altura e cor)
+    float matriz[3][1];     // Matriz para armazenar as informaÃ§Ãµes do ponto (largura, altura e cor)
 } MatrizPonto;
 
 /*
- * ESTRUTURA PARA A MATRIZ DA TRANSFORMAÇÃO
+ * ESTRUTURA PARA A MATRIZ DA TRANSFORMAÃ‡ÃƒO
  */
 typedef struct
 {
-    float matriz[3][3];   // Matriz para o cálculo da transformação realizada
+    float matriz[3][3];   // Matriz para o cÃ¡lculo da transformaÃ§Ã£o realizada
 } MatrizTransformacao;
 
 ///////////////////////////////////////////////////////////////////
 
 /*
- * DECLARAÇÕES DAS FUNÇÕES
+ * DECLARAÃ‡Ã•ES DAS FUNÃ‡Ã•ES
  */
 MatrizPonto * criarMatrizPonto(float x, float y);
 MatrizPonto * multiplicarMatrizPonto(MatrizPonto * matrizPonto, MatrizTransformacao * matrizTransformacao);
