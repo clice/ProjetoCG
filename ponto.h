@@ -6,7 +6,7 @@
 #include "matriz.h"
 
 /*
- * ESTRUTURA PARA AS CORES USANDO RGB
+ * ESTRUTURA PARA AS CORES
  */
 typedef struct
 {
@@ -30,7 +30,7 @@ typedef struct
  */
 typedef struct
 {
-    int qtdPontos;    			// Quantidade de pontos na lista
+    int qtdPontos;              // Quantidade de pontos na lista
     Ponto pontos[MAX_PONTOS];   // Dados dos pontos da lista de pontos
 } ListaPontos;
 
@@ -43,15 +43,15 @@ ListaPontos * criarListaPontos();
 
 int adicionarPonto(float x, float y, ListaPontos * listaPontos);
 int excluirPonto(int statusObjeto, ListaPontos * listaPontos);
-int selecionarPonto(float mouseX, float mouseY, int statusObjeto, ListaPontos * listaPontos);
+int selecionarPonto(float mouseX, float mouseY, ListaPontos * listaPontos);
 
-void desenharPontos(int statusObjeto, ListaPontos * listaPontos);
+void desenharPontos(ListaPontos * listaPontos);
 void imprimirListaPontos(ListaPontos * listaPontos);
 
 void salvarPontos(ListaPontos * listaPontos);
 void carregarPontos();
 
-int transladarPonto(int statusObjeto, ListaPontos * listaPontos, MatrizTransformacao * matrizTranslacao);
-int rotacionarPonto(int statusObjeto, ListaPontos * listaPontos, MatrizTransformacao * matrizRotacao);
+int transladarPonto(int ponto, ListaPontos * listaPontos, MatrizTransformacao * matrizTranslacao);
+int rotacionarPonto(int ponto, ListaPontos * listaPontos, MatrizTransformacao * matrizRotacao);
 
 #endif // PONTO_H

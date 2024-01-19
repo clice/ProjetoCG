@@ -5,7 +5,7 @@
 #include "ponto.h"
 
 /*
- * DECLARAÇÃO DA COR FIXA
+ * DECLARAÇÃO DAS CORES FIXAS
  */
 Cor vermelha = { 1.0, 0.0, 0.0 };
 
@@ -14,10 +14,10 @@ Cor vermelha = { 1.0, 0.0, 0.0 };
  */
 ListaPontos * criarListaPontos()
 {
-	// Ponteiro da lista de pontos
-	ListaPontos * listaPontos = (ListaPontos *)malloc(sizeof(ListaPontos));
-	listaPontos->qtdPontos = 0;
-	return listaPontos;
+    // Ponteiro da lista de pontos
+    ListaPontos * listaPontos = (ListaPontos *)malloc(sizeof(ListaPontos));
+    listaPontos->qtdPontos = 0;
+    return listaPontos;
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -27,7 +27,7 @@ ListaPontos * criarListaPontos()
  */
 int adicionarPonto(float x, float y, ListaPontos * listaPontos)
 {
-    // Se a lista de pontos está vazia ou cheia
+    // Se a lista está vazia
     if (listaPontos == NULL || listaPontos->qtdPontos == MAX_PONTOS) {
         return 0;
     }
@@ -71,25 +71,25 @@ int excluirPonto(int statusObjeto, ListaPontos * listaPontos)
 /*
  * FUNÇÃO PARA SELECIONAR UM PONTO DA TELA
  */
-int selecionarPonto(float mouseX, float mouseY, int aux, ListaPontos * listaPontos)
+int selecionarPonto(float mouseX, float mouseY, ListaPontos * listaPontos)
 {
-    // // Se a lista de pontos estiver vazia ou a quantidade de pontos for zero
-    // if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
-    //     return 0;
-    // }
-    // //
-    // else {
-    //     //
-    //     for (int i = 0; i < listaPontos->qtdPontos; i++) {
-    //         if () {
-    //             return 1;
-    //         }
-    //     }
+    // Se a lista de pontos estiver vazia ou a quantidade de pontos for zero
+    if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
+        return -1;
+    }
+    //
+    else {
+        // Vai procurar na lista de pontos algum ponto que esteja sendo clicado pelo mouse
+        for (int i = 0; i < listaPontos->qtdPontos; i++) {
+            if (mouseX <= listaPontos->pontos[i].x + 3 && mouseX >= listaPontos->pontos[i].x - 3) { // O 3 é o valor de tolerância para a região de detecção
+                if (mouseY <= listaPontos->pontos[i].y + 3 && mouseY >= listaPontos->pontos[i].y - 3) { // O valor é 3 porque é metade do size do ponto
+                    return i;
+                }
+            }
+        }
 
-    //     return -1;
-    // }
-
-    return 0;
+        return -1;
+    }
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -97,12 +97,10 @@ int selecionarPonto(float mouseX, float mouseY, int aux, ListaPontos * listaPont
 /*
  * FUNÇÃO PARA DESENHAR OS PONTOS NA TELA
  */
-void desenharPontos(int ponto, ListaPontos * listaPontos)
+void desenharPontos(ListaPontos * listaPontos)
 {
-    glPointSize(3.0);
+    glPointSize(6.0);
     glBegin(GL_POINTS);
-
-    printf("%d\n", ponto);
 
     for (int i = 0; i < listaPontos->qtdPontos; i++) {
         // Imprimindo os valores e intensidades de cores RGB

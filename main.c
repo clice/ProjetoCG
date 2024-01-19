@@ -32,7 +32,8 @@ int reta = -1;         //
 /*
  *
  */
-
+int desenhandoReta = -1;
+int desenhandoPoligono = -1;
 
 /*
  * VARIÁVEIS DO MOUSE
@@ -57,12 +58,15 @@ ListaRetas * listaRetas = NULL;
  * LISTA DE FUNÇÕES
  */
 int main(int argc, char ** argv);
-void desenharTela();
 void telaInicial();
 void opcoesMenu();
 void selecionarOpcao(int opcaoSelecionada);
+
 void funcoesMouse(int botaoMouse, int statusMouse, int x, int y);
+void arrastarMouse(int x, int y);
+
 void funcoesTeclado(int tecla, int x, int y);
+void gerenciarTeclado(unsigned char key, int x, int y);
 
 /*
  * FUNÇÃO PARA INICIAR O SISTEMA
@@ -87,25 +91,13 @@ int main (int argc, char ** argv)
     glMatrixMode(GL_PROJECTION);
     glOrtho(-largura, largura, -altura, altura, -1.0f, 1.0f);
 
-    glutMouseFunc(funcoesMouse);
-    glutSpecialFunc(funcoesTeclado);
-    glutDisplayFunc(telaInicial);
+    glutMouseFunc(funcoesMouse);         //
+    glutSpecialFunc(funcoesTeclado);     //
+    glutDisplayFunc(telaInicial);        //
+    glutKeyboardFunc(gerenciarTeclado);  // Função que é chamada quando um botão do teclado é pressionado
+    glutMotionFunc(arrastarMouse);       // Função que é chamada quando um botão do mouse é mantido pressionado
     glutMainLoop();
     return 0;
-}
-
-/*
- * FUNÇÃO PARA DEFINIR AS OPÇÕES DO MENU
- */
-void desenharTela()
-{
-    // glColor3f(0.0, 0.0, 0.0);
-    // glBegin(GL_LINES);
-    // glVertex2i(-400, 0);
-    // glVertex2i(400, 0);
-    // glVertex2i(0, -300);
-    // glVertex2i(0, 300);
-    // glEnd();
 }
 
 /*
@@ -118,11 +110,8 @@ void telaInicial()
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    // Inicializando os desenhos da tela
-    desenharTela();
-
     // Desenhar elementos na tela
-    desenharPontos(ponto, listaPontos);
+    desenharPontos(listaPontos);
     desenharRetas(reta, listaRetas);
 
     glutSwapBuffers();
@@ -185,6 +174,8 @@ void selecionarOpcao(int opcaoSelecionada)
     glutPostRedisplay();
 }
 
+///////////////////////////////////////////////////////////////////
+
 /*
  * FUNÇÃO PARA DEFINIR O USO DO MOUSE PELO USUÁRIO
  */
@@ -196,7 +187,7 @@ void funcoesMouse(int botaoMouse, int statusMouse, int x, int y)
 
     // Se o botão esquerdo do mouse foi pressionado
     if (botaoMouse == GLUT_LEFT_BUTTON && statusMouse == GLUT_DOWN) {
-        printf("mouseX: %.1f, mouseY: %.1f\n", mouseX, mouseY);
+        printf("mouseX: %f, mouseY: %f\n", mouseX, mouseY);
 
         ////////// Opções Criar
         // Se a opção for 1 (Criar ponto)
@@ -217,12 +208,16 @@ void funcoesMouse(int botaoMouse, int statusMouse, int x, int y)
         ////////// Opção Selecionar
         // Se a opção for 4 (Selecionar ponto)
         else if (opcao == 4) {
-            statusObjeto = selecionarPonto(mouseX, mouseY, statusObjeto, listaPontos);
-            // MatrizTransformacao * matrizTranslacao = criarMatrizTranslacao(
-            //         mouseX - listaPontos->pontos[ponto].x,
-            //         mouseY - listaPontos->pontos[ponto].y
-            //     );
-            // transladarPonto(ponto, listaPontos, matrizTranslacao);
+            ponto = selecionarPonto(mouseX, mouseY, listaPontos);
+            if (ponto != -1) { //se o mouse clicar em um ponto existente será imprimida a posição do ponto
+                printf("-----mouseX: %f, mouseY: %f\n", mouseX, mouseY);
+                printf("-----PX: %f, PY: %f\n", listaPontos->pontos[ponto].x, listaPontos->pontos[ponto].y);
+                /*MatrizTransformacao * matrizTranslacao = criarMatrizTranslacao(
+                        mouseX - listaPontos->pontos[ponto].x,
+                        mouseY - listaPontos->pontos[ponto].y
+                );
+                transladarPonto(ponto, listaPontos, matrizTranslacao);*/
+            }
         }
         // Se a opção for 5 (Selecionar segmento de reta)
         else if (opcao == 5) {
@@ -257,6 +252,28 @@ void funcoesMouse(int botaoMouse, int statusMouse, int x, int y)
 }
 
 /*
+ * FUNÇÃO CHAMADA QUANDO O BOTÃO DO MOUSE É MANTIDO PRESSIONADO
+ */
+void arrastarMouse(int x, int y)
+{
+    mouseX = x - largura;
+    mouseY = altura - y;
+
+    // Se estiver na opção selecionar ponto e um ponto já estiver selecionado, mouse fica transladando o ponto
+    if (opcao == 4 && ponto != -1) {
+        MatrizTransformacao * matrizTranslacao = criarMatrizTranslacao(
+            mouseX - listaPontos->pontos[ponto].x,
+            mouseY - listaPontos->pontos[ponto].y
+        );
+        transladarPonto(ponto, listaPontos, matrizTranslacao);
+    }
+
+    glutPostRedisplay();
+}
+
+///////////////////////////////////////////////////////////////////
+
+/*
  * FUNÇÃO PARA DEFINIR O USO DO TECLADO PELO USUÁRIO
  */
 void funcoesTeclado(int tecla, int x, int y)
@@ -270,4 +287,28 @@ void funcoesTeclado(int tecla, int x, int y)
             }
         }
     }
+}
+
+/*
+ * FUNÇÃO PARA USAR O TECLADO ASCII PARA APLICAR AS FUNÇÕES DE ROTACIONAR E ESCALAR
+ */
+void gerenciarTeclado(unsigned char key, int x, int y)
+{
+    switch (key) {
+        // Rotaciona o ponto 45 graus apertando r caso esteja na opção de selecionar o ponto e um ponto esteja selecionado
+        case 'R':
+        case 'r':
+            if (opcao == 4 && ponto != -1) {
+                MatrizTransformacao * matrizRotacao = criarMatrizRotacao(45);
+                rotacionarPonto(ponto, listaPontos, matrizRotacao);
+            }
+            break;
+
+        // Esse vai ser o botão de escala
+        case 'S':
+        case 's':
+                break;
+    }
+
+    glutPostRedisplay();
 }

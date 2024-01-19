@@ -21,7 +21,7 @@ typedef struct
  */
 typedef struct
 {
-    int qtdRetas;    	     // Quantidade de retas na lista
+    int qtdRetas;            // Quantidade de retas na lista
     Reta retas[MAX_RETAS];   // Dados das retas da lista de retas
 } ListaRetas;
 

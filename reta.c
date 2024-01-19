@@ -7,7 +7,6 @@
 /*
  * DECLARAÇÃO DAS CORES FIXAS
  */
-Cor verde = { 0.0, 1.0, 0.0 };
 Cor azul = { 0.0, 0.0, 1.0 };
 Cor preta = { 0.0, 0.0, 0.0 };
 
@@ -29,8 +28,6 @@ ListaRetas * criarListaRetas()
  */
 int adicionarReta(float x, float y, int statusObjeto, ListaRetas * listaRetas)
 {
-	float centralX, centralY;
-
 	// Se a lista de retas estiver vazia ou cheia
 	if (listaRetas == NULL || listaRetas->qtdRetas == MAX_RETAS) {
 		return 0;
@@ -44,7 +41,7 @@ int adicionarReta(float x, float y, int statusObjeto, ListaRetas * listaRetas)
 			listaRetas->retas[listaRetas->qtdRetas].inicial.y = y;
 			listaRetas->retas[listaRetas->qtdRetas].inicial.cor = azul;
 			return 1;
-		} 
+		}
 		// Se o ponto final da reta foi informado (finalizando o desenho da reta)
 		else {
 			// Adicionar o ponto final da reta com as posições x e y, e a cor azul fixa
@@ -62,7 +59,7 @@ int adicionarReta(float x, float y, int statusObjeto, ListaRetas * listaRetas)
 
 			// Retorna ao status inicial do objeto
 			return -1;
-		}		
+		}
 	}
 }
 
@@ -137,12 +134,12 @@ void desenharRetas(int reta, ListaRetas * listaRetas)
     //     glBegin(GL_LINES);
     //         glColor3f(preto.red, preto.green, preto.blue);
     //         glVertex2f(lr->retas[r].inicio.x, lr->retas[r].inicio.y);
-    //         glVertex2f(lr->retas[r].fim.x, lr->retas[r].fim.y); 
+    //         glVertex2f(lr->retas[r].fim.x, lr->retas[r].fim.y);
     //     glEnd();
     //     glLineWidth(2.0);
     //     glBegin(GL_LINES);
-    //         glColor3f(lr->retas[r].inicio.cor.red, lr->retas[r].inicio.cor.green, lr->retas[r].inicio.cor.blue); 
-    //         glVertex2f(lr->retas[r].inicio.x, lr->retas[r].inicio.y); 
+    //         glColor3f(lr->retas[r].inicio.cor.red, lr->retas[r].inicio.cor.green, lr->retas[r].inicio.cor.blue);
+    //         glVertex2f(lr->retas[r].inicio.x, lr->retas[r].inicio.y);
     //         glColor3f(lr->retas[r].fim.cor.red, lr->retas[r].fim.cor.green, lr->retas[r].fim.cor.blue);
     //         glVertex2f(lr->retas[r].fim.x, lr->retas[r].fim.y);
     //     glEnd();
@@ -157,27 +154,27 @@ void imprimirListaRetas(ListaRetas * listaRetas)
 	for (int i = 0; i < listaRetas->qtdRetas; i++) {
 		printf("Ponto %d:\n", i + 1);
 
-		printf("Inicial:\nx: %.1f, y: %.1f, cor: { %.1f, %.1f, %.1f }\n", 
-            listaRetas->retas[i].inicial.x, 
-            listaRetas->retas[i].inicial.y, 
-            listaRetas->retas[i].inicial.cor.red, 
-            listaRetas->retas[i].inicial.cor.green, 
+		printf("Inicial:\nx: %.1f, y: %.1f, cor: { %.1f, %.1f, %.1f }\n",
+            listaRetas->retas[i].inicial.x,
+            listaRetas->retas[i].inicial.y,
+            listaRetas->retas[i].inicial.cor.red,
+            listaRetas->retas[i].inicial.cor.green,
             listaRetas->retas[i].inicial.cor.blue
         );
 
-		printf("Central:\nx: %.1f, y: %.1f, cor: { %.1f, %.1f, %.1f }\n", 
-            listaRetas->retas[i].central.x, 
-            listaRetas->retas[i].central.y, 
-            listaRetas->retas[i].central.cor.red, 
-            listaRetas->retas[i].central.cor.green, 
+		printf("Central:\nx: %.1f, y: %.1f, cor: { %.1f, %.1f, %.1f }\n",
+            listaRetas->retas[i].central.x,
+            listaRetas->retas[i].central.y,
+            listaRetas->retas[i].central.cor.red,
+            listaRetas->retas[i].central.cor.green,
             listaRetas->retas[i].central.cor.blue
         );
 
-		printf("Final:\nx: %.1f, y: %.1f, cor: { %.1f, %.1f, %.1f }\n", 
-            listaRetas->retas[i].final.x, 
-            listaRetas->retas[i].final.y, 
-            listaRetas->retas[i].final.cor.red, 
-            listaRetas->retas[i].final.cor.green, 
+		printf("Final:\nx: %.1f, y: %.1f, cor: { %.1f, %.1f, %.1f }\n",
+            listaRetas->retas[i].final.x,
+            listaRetas->retas[i].final.y,
+            listaRetas->retas[i].final.cor.red,
+            listaRetas->retas[i].final.cor.green,
             listaRetas->retas[i].final.cor.blue
         );
 	}
