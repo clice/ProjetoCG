@@ -45,11 +45,11 @@ void salvarListaPontos(ListaPontos * listaPontos);
 void carregarListaPontos();
 
 int adicionarPonto(float x, float y, ListaPontos * listaPontos);
-int excluirPonto(int chavePonto, ListaPontos * listaPontos);
+int excluirPonto(int chave, ListaPontos * listaPontos);
 int selecionarPonto(float mouseX, float mouseY, ListaPontos * listaPontos);
 void desenharPontos(ListaPontos * listaPontos);
 
-int transladarPonto(int ponto, ListaPontos * listaPontos, MatrizTransformacao * matrizTranslacao);
-int rotacionarPonto(int ponto, ListaPontos * listaPontos, MatrizTransformacao * matrizRotacao);
+int transladarPonto(int chave, ListaPontos * listaPontos, MatrizTransformacao * matrizTranslacao);
+int rotacionarPonto(int chave, ListaPontos * listaPontos, MatrizTransformacao * matrizRotacao);
 
 #endif // PONTO_H

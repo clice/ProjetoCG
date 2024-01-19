@@ -21,131 +21,6 @@ ListaRetas * criarListaRetas()
 	return listaRetas;
 }
 
-///////////////////////////////////////////////////////////////////
-
-/*
- * FUNÇÃO PARA ADICIONAR UMA RETA A TELA
- */
-int adicionarReta(float x, float y, int statusObjeto, ListaRetas * listaRetas)
-{
-	// Se a lista de retas estiver vazia ou cheia
-	if (listaRetas == NULL || listaRetas->qtdRetas == MAX_RETAS) {
-		return 0;
-	}
-	// Adicionar a reta
-	else {
-		// Se a reta tem somente o ponto inicial (está sendo desenhada ainda)
-		if (statusObjeto == -1) {
-			// Adicionar o ponto inicial da reta com as posições x e y, e a cor azul fixa
-			listaRetas->retas[listaRetas->qtdRetas].inicial.x = x;
-			listaRetas->retas[listaRetas->qtdRetas].inicial.y = y;
-			listaRetas->retas[listaRetas->qtdRetas].inicial.cor = azul;
-			return 1;
-		}
-		// Se o ponto final da reta foi informado (finalizando o desenho da reta)
-		else {
-			// Adicionar o ponto final da reta com as posições x e y, e a cor azul fixa
-			listaRetas->retas[listaRetas->qtdRetas].final.x = x;
-			listaRetas->retas[listaRetas->qtdRetas].final.y = y;
-			listaRetas->retas[listaRetas->qtdRetas].final.cor = azul;
-
-			// Calcular o ponto central da reta e adiciona a lista com as posições x e y, e a cor preta fixa
-			listaRetas->retas[listaRetas->qtdRetas].central.x = (listaRetas->retas[listaRetas->qtdRetas].inicial.x + listaRetas->retas[listaRetas->qtdRetas].final.x) / 2;
-			listaRetas->retas[listaRetas->qtdRetas].central.y = (listaRetas->retas[listaRetas->qtdRetas].inicial.y + listaRetas->retas[listaRetas->qtdRetas].final.y) / 2;
-			listaRetas->retas[listaRetas->qtdRetas].central.cor = preta;
-
-			// Acrescentando uma reta a lista
-			listaRetas->qtdRetas++;
-
-			// Retorna ao status inicial do objeto
-			return -1;
-		}
-	}
-}
-
-/*
- * FUNÇÃO PARA EXCLUIR UMA RETA DA TELA
- */
-int excluirReta(int reta, ListaRetas * listaRetas)
-{
-	// Se a lista de retas estiver vazia ou a quantidade de retas for zero
-	if (listaRetas == NULL || listaRetas->qtdRetas == 0) {
-		return 0;
-	}
-	// Remover reta
-	else {
-		for (int i = reta; i < listaRetas->qtdRetas; i++) {
-			listaRetas->retas[i] = listaRetas->retas[i + 1];
-		}
-
-		// Diminuir uma unidade da quantidade de retas
-		listaRetas->qtdRetas--;
-		return 1;
-	}
-}
-
-/*
- * FUNÇÃO PARA SELECIONAR UMA RETA DA TELA
- */
-int selecionarReta(float mouseX, float mouseY, int aux, ListaRetas * listaRetas)
-{
-    // Se a lista de retas estiver vazia ou a quantidade de retas for zero
-	if (listaRetas == NULL || listaRetas->qtdRetas == 0) {
-		return 0;
-	}
-	//
-	else {
-		for (int i = 0; i < listaRetas->qtdRetas; i++) {
-
-		}
-
-		return 1;
-	}
-}
-
-///////////////////////////////////////////////////////////////////
-
-/*
- * FUNÇÃO PARA DESENHAR AS RETAS NA TELA
- */
-void desenharRetas(int reta, ListaRetas * listaRetas)
-{
-    glLineWidth(3.0);
-    glBegin(GL_LINES);
-
-    for (int i = 0; i < listaRetas->qtdRetas; i++) {
-    	// if (i != reta) {
-    		// Imprimindo os valores e intensidades de cores RGB
-			glColor3f(listaRetas->retas[i].inicial.cor.red, listaRetas->retas[i].inicial.cor.green, listaRetas->retas[i].inicial.cor.blue);
-	        // Posicionando o ponto inicial na largura e altura corretas do mouse
-			glVertex2f(listaRetas->retas[i].inicial.x, listaRetas->retas[i].inicial.y);
-
-	        // Imprimindo os valores e intensidades de cores RGB
-			glColor3f(listaRetas->retas[i].final.cor.red, listaRetas->retas[i].final.cor.green, listaRetas->retas[i].final.cor.blue);
-	        // Posicionando o ponto final na largura e altura corretas do mouse
-			glVertex2f(listaRetas->retas[i].final.x, listaRetas->retas[i].final.y);
-    	// }
-    }
-
-    glEnd();
-
-    // if (r != -1){
-    //     glLineWidth(4.0);
-    //     glBegin(GL_LINES);
-    //         glColor3f(preto.red, preto.green, preto.blue);
-    //         glVertex2f(lr->retas[r].inicio.x, lr->retas[r].inicio.y);
-    //         glVertex2f(lr->retas[r].fim.x, lr->retas[r].fim.y);
-    //     glEnd();
-    //     glLineWidth(2.0);
-    //     glBegin(GL_LINES);
-    //         glColor3f(lr->retas[r].inicio.cor.red, lr->retas[r].inicio.cor.green, lr->retas[r].inicio.cor.blue);
-    //         glVertex2f(lr->retas[r].inicio.x, lr->retas[r].inicio.y);
-    //         glColor3f(lr->retas[r].fim.cor.red, lr->retas[r].fim.cor.green, lr->retas[r].fim.cor.blue);
-    //         glVertex2f(lr->retas[r].fim.x, lr->retas[r].fim.y);
-    //     glEnd();
-    // }
-}
-
 /*
  * FUNÇÃO PARA IMPRIMIR LISTA DE RETAS
  */
@@ -180,12 +55,10 @@ void imprimirListaRetas(ListaRetas * listaRetas)
 	}
 }
 
-///////////////////////////////////////////////////////////////////
-
 /*
  * FUNÇÃO PARA SALVAR A LISTA DE RETAS
  */
-void salvarRetas(ListaRetas * listaRetas)
+void salvarListaRetas(ListaRetas * listaRetas)
 {
 	// Se a lista de retas não está vazia
 	if (listaRetas != NULL) {
@@ -254,9 +127,139 @@ void salvarRetas(ListaRetas * listaRetas)
 /*
  * FUNÇÃO PARA CARREGAR A LISTA DE RETAS NA TELA
  */
-void carregarRetas(ListaRetas * listaRetas)
+void carregarListaRetas()
 {
 
+}
+
+///////////////////////////////////////////////////////////////////
+
+/*
+ * FUNÇÃO PARA ADICIONAR UMA RETA A TELA
+ */
+int adicionarReta(float x, float y, int statusObjeto, ListaRetas * listaRetas)
+{
+	// Se a lista de retas não foi criada ou está cheia não é possível adicionar mais retas
+	if (listaRetas == NULL || listaRetas->qtdRetas == MAX_RETAS) {
+		printf("Lista de retas nao foi criada ou esta cheia! Não é possivel adicionar a reta!\n");
+		return 0;
+	}
+	// Adicionar a reta
+	else {
+		// Se a reta tem somente o ponto inicial (está sendo desenhada ainda)
+		if (statusObjeto == -1) {
+			// Adicionar o ponto inicial da reta com as posições x e y, e a cor azul fixa
+			listaRetas->retas[listaRetas->qtdRetas].inicial.x = x;
+			listaRetas->retas[listaRetas->qtdRetas].inicial.y = y;
+			listaRetas->retas[listaRetas->qtdRetas].inicial.cor = azul;
+			return 1;
+		}
+		// Se o ponto final da reta foi informado (finalizando o desenho da reta)
+		else {
+			// Adicionar o ponto final da reta com as posições x e y, e a cor azul fixa
+			listaRetas->retas[listaRetas->qtdRetas].final.x = x;
+			listaRetas->retas[listaRetas->qtdRetas].final.y = y;
+			listaRetas->retas[listaRetas->qtdRetas].final.cor = azul;
+
+			// Calcular o ponto central da reta e adiciona a lista com as posições x e y, e a cor preta fixa
+			listaRetas->retas[listaRetas->qtdRetas].central.x = (listaRetas->retas[listaRetas->qtdRetas].inicial.x + listaRetas->retas[listaRetas->qtdRetas].final.x) / 2;
+			listaRetas->retas[listaRetas->qtdRetas].central.y = (listaRetas->retas[listaRetas->qtdRetas].inicial.y + listaRetas->retas[listaRetas->qtdRetas].final.y) / 2;
+			listaRetas->retas[listaRetas->qtdRetas].central.cor = preta;
+
+			// Acrescentando uma reta a lista
+			listaRetas->qtdRetas++;
+
+			printf("Reta adicionada com sucesso!\n");
+
+			// Retorna ao status inicial do objeto
+			return -1;
+		}
+	}
+}
+
+/*
+ * FUNÇÃO PARA EXCLUIR UMA RETA DA TELA
+ */
+int excluirReta(int chaveReta, ListaRetas * listaRetas)
+{
+	// Se a lista de retas não foi criada ou a quantidade de retas for zero
+	if (listaRetas == NULL || listaRetas->qtdRetas == 0) {
+		printf("Lista de retas nao foi criada ou esta cheia! Não é possivel excluir a reta!\n");
+		return 0;
+	}
+	// Remover uma reta
+	else {
+		// Laço para percorrer a lista de retas a partir da chave da reta até o final da lista
+        // Para não quebrar a integridade da lista
+		for (int i = chaveReta; i < listaRetas->qtdRetas; i++) {
+			listaRetas->retas[i] = listaRetas->retas[i + 1];
+		}
+
+		// Diminuir uma unidade da quantidade de retas
+		listaRetas->qtdRetas--;
+		return 1;
+	}
+}
+
+/*
+ * FUNÇÃO PARA SELECIONAR UMA RETA DA TELA
+ */
+int selecionarReta(float mouseX, float mouseY, int statusObjeto, ListaRetas * listaRetas)
+{
+    // Se a lista de retas estiver vazia ou a quantidade de retas for zero
+	if (listaRetas == NULL || listaRetas->qtdRetas == 0) {
+		printf("Lista de retas nao foi criada ou esta cheia! Não é possivel selecionar a reta!\n");
+		return 0;
+	}
+	//
+	else {
+		for (int i = 0; i < listaRetas->qtdRetas; i++) {
+
+		}
+
+		return 1;
+	}
+}
+
+/*
+ * FUNÇÃO PARA DESENHAR AS RETAS NA TELA
+ */
+void desenharRetas(int reta, ListaRetas * listaRetas)
+{
+    glLineWidth(3.0);
+    glBegin(GL_LINES);
+
+    for (int i = 0; i < listaRetas->qtdRetas; i++) {
+    	// if (i != reta) {
+    		// Imprimindo os valores e intensidades de cores RGB
+			glColor3f(listaRetas->retas[i].inicial.cor.red, listaRetas->retas[i].inicial.cor.green, listaRetas->retas[i].inicial.cor.blue);
+	        // Posicionando o ponto inicial na largura e altura corretas do mouse
+			glVertex2f(listaRetas->retas[i].inicial.x, listaRetas->retas[i].inicial.y);
+
+	        // Imprimindo os valores e intensidades de cores RGB
+			glColor3f(listaRetas->retas[i].final.cor.red, listaRetas->retas[i].final.cor.green, listaRetas->retas[i].final.cor.blue);
+	        // Posicionando o ponto final na largura e altura corretas do mouse
+			glVertex2f(listaRetas->retas[i].final.x, listaRetas->retas[i].final.y);
+    	// }
+    }
+
+    glEnd();
+
+    // if (r != -1){
+    //     glLineWidth(4.0);
+    //     glBegin(GL_LINES);
+    //         glColor3f(preto.red, preto.green, preto.blue);
+    //         glVertex2f(lr->retas[r].inicio.x, lr->retas[r].inicio.y);
+    //         glVertex2f(lr->retas[r].fim.x, lr->retas[r].fim.y);
+    //     glEnd();
+    //     glLineWidth(2.0);
+    //     glBegin(GL_LINES);
+    //         glColor3f(lr->retas[r].inicio.cor.red, lr->retas[r].inicio.cor.green, lr->retas[r].inicio.cor.blue);
+    //         glVertex2f(lr->retas[r].inicio.x, lr->retas[r].inicio.y);
+    //         glColor3f(lr->retas[r].fim.cor.red, lr->retas[r].fim.cor.green, lr->retas[r].fim.cor.blue);
+    //         glVertex2f(lr->retas[r].fim.x, lr->retas[r].fim.y);
+    //     glEnd();
+    // }
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -268,6 +271,7 @@ int transladarReta(int reta, ListaRetas * listaRetas, MatrizTransformacao * matr
 {
     // Se a lista de retas estiver vazia ou a quantidade de retas for zero
 	if (listaRetas == NULL || listaRetas->qtdRetas == 0) {
+		printf("Lista de retas nao foi criada ou esta cheia! Não é possivel transladar a reta!\n");
 		return 0;
 	}
 	//
@@ -283,6 +287,7 @@ int rotacionarReta(int reta, ListaRetas * listaRetas, MatrizTransformacao * matr
 {
     // Se a lista de retas estiver vazia ou a quantidade de retas for zero
 	if (listaRetas == NULL || listaRetas->qtdRetas == 0) {
+		printf("Lista de retas nao foi criada ou esta cheia! Não é possivel rotacionar a reta!\n");
 		return 0;
 	}
 	//
@@ -298,6 +303,7 @@ int escalarReta(int reta, ListaRetas * listaRetas, MatrizTransformacao * matrizE
 {
     // Se a lista de retas estiver vazia ou a quantidade de retas for zero
 	if (listaRetas == NULL || listaRetas->qtdRetas == 0) {
+		printf("Lista de retas nao foi criada ou esta cheia! Não é possivel escalar a reta!\n");
 		return 0;
 	}
 	//

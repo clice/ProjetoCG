@@ -16,10 +16,10 @@
 	"ponto.h"
 	"reta.h"
 
-1705685399 c:\users\clice\projects\cg\ponto\projetocg\ponto.h
+1705691314 c:\users\clice\projects\cg\ponto\projetocg\ponto.h
 	"matriz.h"
 
-1705687616 source:c:\users\clice\projects\cg\ponto\projetocg\ponto.c
+1705691305 source:c:\users\clice\projects\cg\ponto\projetocg\ponto.c
 	<stdio.h>
 	<stdlib.h>
 	<GL/glut.h>
@@ -34,13 +34,13 @@
 
 1705645478 c:\users\clice\projects\cg\ponto\projetocg\matriz.h
 
-1705645478 source:c:\users\clice\projects\cg\ponto\projetocg\reta.c
+1705691379 source:c:\users\clice\projects\cg\ponto\projetocg\reta.c
 	<stdio.h>
 	<stdlib.h>
 	<GL/glut.h>
 	"reta.h"
 
-1705645478 c:\users\clice\projects\cg\ponto\projetocg\reta.h
+1705691363 c:\users\clice\projects\cg\ponto\projetocg\reta.h
 	"ponto.h"
 	"matriz.h"
 

@@ -25,17 +25,7 @@ static int opcao = 0;  // Opção selecionada pelo usuário
  * INICIALIZANDO VARIÁVEIS PARA PONTO, RETA E POLIGONO
  */
 int statusObjeto = -1; // Indica se o objeto ainda está sendo desenhado (desenhando: 1; finalizado: -1)
-
-int chavePonto = -1;   // Guarda a chave da lista de pontos para manipulação dos objetos (desenhando: > -1; finalizado: -1)
-
-int ponto = -1;        //
-int reta = -1;         //
-
-/*
- *
- */
-int desenhandoReta = -1;
-int desenhandoPoligono = -1;
+int chave = -1;   // Guarda a chave da lista para manipulação dos objetos (desenhando: > -1; finalizado: -1)
 
 /*
  * VARIÁVEIS DO MOUSE
@@ -111,7 +101,7 @@ void telaInicial()
 
     // Desenhar elementos na tela
     desenharPontos(listaPontos);
-    desenharRetas(reta, listaRetas);
+    desenharRetas(chave, listaRetas);
 
     glutSwapBuffers();
 }
@@ -160,14 +150,8 @@ void selecionarOpcao(int opcaoSelecionada)
     else {
         // Reinicializa todas as variáveis para o valor inicial (valor que tem enquanto não estão sendo manipuladas)
         statusObjeto = -1;
-
-        chavePonto = -1;
-
-        ponto = -1;
-        reta = -1;
-
+        chave = -1;
         statusMouse = 0;
-
         opcao = opcaoSelecionada;
         printf("Opcao selecionada: %d\n", opcao);
     }
@@ -210,8 +194,8 @@ void funcoesMouse(int botaoMouse, int statusMouse, int x, int y)
         // Se a opção for 4 (Selecionar ponto)
         else if (opcao == 4) {
             // Retorna a chave da lista onde o ponto que foi selecionado com o mouse está
-            chavePonto = selecionarPonto(mouseX, mouseY, listaPontos);
-            printf("Chave selecionada: %d\n", chavePonto);
+            chave = selecionarPonto(mouseX, mouseY, listaPontos);
+            printf("Chave selecionada: %d\n", chave);
         }
         // Se a opção for 5 (Selecionar segmento de reta)
         else if (opcao == 5) {
@@ -225,7 +209,7 @@ void funcoesMouse(int botaoMouse, int statusMouse, int x, int y)
         ////////// Opção Salvar objetos
         else if (opcao == 7) {
             salvarListaPontos(listaPontos);
-            salvarRetas(listaRetas);
+            salvarListaRetas(listaRetas);
             // salvarPoligonos(listaPoligonos);
         }
 
@@ -255,15 +239,15 @@ void funcoesMovimento(int x, int y)
 
     ////////// Transladar ponto
     // Se estiver na opção selecionar ponto e um ponto já estiver selecionado, mouse fica transladando o ponto
-    if (opcao == 4 && chavePonto != -1) {
+    if (opcao == 4 && chave != -1) {
         // Realizar o cálculo da transformação para movimentar o mouse - Translação
         MatrizTransformacao * matrizTranslacao = criarMatrizTranslacao(
-            mouseX - listaPontos->pontos[chavePonto].x,
-            mouseY - listaPontos->pontos[chavePonto].y
+            mouseX - listaPontos->pontos[chave].x,
+            mouseY - listaPontos->pontos[chave].y
         );
 
         // Realizar a translação do ponto selecionado
-        transladarPonto(chavePonto, listaPontos, matrizTranslacao);
+        transladarPonto(chave, listaPontos, matrizTranslacao);
     }
 
     glutPostRedisplay();
@@ -278,21 +262,21 @@ void funcoesTeclado(unsigned char key, int x, int y)
         // Excluir objetos selecionados da tela (D - Delete)
         case 'D':
         case 'd':
-            // Se um ponto está na opção "Selecionar" e a chavePonto conter um valor diferente
-            if (opcao == 4 && chavePonto != -1) {
-                if (excluirPonto(chavePonto, listaPontos)) {
+            // Se um ponto está na opção "Selecionar" e a chave conter um valor diferente
+            if (opcao == 4 && chave != -1) {
+                if (excluirPonto(chave, listaPontos)) {
                     imprimirListaPontos(listaPontos);
-                    chavePonto = -1;
+                    chave = -1;
                 }
             }
             break;
         // Rotaciona o ponto 45 graus apertando r caso esteja na opção de selecionar o ponto e um ponto esteja selecionado
         case 'R':
         case 'r':
-            // Se um ponto está na opção "Selecionar" e a chavePonto conter um valor diferente
-            if (opcao == 4 && chavePonto != -1) {
+            // Se um ponto está na opção "Selecionar" e a chave conter um valor diferente
+            if (opcao == 4 && chave != -1) {
                 MatrizTransformacao * matrizRotacao = criarMatrizRotacao(45);
-                rotacionarPonto(chavePonto, listaPontos, matrizRotacao);
+                rotacionarPonto(chave, listaPontos, matrizRotacao);
             }
             break;
 

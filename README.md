@@ -8,11 +8,11 @@
 
 Com o OpenGL instalado, é possível utilizar tanto o Code::Blocks como o WSL (Windows Subsystem for Linux) instalado no Windows para a compilação do projeto.
 
-#### Code::Blocks
+#### 1. Code::Blocks
 
 
 
-#### WSL (Windows Subsystem for Linux)
+#### 2. WSL (Windows Subsystem for Linux)
 
 Para a utilização do WSL, podesse compilar o projeto utilizando o comando:
 ```bash
