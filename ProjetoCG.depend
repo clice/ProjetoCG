@@ -1,24 +1,35 @@
 # depslib dependency file v1.0
-1705357951 source:c:\users\alexandre\projetocg\main.c
+1705591538 source:c:\users\alexandre\projetocg\main.c
 	<math.h>
 	<stdio.h>
 	<stdlib.h>
 	<GL/glut.h>
 	"ponto.h"
+
+1705516773 c:\users\alexandre\projetocg\reta.h
+	"ponto.h"
+
+1705358055 source:c:\users\alexandre\projetocg\reta.c
+	<stdio.h>
+	<stdlib.h>
+	<GL/glut.h>
 	"reta.h"
 
-1705355155 c:\users\alexandre\projetocg\reta.h
+1705590539 c:\users\alexandre\projetocg\ponto.h
+	"matriz.h"
 
-1705354707 source:c:\users\alexandre\projetocg\reta.c
-	"reta.h"
-
-1705358096 c:\users\alexandre\projetocg\ponto.h
-
-1705354932 source:c:\users\alexandre\projetocg\ponto.c
+1705595643 source:c:\users\alexandre\projetocg\ponto.c
 	<stdio.h>
 	<stdlib.h>
 	<GL/glut.h>
 	"ponto.h"
 
-1705357372 source:c:\users\alexandre\projetocg\matriz.c
+1705516599 source:c:\users\alexandre\projetocg\matriz.c
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+	<GL/glut.h>
+	"matriz.h"
+
+1705516626 c:\users\alexandre\projetocg\matriz.h
 

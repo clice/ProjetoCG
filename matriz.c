@@ -84,11 +84,11 @@ MatrizTransformacao * criarMatrizRotacao(float theta)
 /*
  * FUNÇÃO PARA CRIAR A MATRIZ DA TRANSFORMAÇÃO
  */
-MatrizTransformacao * criarMatrizEscalar(float sx, float sy)
+MatrizTransformacao * criarMatrizEscalar(float escala)
 {
     MatrizTransformacao * matrizEscalar = criarMatrizTransformacao();
-    matrizEscalar->matriz[0][0] = sx;
-    matrizEscalar->matriz[1][1] = sy;
+    matrizEscalar->matriz[0][0] = escala;
+    matrizEscalar->matriz[1][1] = escala;
     return matrizEscalar;
 }
 

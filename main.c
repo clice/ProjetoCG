@@ -4,35 +4,129 @@
 #include <GL/glut.h>
 
 #include "ponto.h"
-#include "reta.h"
 
-// LISTA DE FUNÇÕES
-void opcoesMenu(void);
-void selecionarOpcao(int opcao);
-void telaInicial(void);
+///////////////////////////////////////////////////////////////////
 
-// VARIÁVEIS DE TELA
+/*
+ * VARIÁVEIS DE TELA
+ */
 static int tela;
 static int menuPrincipal;
 static int menuCriarObjetos;
 static int menuSelecionarObjetos;
 
-// Valor recebido da opção pelo usuário
+/*
+ * VALOR RECEBIDO PELO USUÁRIO PARA OPÇÃO
+ */
 static int opcao = 0;
 
+/*
+ * INICIALIZANDO VARIÁVEIS PARA PONTO, RETA E POLIGONO
+ */
+int aux = -1;
 int ponto = -1;
 int reta = -1;
 int poligono = -1;
 
-int estado = 0;
+/*
+ *
+ */
 int desenhandoReta = -1;
 int desenhandoPoligono = -1;
 
-// Variáveis das dimensões
-float largura;
-float altura;
+/*
+ * VARIÁVEIS DO MOUSE
+ */
+float largura = 400;
+float altura = 300;
+float mouseX;
+float mouseY;
+int estadoMouse = 0;
 
-// FUNÇÃO PARA DEFINIR AS OPÇÕES DO MENU
+///////////////////////////////////////////////////////////////////
+
+ListaPontos * listaPontos = NULL;
+
+///////////////////////////////////////////////////////////////////
+
+/*
+ * LISTA DE FUNÇÕES
+ */
+int main(int argc, char ** argv);
+void desenharTela();
+void telaInicial();
+void opcoesMenu();
+void selecionarOpcao(int opcaoSelecionada);
+void funcoesMouse(int botaoMouse, int estadoMouse, int x, int y);
+void funcoesTeclado(int tecla, int x, int y);
+void GerenciaTeclado(unsigned char key, int x, int y);
+void arrastaMouse(int x, int y);
+
+/*
+ * FUNÇÃO PARA INICIAR O SISTEMA
+ */
+int main (int argc, char ** argv)
+{
+    // Inicializando o OpenGL
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+    glutInitWindowSize(800, 600);
+    glutInitWindowPosition(100, 100);
+    tela = glutCreateWindow("Paint - Computacao Grafica");
+
+    // Mostrar menu
+    opcoesMenu();
+
+    //
+    listaPontos = criarListaPontos();
+
+    glClearColor(1.0, 1.0, 1.0, 0.0); // Cor do background
+    glMatrixMode(GL_PROJECTION);
+    glOrtho(-largura, largura, -altura, altura, -1.0f, 1.0f);
+
+    glutMouseFunc(funcoesMouse);
+    glutSpecialFunc(funcoesTeclado);
+    glutDisplayFunc(telaInicial);
+    glutKeyboardFunc(GerenciaTeclado);
+    glutMotionFunc(arrastaMouse);//função que é chamada quando um botão do mouse é mantido pressionado
+    glutMainLoop();
+    return 0;
+}
+
+/*
+ * FUNÇÃO PARA DEFINIR AS OPÇÕES DO MENU
+ */
+void desenharTela()
+{
+    // glColor3f(0.0, 0.0, 0.0);
+    // glBegin(GL_LINES);
+    // glVertex2i(-400, 0);
+    // glVertex2i(400, 0);
+    // glVertex2i(0, -300);
+    // glVertex2i(0, 300);
+    // glEnd();
+}
+
+/*
+ * FUNÇÃO PARA CONFIGURAR A TELA INICIAL
+ */
+void telaInicial()
+{
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
+    // Inicializando os desenhos da tela
+    desenharTela();
+    desenharPontos(ponto, listaPontos);
+
+    glutSwapBuffers();
+}
+
+/*
+ * FUNÇÃO PARA DEFINIR AS OPÇÕES DO MENU
+ */
 void opcoesMenu()
 {
     // Opção de criar ponto, segmento de reta ou poligono
@@ -51,6 +145,7 @@ void opcoesMenu()
     menuPrincipal = glutCreateMenu(selecionarOpcao);
     glutAddSubMenu("Criar", menuCriarObjetos);
     glutAddSubMenu("Selecionar", menuSelecionarObjetos);
+    glutAddMenuEntry("Salvar", 7);
     glutAddMenuEntry("Cancelar", 0);
     glutAddMenuEntry("Sair", -1);
 
@@ -58,7 +153,9 @@ void opcoesMenu()
     glutAttachMenu(GLUT_RIGHT_BUTTON);
 }
 
-// FUNÇÃO PARA SELECIONAR OPÇÃO DO MENU
+/*
+ * FUNÇÃO PARA SELECIONAR A OPCAO INDICADA PELO USUÁRIO
+ */
 void selecionarOpcao(int opcaoSelecionada)
 {
     // Se o usuário escolheu "Sair" encerra e finaliza a tela
@@ -68,52 +165,127 @@ void selecionarOpcao(int opcaoSelecionada)
     }
     // Caso o usuário tenha selecionado alguma outra opção
     else {
-        printf("Opcao selecionada: %d\n", opcaoSelecionada);
         opcao = opcaoSelecionada;
+        printf("Opcao selecionada: %d\n", opcao);
+        estadoMouse = 0;
         ponto = -1;
-        reta = -1;
-        poligono = -1;
-        estado = 0;
-        desenhandoReta = -1;
-        desenhandoPoligono = -1;
     }
 
     glutPostRedisplay();
 }
 
-// FUNÇÃO PARA CONFIGURAR A TELA INICIAL
-void telaInicial()
+/*
+ * FUNÇÃO PARA DEFINIR O USO DO MOUSE PELO USUÁRIO
+ */
+void funcoesMouse(int botaoMouse, int estadoMouse, int x, int y)
 {
-    glClear(GL_COLOR_BUFFER_BIT);
+    printf("x: %d, y: %d\n", x, y);
+    printf("largura: %f, altura: %f\n", largura, altura);
 
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
+    // Localização atualizada do mouse
+    mouseX = x - largura;  // Localização do eixo x (horizontal - largura)
+    mouseY = altura - y;   // Localização do eixo y (vertical - altura)
 
-    // desenhaPlano();
-    // desenhaPoligonos(Poligonos, poligono, borda);
-    // desenhaRetas(Retas, reta);
-    // desenhaPontos(Pontos, ponto);
+    printf("mouseX: %f, mouseY: %f\n", mouseX, mouseY);
 
-    glutSwapBuffers();
+    // Se o botão esquerdo do mouse foi pressionado
+    if (botaoMouse == GLUT_LEFT_BUTTON && estadoMouse == GLUT_DOWN) {
+        ////////// Opções Criar
+        // Se a opção for 1 (Criar ponto)
+        if (opcao == 1) {
+            adicionarPonto(mouseX, mouseY, listaPontos);
+        }
+        // Se a opção for 2 (Criar segmento de reta)
+        else if (opcao == 2) {
+
+        }
+        // Se a opção for 3 (Criar polígono)
+        else if (opcao == 3) {
+
+        }
+
+        ////////// Opção Selecionar
+        // Se a opção for 4 (Selecionar ponto)
+        else if (opcao == 4) {
+            ponto = selecionarPonto(mouseX, mouseY, aux, listaPontos);
+            if(ponto != -1){ //se o mouse clicar em um ponto existente será imprimida a posição do ponto
+                printf("-----mouseX: %f, mouseY: %f\n", mouseX, mouseY);
+                printf("-----PX: %f, PY: %f\n", listaPontos->pontos[ponto].x, listaPontos->pontos[ponto].y);
+                /*MatrizTransformacao * matrizTranslacao = criarMatrizTranslacao(
+                        mouseX - listaPontos->pontos[ponto].x,
+                        mouseY - listaPontos->pontos[ponto].y
+                );
+                transladarPonto(ponto, listaPontos, matrizTranslacao);*/
+            }
+        }
+        // Se a opção for 5 (Selecionar segmento de reta)
+        else if (opcao == 5) {
+
+        }
+        // Se a opção for 6 (Selecionar polígono)
+        else if (opcao == 6) {
+
+        }
+
+        ////////// Opção Salvar
+        else if (opcao == 7) {
+             salvarPontos(listaPontos);
+        }
+
+        ////////// Opção Cancelar
+        else if (opcao == 0) {
+
+        }
+    }
+    glutPostRedisplay();
 }
 
-int main(int argc, char** argv)
+/*
+ * FUNÇÃO PARA DEFINIR O USO DO TECLADO PELO USUÁRIO
+ */
+void funcoesTeclado(int tecla, int x, int y)
 {
-    // Inicializando o OpenGL
-    glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
-    glutInitWindowSize(800, 600);
-    glutInitWindowPosition(100, 100);
-    tela = glutCreateWindow("Paint - Computacao Grafica");
+    printf("Tecla: %d\n", tecla);
+    printf("x: %d, y: %d\n", x, y);
+    printf("ponto: %d\n", ponto);
 
-    // Mostrar menu
-    opcoesMenu();
+    // Opções Selecionar
+    if (tecla == GLUT_KEY_F1) {
+        if (opcao == 4 && ponto != -1) {
+            if (excluirPonto(ponto, listaPontos)) {
+                if (estadoMouse != 0) estadoMouse = 0;
+                ponto = -1;
+            }
+        }
+    }
+}
+void GerenciaTeclado(unsigned char key, int x, int y) //peguei essa função de usar o teclado ASCII para aplicar as funções de rotacionar e escalar
+{
+    switch (key) {
+            case 'R':
+            case 'r':// rotaciona o ponto 45 graus apertando r caso esteja na opção de selecionar o ponto e um ponto esteja selecionado
+                     if(opcao == 4 && ponto != -1){
+                        MatrizTransformacao* matrizRotacao = criarMatrizRotacao(45);
+                        rotacionarPonto(ponto, listaPontos, matrizRotacao);
+                     }
+                     break;
+            case 'S':
+            case 's':
+                     //Esse vai ser o botão de escala
+                     break;
+    }
+    glutPostRedisplay();
+}
 
-    glClearColor(1.0, 1.0, 1.0, 0.0);
-    glMatrixMode(GL_PROJECTION);
-    glOrtho(-largura, largura, -altura, altura, -1.0f, 1.0f);
-
-    glutDisplayFunc(telaInicial);
-    glutMainLoop();
-    return 0;
+void arrastaMouse(int x, int y){ // função que é chamada quando o botão do mouse está mantido pressionado
+    mouseX = x - largura;
+    mouseY = altura - y;
+    if(opcao == 4 && ponto != -1){// se estiver na opção selecionar ponto e um ponto já estiver selecionado, mouse fica transladando o ponto
+        MatrizTransformacao * matrizTranslacao = criarMatrizTranslacao(
+            mouseX - listaPontos->pontos[ponto].x,
+            mouseY - listaPontos->pontos[ponto].y
+        );
+        transladarPonto(ponto, listaPontos, matrizTranslacao);
+    }
+    glutPostRedisplay();
 }

@@ -26,7 +26,7 @@ ListaPontos * criarListaPontos()
 ///////////////////////////////////////////////////////////////////
 
 /*
- * FUNÇÃO PARA CRIAR A LISTA DE PONTOS
+ * FUNÇÃO PARA ADICIONAR UM PONTO A TELA
  */
 int adicionarPonto(float x, float y, ListaPontos * listaPontos)
 {
@@ -38,7 +38,6 @@ int adicionarPonto(float x, float y, ListaPontos * listaPontos)
     else {
         // Adicionando na lista a posição x e y, assim como a cor vermelha fixa para os pontos
         Ponto ponto = { x, y, vermelha };
-        printf("listaPontos->qtdPontos: %d\n", listaPontos->qtdPontos);
         listaPontos->pontos[listaPontos->qtdPontos] = ponto;
         listaPontos->qtdPontos++;
         return 1;
@@ -46,56 +45,66 @@ int adicionarPonto(float x, float y, ListaPontos * listaPontos)
 }
 
 /*
- * FUNÇÃO PARA CRIAR A LISTA DE PONTOS
+ * FUNÇÃO PARA EXCLUIR UM PONTO DA TELA
  */
-int removerPonto(int ponto, ListaPontos * listaPontos)
+int excluirPonto(int ponto, ListaPontos * listaPontos)
 {
     // Se a lista de pontos estiver vazia ou a quantidade de pontos for zero
     if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
         return 0;
     }
-    // Caso
+    //
     else {
-        // Laço para percorrer a lista de pontos
-        for (int i = ponto; i < listaPontos->qtdPontos; i++) {
-            listaPontos->pontos[i] = listaPontos->pontos[i + 1];
+        // Laço para percorrer a lista de pontos de trás para frente
+        for (int i = listaPontos->qtdPontos - 1; i > ponto; i--) {
+            listaPontos->pontos[i] = listaPontos->pontos[i - 1];
         }
 
-        // Remover uma unidade da quantidade de pontos
+        // Diminuir uma unidade da quantidade de pontos
         listaPontos->qtdPontos--;
         return 1;
     }
 }
 
 /*
- * FUNÇÃO PARA CRIAR A LISTA DE PONTOS
+ * FUNÇÃO PARA SELECIONAR UM PONTO DA TELA
  */
-int selecionarPonto(float pontoX, float pontoY, float mouseX, float mouseY, int aux)
+int selecionarPonto(float mouseX, float mouseY, int aux, ListaPontos * listaPontos)
 {
-    // if (mouseX <= pontoX + aux && mouseX >= pontoX - aux) {
-    //     return 1;
-    // }
+    // // Se a lista de pontos estiver vazia ou a quantidade de pontos for zero
+    if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
+         return -1;
+     }
 
-    // return 0;
+    else {
+        //vai procurar na lista de pontos algum ponto que esteja sendo clicado pelo mouse
+         for (int i = 0; i < listaPontos->qtdPontos; i++) {
+             if (mouseX <= listaPontos->pontos[i].x + 3 && mouseX >= listaPontos->pontos[i].x - 3) {//o 3 é o valor de tolerância para a região de detecção
+                    if(mouseY <= listaPontos->pontos[i].y + 3 && mouseY >= listaPontos->pontos[i].y - 3){//o valor é 3 porque é metade do size do ponto
+                            return i;
+                    }
+             }
+         }
+
+         return -1;
+     }
 }
 
 ///////////////////////////////////////////////////////////////////
 
 /*
- * FUNÇÃO PARA CRIAR A LISTA DE PONTOS
+ * FUNÇÃO PARA DESENHAR OS PONTOS NA TELA
  */
 void desenharPontos(int ponto, ListaPontos * listaPontos)
 {
-    glPointSize(3.0);
+    glPointSize(6.0); // Deixei o ponto um pouco maior para ficar mais visível
     glBegin(GL_POINTS);
 
     for (int i = 0; i < listaPontos->qtdPontos; i++) {
-        if (i != ponto) {
-            // Imprimindo os valores e intensidades de cores RGB
-            glColor3f(listaPontos->pontos[i].cor.red, listaPontos->pontos[i].cor.green, listaPontos->pontos[i].cor.blue);
-            // Posicionando o ponto na largura e altura corretas do mouse
-            glVertex2f(listaPontos->pontos[i].x, listaPontos->pontos[i].y);
-        }
+        // Imprimindo os valores e intensidades de cores RGB
+        glColor3f(listaPontos->pontos[i].cor.red, listaPontos->pontos[i].cor.green, listaPontos->pontos[i].cor.blue);
+        // Posicionando o ponto na largura e altura corretas do mouse
+        glVertex2f(listaPontos->pontos[i].x, listaPontos->pontos[i].y);
     }
 
     glEnd();
@@ -120,40 +129,87 @@ void desenharPontos(int ponto, ListaPontos * listaPontos)
 void imprimirListaPontos(ListaPontos * listaPontos)
 {
     for (int i = 0; i < listaPontos->qtdPontos; i++) {
-        printf("%d: x: %d, y: %d\n", i + 1, listaPontos->pontos[i].x, listaPontos->pontos[i].y);
+        printf("%d: x: %f, y: %f\n", i + 1, listaPontos->pontos[i].x, listaPontos->pontos[i].y);
+    }
+}
+
+/*
+ * FUNÇÃO PARA SALVAR A LISTA DE PONTOS
+ */
+void salvarPontos(ListaPontos * listaPontos)
+{
+    if (listaPontos != NULL) {
+        // Nome do arquivo
+        const char * nomeArquivo = "pontos.txt";
+
+        // Abrir o arquivo para salvar a lista
+        FILE * arquivo = fopen(nomeArquivo, "w");
+
+        // Checar se o arquivo foi aberto com sucesso
+        if (arquivo == NULL) {
+            fprintf(stderr, "Nao foi possivel abrir o arquivo %s.\n", nomeArquivo);
+            return;
+        }
+
+        // Escrever as dimensões da lista no arquivo
+        fprintf(arquivo, "%d\n", listaPontos->qtdPontos);
+
+        // Escrever os elementos da lista no arquivo (x, y, red, green, blue)
+        for (int i = 0; i < listaPontos->qtdPontos; i++) {
+            fprintf(arquivo, "%f ", listaPontos->pontos[i].x);
+            fprintf(arquivo, "%f ", listaPontos->pontos[i].y);
+            fprintf(arquivo, "%f ", listaPontos->pontos[i].cor.red);
+            fprintf(arquivo, "%f ", listaPontos->pontos[i].cor.green);
+            fprintf(arquivo, "%f", listaPontos->pontos[i].cor.blue);
+            fprintf(arquivo, "\n"); // Mover para a próxima linha do arquivo
+        }
+
+        // Fechar arquivo
+        fclose(arquivo);
+
+        printf("Lista salva com sucesso!\n");
+    }
+    // Se a lista de pontos está vazia
+    else {
+        printf("A lista de pontos esta vazia. Nada foi salvo no arquivo.\n");
+        return;
     }
 }
 
 ///////////////////////////////////////////////////////////////////
 
 /*
- * FUNÇÃO PARA CRIAR A LISTA DE PONTOS
+ * FUNÇÃO PARA TRANSLADAR UM PONTO (ARRASTAR E SOLTAR)
  */
-int transladarPonto(Ponto p, ListaPontos * listaPontos, float ty, float tx)
+int transladarPonto(int ponto, ListaPontos * listaPontos, MatrizTransformacao * matrizTranslacao)
 {
     if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
         return 0;
-    } else {
-        MatrizPonto* mp = criarMatrizPonto(p.x, p.y);
-        MatrizTransformacao* transl = criarMatrizTranslacao(tx, ty);
-        mp = multiplicarMatrizPonto(mp, transl);
-        p.x = mp->matriz[0][0];
-        p.y = mp->matriz[0][1];
-        free(mp);
-        free(transl);
+    }
+    //
+    else {
+        MatrizPonto * matrizComposta = criarMatrizPonto(listaPontos->pontos[ponto].x, listaPontos->pontos[ponto].y);
+        matrizComposta = multiplicarMatrizPonto(matrizComposta, matrizTranslacao);
+        listaPontos->pontos[ponto].x = matrizComposta->matriz[0][0];
+        listaPontos->pontos[ponto].y = matrizComposta->matriz[0][1];
         return 1;
-
     }
 }
 
 /*
- * FUNÇÃO PARA CRIAR A LISTA DE PONTOS
+ * FUNÇÃO PARA ROTACIONAR UM PONTO
  */
-int rotacionarPonto(int ponto, ListaPontos * listaPontos)
+int rotacionarPonto(int ponto, ListaPontos * listaPontos, MatrizTransformacao * matrizRotacao)
 {
     if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
         return 0;
-    } else {
+    }
+    //
+    else {
+        MatrizPonto * matrizPonto = criarMatrizPonto(listaPontos->pontos[ponto].x, listaPontos->pontos[ponto].y);
+        matrizPonto = multiplicarMatrizPonto(matrizPonto, matrizRotacao);
+        listaPontos->pontos[ponto].x = matrizPonto->matriz[0][0];
+        listaPontos->pontos[ponto].y = matrizPonto->matriz[0][1];
         return 1;
     }
 }

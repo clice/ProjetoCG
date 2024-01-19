@@ -1,5 +1,5 @@
-#ifndef MATRIZ_H_INCLUDED
-#define MATRIZ_H_INCLUDED
+#ifndef MATRIZ_H
+#define MATRIZ_H
 
 /*
  * ESTRUTURA PARA A MATRIZ DO PONTO
@@ -31,4 +31,4 @@ MatrizTransformacao * criarMatrizRotacao(float theta);
 MatrizTransformacao * criarMatrizEscalar(float escala);
 MatrizTransformacao * multiplicarMatrizesTransformacao(MatrizTransformacao * matrizTransformacao1, MatrizTransformacao * matrizTransformacao2);
 
-#endif // MATRIZ_H_INCLUDED
+#endif // MATRIZ_H

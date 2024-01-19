@@ -1,7 +1,9 @@
 #ifndef RETA_H_INCLUDED
 #define RETA_H_INCLUDED
 
+#include "ponto.h"
 #define MAX_RETAS 1000
+
 
 /*
  * ESTRUTURA PARA A RETA

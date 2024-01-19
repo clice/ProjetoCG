@@ -1,7 +1,9 @@
-#ifndef PONTO_H_INCLUDED
-#define PONTO_H_INCLUDED
+#ifndef PONTO_H
+#define PONTO_H
 
 #define MAX_PONTOS 1000
+
+#include "matriz.h"
 
 /*
  * ESTRUTURA PARA AS CORES
@@ -32,24 +34,22 @@ typedef struct
     Ponto pontos[MAX_PONTOS];   // Dados dos pontos da lista de pontos
 } ListaPontos;
 
-
 ///////////////////////////////////////////////////////////////////
 
 /*
- * DECLARA합ES DAS FUN합EES
+ * DECLARA합ES DAS FUN합ES
  */
 ListaPontos * criarListaPontos();
 
 int adicionarPonto(float x, float y, ListaPontos * listaPontos);
-int removerPonto(int ponto, ListaPontos * listaPontos);
-int selecionarPonto(float pontoX, float pontoY, float mouseX, float mouseY, int aux);
+int excluirPonto(int ponto, ListaPontos * listaPontos);
+int selecionarPonto(float mouseX, float mouseY, int aux, ListaPontos * listaPontos);
 
 void desenharPontos(int ponto, ListaPontos * listaPontos);
 void imprimirListaPontos(ListaPontos * listaPontos);
+void salvarPontos(ListaPontos * listaPontos);
 
-int transladarPonto(Ponto p, ListaPontos * listaPontos, float ty, float tx);
-int rotacionarPonto(int ponto, ListaPontos * listaPontos);
-void escalarPonto(Ponto p, float sx, float sy);
+int transladarPonto(int ponto, ListaPontos * listaPontos, MatrizTransformacao * matrizTranslacao);
+int rotacionarPonto(int ponto, ListaPontos * listaPontos, MatrizTransformacao * matrizRotacao);
 
-
-#endif // PONTO_H_INCLUDED
+#endif // PONTO_H
