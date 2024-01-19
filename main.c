@@ -26,8 +26,8 @@ static int opcao = 0;  // Opção selecionada pelo usuário
  */
 int statusObjeto = -1; // Indica se o objeto ainda está sendo desenhado (desenhando: 1; finalizado: -1)
 
-int ponto = -1;        // 
-int reta = -1;         // 
+int ponto = -1;        //
+int reta = -1;         //
 
 /*
  *
@@ -121,7 +121,7 @@ void telaInicial()
     // Inicializando os desenhos da tela
     desenharTela();
 
-    // Desenhar elementos na tela    
+    // Desenhar elementos na tela
     desenharPontos(ponto, listaPontos);
     desenharRetas(reta, listaRetas);
 
@@ -172,7 +172,7 @@ void selecionarOpcao(int opcaoSelecionada)
     else {
         // Reinicializa todas as variáveis para o valor inicial (valor que tem enquanto não estão sendo manipuladas)
         statusObjeto = -1;
-        
+
         ponto = -1;
         reta = -1;
 
@@ -217,12 +217,12 @@ void funcoesMouse(int botaoMouse, int statusMouse, int x, int y)
         ////////// Opção Selecionar
         // Se a opção for 4 (Selecionar ponto)
         else if (opcao == 4) {
-            ponto = selecionarPonto(mouseX, mouseY, aux, listaPontos);
-            MatrizTransformacao * matrizTranslacao = criarMatrizTranslacao(
-                    mouseX - listaPontos->pontos[ponto].x,
-                    mouseY - listaPontos->pontos[ponto].y
-                );
-            transladarPonto(ponto, listaPontos, matrizTranslacao);
+            statusObjeto = selecionarPonto(mouseX, mouseY, statusObjeto, listaPontos);
+            // MatrizTransformacao * matrizTranslacao = criarMatrizTranslacao(
+            //         mouseX - listaPontos->pontos[ponto].x,
+            //         mouseY - listaPontos->pontos[ponto].y
+            //     );
+            // transladarPonto(ponto, listaPontos, matrizTranslacao);
         }
         // Se a opção for 5 (Selecionar segmento de reta)
         else if (opcao == 5) {

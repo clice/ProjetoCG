@@ -45,7 +45,7 @@ int adicionarPonto(float x, float y, ListaPontos * listaPontos)
 /*
  * FUNÇÃO PARA EXCLUIR UM PONTO DA TELA
  */
-int excluirPonto(int ponto, ListaPontos * listaPontos)
+int excluirPonto(int statusObjeto, ListaPontos * listaPontos)
 {
     // Se a lista de pontos estiver vazia ou a quantidade de pontos for zero
     if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
@@ -57,11 +57,10 @@ int excluirPonto(int ponto, ListaPontos * listaPontos)
         // for (int i = listaPontos->qtdPontos - 1; i >= ponto; i--) {
         //     listaPontos->pontos[i - 1] = listaPontos->pontos[i];
         // }
-        printf("ponto: %d\n", ponto);
         // Laço para percorrer a lista de pontos de trás para frente
-        for (int i = ponto; i < listaPontos->qtdPontos; i++) {
-            listaPontos->pontos[i] = listaPontos->pontos[i + 1];
-        }
+        // for (int i = statusObjeto; i < listaPontos->qtdPontos; i++) {
+        //     listaPontos->pontos[i] = listaPontos->pontos[i + 1];
+        // }
 
         // Diminuir uma unidade da quantidade de pontos
         listaPontos->qtdPontos--;
@@ -103,6 +102,8 @@ void desenharPontos(int ponto, ListaPontos * listaPontos)
     glPointSize(3.0);
     glBegin(GL_POINTS);
 
+    printf("%d\n", ponto);
+
     for (int i = 0; i < listaPontos->qtdPontos; i++) {
         // Imprimindo os valores e intensidades de cores RGB
         glColor3f(listaPontos->pontos[i].cor.red, listaPontos->pontos[i].cor.green, listaPontos->pontos[i].cor.blue);
@@ -119,10 +120,10 @@ void desenharPontos(int ponto, ListaPontos * listaPontos)
 void imprimirListaPontos(ListaPontos * listaPontos)
 {
     for (int i = 0; i < listaPontos->qtdPontos; i++) {
-        printf("%d: x: %.1f, y: %.1f, cor: { %.1f, %.1f, %.1f }\n", 
-            i + 1, 
-            listaPontos->pontos[i].x, 
-            listaPontos->pontos[i].y, 
+        printf("%d: x: %.1f, y: %.1f, cor: { %.1f, %.1f, %.1f }\n",
+            i + 1,
+            listaPontos->pontos[i].x,
+            listaPontos->pontos[i].y,
             listaPontos->pontos[i].cor.red,
             listaPontos->pontos[i].cor.green,
             listaPontos->pontos[i].cor.blue
