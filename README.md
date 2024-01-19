@@ -9,10 +9,16 @@
 1. Com o OpenGL instalado, é possível utilizar tanto o Code::Blocks para a compilação do projeto como outro meio de compilação também sendo possível por meio do WSL (Windows Subsystem for Linux) instalado no Windows.
 
 Para a utilização do WSL, podesse compilar o projeto utilizando o comando:
-```g++ main.c -o main -lglut -lGLU -lGL```
+
+```bash
+g++ main.c -o main -lglut -lGLU -lGL
+```
 
 Para rodar o projeto, utilizasse o comando:
-```./main```
+
+```bash
+./main
+```
 
 2. Também é possível utilizar o Code::Blocks para a compilar e testar o projeto, porém configurações são necessárias para compilação e a utilização do OpenGL.
 
@@ -28,7 +34,7 @@ Para rodar o projeto, utilizasse o comando:
 
 #### 3. Seleção de pontos, retas e polígonos
 
-
+É necessário escolher a opção Selecionar > Ponto, ou Segmento de Reta, ou Polígono para a seleção dos objetos. Após esse passo, basta clicar em cima do objeto desejado e já é possível realizar as manipulações dos mesmos individualmente.
 
 #### 4. Salvar objetos da tela
 
