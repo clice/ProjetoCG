@@ -6,7 +6,7 @@
 #include "matriz.h"
 
 /*
- * FUNÇÃO PARA CRIAR UMA MATRIZ COM AS INFORMAÇOES DO PONTO
+ * FUNÃ‡ÃƒO PARA CRIAR UMA MATRIZ COM AS INFORMAÃ‡OES DO PONTO
  */
 MatrizPonto * criarMatrizPonto(float x, float y)
 {
@@ -18,7 +18,7 @@ MatrizPonto * criarMatrizPonto(float x, float y)
 }
 
 /*
- * FUNÇÃO PARA MULTIPLIZAR A MATRIZ PONTO PARA TRANSFORMAÇÃO
+ * FUNÃ‡ÃƒO PARA MULTIPLIZAR A MATRIZ PONTO PARA TRANSFORMAÃ‡ÃƒO
  */
 MatrizPonto * multiplicarMatrizPonto(MatrizPonto * matrizPonto, MatrizTransformacao * matrizTransformacao)
 {
@@ -27,7 +27,7 @@ MatrizPonto * multiplicarMatrizPonto(MatrizPonto * matrizPonto, MatrizTransforma
     }
 
     else {
-        // Inicializando uma MatrizPonto para contar a matriz composta da transformação
+        // Inicializando uma MatrizPonto para contar a matriz composta da transformaÃ§Ã£o
         MatrizPonto * matrizComposta = criarMatrizPonto(0.0, 0.0);
 
         for (int i = 0; i < 3; i++) {
@@ -41,7 +41,7 @@ MatrizPonto * multiplicarMatrizPonto(MatrizPonto * matrizPonto, MatrizTransforma
 ///////////////////////////////////////////////////////////////////
 
 /*
- * FUNÇÃO PARA CRIAR A MATRIZ DA TRANSFORMAÇÃO
+ * FUNÃ‡ÃƒO PARA CRIAR A MATRIZ DA TRANSFORMAÃ‡ÃƒO
  */
 MatrizTransformacao * criarMatrizTransformacao()
 {
@@ -58,7 +58,7 @@ MatrizTransformacao * criarMatrizTransformacao()
 }
 
 /*
- * FUNÇÃO PARA CRIAR A MATRIZ DA TRANSFORMAÇÃO
+ * FUNÃ‡ÃƒO PARA CRIAR A MATRIZ DA TRANSFORMAÃ‡ÃƒO
  */
 MatrizTransformacao * criarMatrizTranslacao(float tX, float tY)
 {
@@ -69,7 +69,7 @@ MatrizTransformacao * criarMatrizTranslacao(float tX, float tY)
 }
 
 /*
- * FUNÇÃO PARA CRIAR A MATRIZ DA TRANSFORMAÇÃO
+ * FUNÃ‡ÃƒO PARA CRIAR A MATRIZ DA TRANSFORMAÃ‡ÃƒO
  */
 MatrizTransformacao * criarMatrizRotacao(float theta)
 {
@@ -82,7 +82,7 @@ MatrizTransformacao * criarMatrizRotacao(float theta)
 }
 
 /*
- * FUNÇÃO PARA CRIAR A MATRIZ DA TRANSFORMAÇÃO
+ * FUNÃ‡ÃƒO PARA CRIAR A MATRIZ DA TRANSFORMAÃ‡ÃƒO
  */
 MatrizTransformacao * criarMatrizEscalar(float escala)
 {
@@ -93,7 +93,7 @@ MatrizTransformacao * criarMatrizEscalar(float escala)
 }
 
 /*
- * FUNÇÃO PARA CRIAR A MATRIZ DA TRANSFORMAÇÃO
+ * FUNÃ‡ÃƒO PARA CRIAR A MATRIZ DA TRANSFORMAÃ‡ÃƒO
  */
 MatrizTransformacao * multiplicarMatrizesTransformacao(MatrizTransformacao * matrizTransformacao1, MatrizTransformacao * matrizTransformacao2)
 {

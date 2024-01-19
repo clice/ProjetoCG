@@ -20,8 +20,8 @@ typedef struct
  */
 typedef struct
 {
-    float x;   // Posição na largura
-    float y;   // Posição na altura
+    float x;   // PosiÃ§Ã£o na largura
+    float y;   // PosiÃ§Ã£o na altura
     Cor cor;   // Estrutura das cores
 } Ponto;
 
@@ -30,24 +30,26 @@ typedef struct
  */
 typedef struct
 {
-    int qtdPontos;    			// Quantidade de pontos na lista
+    int qtdPontos;              // Quantidade de pontos na lista
     Ponto pontos[MAX_PONTOS];   // Dados dos pontos da lista de pontos
 } ListaPontos;
 
 ///////////////////////////////////////////////////////////////////
 
 /*
- * DECLARAÇÕES DAS FUNÇÕES
+ * DECLARAÃ‡Ã•ES DAS FUNÃ‡Ã•ES
  */
 ListaPontos * criarListaPontos();
 
 int adicionarPonto(float x, float y, ListaPontos * listaPontos);
-int excluirPonto(int ponto, ListaPontos * listaPontos);
-int selecionarPonto(float mouseX, float mouseY, int aux, ListaPontos * listaPontos);
+int excluirPonto(int statusObjeto, ListaPontos * listaPontos);
+int selecionarPonto(float mouseX, float mouseY, ListaPontos * listaPontos);
 
-void desenharPontos(int ponto, ListaPontos * listaPontos);
+void desenharPontos(ListaPontos * listaPontos);
 void imprimirListaPontos(ListaPontos * listaPontos);
+
 void salvarPontos(ListaPontos * listaPontos);
+void carregarPontos();
 
 int transladarPonto(int ponto, ListaPontos * listaPontos, MatrizTransformacao * matrizTranslacao);
 int rotacionarPonto(int ponto, ListaPontos * listaPontos, MatrizTransformacao * matrizRotacao);
