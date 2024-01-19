@@ -44,7 +44,7 @@ void imprimirListaPontos(ListaPontos * listaPontos);
 void salvarListaPontos(ListaPontos * listaPontos);
 void carregarListaPontos();
 
-int adicionarPonto(float x, float y, ListaPontos * listaPontos);
+int adicionarPonto(float mouseX, float mouseY, ListaPontos * listaPontos);
 int excluirPonto(int chave, ListaPontos * listaPontos);
 int selecionarPonto(float mouseX, float mouseY, ListaPontos * listaPontos);
 void desenharPontos(ListaPontos * listaPontos);

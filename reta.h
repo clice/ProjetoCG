@@ -35,10 +35,11 @@ void imprimirListaRetas(ListaRetas * listaRetas);
 void salvarListaRetas(ListaRetas * listaRetas);
 void carregarListaRetas();
 
-int adicionarReta(float x, float y, int statusObjeto, ListaRetas * listaRetas);
+int adicionarReta(float mouseX, float mouseY, int statusObjeto, ListaRetas * listaRetas);
 int excluirReta(int chave, ListaRetas * listaRetas);
-int selecionarReta(float mouseX, float mouseY, int statusObjeto, ListaRetas * listaRetas);
-void desenharRetas(int chave, ListaRetas * listaRetas);
+int selecionarReta(float mouseX, float mouseY, ListaRetas * listaRetas);
+int verificarPontoNaReta(float mouseX, float mouseY, float x1, float y1, float x2, float y2);
+void desenharRetas(ListaRetas * listaRetas);
 
 int transladarReta(int chave, ListaRetas * listaRetas, MatrizTransformacao * matrizTranslacao);
 int rotacionarReta(int chave, ListaRetas * listaRetas, MatrizTransformacao * matrizRotacao);

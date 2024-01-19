@@ -101,7 +101,7 @@ void telaInicial()
 
     // Desenhar elementos na tela
     desenharPontos(listaPontos);
-    desenharRetas(chave, listaRetas);
+    desenharRetas(listaRetas);
 
     glutSwapBuffers();
 }
@@ -172,7 +172,7 @@ void funcoesMouse(int botaoMouse, int statusMouse, int x, int y)
 
     // Se o botão esquerdo do mouse foi pressionado
     if (botaoMouse == GLUT_LEFT_BUTTON && statusMouse == GLUT_DOWN) {
-        printf("mouseX: %f, mouseY: %f\n", mouseX, mouseY);
+        printf("mouseX: %.1f, mouseY: %.1f\n", mouseX, mouseY);
 
         ////////// Opções Criar
         // Se a opção for 1 (Criar ponto)
@@ -199,7 +199,9 @@ void funcoesMouse(int botaoMouse, int statusMouse, int x, int y)
         }
         // Se a opção for 5 (Selecionar segmento de reta)
         else if (opcao == 5) {
-
+            // Retorna a chave da lista onde a reta que foi selecionada com o mouse está
+            chave = selecionarReta(mouseX, mouseY, listaRetas);
+            printf("Chave selecionada: %d\n", chave);
         }
         // Se a opção for 6 (Selecionar polígono)
         else if (opcao == 6) {
@@ -270,6 +272,7 @@ void funcoesTeclado(unsigned char key, int x, int y)
                 }
             }
             break;
+
         // Rotaciona o ponto 45 graus apertando r caso esteja na opção de selecionar o ponto e um ponto esteja selecionado
         case 'R':
         case 'r':

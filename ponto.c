@@ -149,7 +149,7 @@ void carregarListaPontos()
 /*
  * FUNÇÃO PARA ADICIONAR UM PONTO A TELA
  */
-int adicionarPonto(float x, float y, ListaPontos * listaPontos)
+int adicionarPonto(float mouseX, float mouseY, ListaPontos * listaPontos)
 {
     // Se a lista de pontos não foi criada ou está cheia não é possível adicionar mais pontos
     if (listaPontos == NULL || listaPontos->qtdPontos == MAX_PONTOS) {
@@ -159,8 +159,8 @@ int adicionarPonto(float x, float y, ListaPontos * listaPontos)
     // Adicionar o ponto
     else {
         // Adicionando na lista a posição x e y, assim como a cor vermelha fixa para os pontos
-        listaPontos->pontos[listaPontos->qtdPontos].x = x;
-        listaPontos->pontos[listaPontos->qtdPontos].y = y;
+        listaPontos->pontos[listaPontos->qtdPontos].x = mouseX;
+        listaPontos->pontos[listaPontos->qtdPontos].y = mouseY;
         listaPontos->pontos[listaPontos->qtdPontos].cor = vermelha;
         listaPontos->qtdPontos++;
 
@@ -216,6 +216,7 @@ int selecionarPonto(float mouseX, float mouseY, ListaPontos * listaPontos)
                 }
             }
         }
+
         printf("Ponto nao encontrado na lista!\n");
         return -1;
     }
