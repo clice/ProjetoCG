@@ -31,6 +31,10 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="README.md" />
+		<Unit filename="arquivos/poligonos/poligonos.txt" />
+		<Unit filename="arquivos/pontos/pontos.txt" />
+		<Unit filename="arquivos/retas/retas.txt" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -38,6 +42,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="matriz.h" />
+		<Unit filename="poligono.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="poligono.h" />
 		<Unit filename="ponto.c">
 			<Option compilerVar="CC" />
 		</Unit>

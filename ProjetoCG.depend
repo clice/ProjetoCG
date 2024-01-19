@@ -33,3 +33,39 @@
 
 1705516626 c:\users\alexandre\projetocg\matriz.h
 
+1705643008 source:c:\users\clice\projects\cg\retas\projetocg\main.c
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+	<GL/glut.h>
+	"ponto.h"
+	"reta.h"
+
+1705642721 c:\users\clice\projects\cg\retas\projetocg\ponto.h
+	"matriz.h"
+
+1705624333 c:\users\clice\projects\cg\retas\projetocg\matriz.h
+
+1705624333 source:c:\users\clice\projects\cg\retas\projetocg\matriz.c
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+	<GL/glut.h>
+	"matriz.h"
+
+1705643040 source:c:\users\clice\projects\cg\retas\projetocg\ponto.c
+	<stdio.h>
+	<stdlib.h>
+	<GL/glut.h>
+	"ponto.h"
+
+1705642960 source:c:\users\clice\projects\cg\retas\projetocg\reta.c
+	<stdio.h>
+	<stdlib.h>
+	<GL/glut.h>
+	"reta.h"
+
+1705642966 c:\users\clice\projects\cg\retas\projetocg\reta.h
+	"ponto.h"
+	"matriz.h"
+
