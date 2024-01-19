@@ -282,7 +282,6 @@ void funcoesTeclado(unsigned char key, int x, int y)
             if (opcao == 4 && chavePonto != -1) {
                 if (excluirPonto(chavePonto, listaPontos)) {
                     imprimirListaPontos(listaPontos);
-                    if (statusMouse != 0) statusMouse = 0;
                     chavePonto = -1;
                 }
             }
