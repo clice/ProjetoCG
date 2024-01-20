@@ -11,8 +11,8 @@
  */
 typedef struct
 {
-    Ponto ponto;   			 // Ponto para armazenar um ponto dos cantos do polígono
-    struct PontoPoligono * prox;    // Ponteiro para o próximo ponto dos cantos do polígono
+    Ponto ponto;   			       // Ponto para armazenar um ponto dos cantos do polígono
+    struct PontoPoligono * prox;   // Ponteiro para o próximo ponto dos cantos do polígono
 } PontoPoligono;
 
 /*
@@ -20,9 +20,9 @@ typedef struct
  */
 typedef struct
 {
-    int tamanho;   			  //
+    int tamanho;   			  // Quantos lados tem o polígono
     Ponto centro;    		  // Ponto para armazenar o ponto central do polígono
-    PontoPoligono * inicio;   // PontoPoligono para o início do polígono
+    PontoPoligono * inicial;  // PontoPoligono para o ponto inicial do polígono
 } Poligono;
 
 /*
@@ -43,6 +43,10 @@ ListaPoligonos * criarListaPoligonos();
 void imprimirListaPoligonos(ListaPoligonos * listaPoligonos);
 void salvarListaPoligonos(ListaPoligonos * listaPoligonos);
 void carregarListaPoligonos();
+
+PontoPoligono * criarPontoPoligono(float mouseX, float mouseY);
+PontoPoligono * ultimoPontoPoligono(PontoPoligono * auxPontoPoligono);
+// void imprimirPontosPoligono(ListaPoligonos * listaPoligonos);
 
 int adicionarPoligono(float mouseX, float mouseY, int statusObjeto, ListaPoligonos * listaPoligonos);
 int excluirPoligono(int chave, ListaPoligonos * listaPoligonos);

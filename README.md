@@ -24,7 +24,7 @@ Para rodar o projeto, utilizasse o comando:
 ./main
 ```
 
-2. Também é possível utilizar o Code::Blocks para a compilar e testar o projeto, porém configurações são necessárias para compilação e a utilização do OpenGL.
+Também é possível utilizar o Code::Blocks para a compilar e testar o projeto, porém configurações são necessárias para compilação e a utilização do OpenGL.
 
 ### Instruções para uso do programa
 

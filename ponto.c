@@ -9,6 +9,8 @@
  */
 Cor vermelha = { 1.0, 0.0, 0.0 };
 
+///////////////////////////////////////////////////////////////////
+
 /*
  * FUNÇÃO PARA CRIAR A LISTA DE PONTOS
  */
@@ -158,7 +160,7 @@ void carregarListaPontos()
  */
 int adicionarPonto(float mouseX, float mouseY, ListaPontos * listaPontos)
 {
-    // Se a lista de pontos não foi criada ou está cheia não é possível adicionar mais pontos
+    // Se a lista de pontos não foi criada ou está cheia, não é possível adicionar mais pontos
     if (listaPontos == NULL || listaPontos->qtdPontos == MAX_PONTOS) {
         printf("Lista de pontos nao foi criada ou esta cheia! Nao e possivel adicionar o ponto!\n");
         return 0;
