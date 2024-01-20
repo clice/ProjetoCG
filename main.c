@@ -24,22 +24,20 @@ static int opcao = 0;  // Opção selecionada pelo usuário
 /*
  * INICIALIZANDO VARIÁVEIS PARA PONTO, RETA E POLIGONO
  */
+int chave = -1;        // Guarda a chave da lista para manipulação dos objetos (desenhando: > -1; finalizado: -1)
 int statusObjeto = -1; // Indica se o objeto ainda está sendo desenhado (desenhando: 1; finalizado: -1)
-
-int ponto = -1;        //
-int reta = -1;         //
+int rot = 0;
+int theta;
 
 /*
- *
+ * VARIÁVEIS DAS DIMENSÕES DA TELA
  */
-int desenhandoReta = -1;
-int desenhandoPoligono = -1;
+float largura = 400;   // Largura fixa da tela (metade dos pixels que formam a tela: eixo x)
+float altura = 300;    // Altura fixa da tela (metade dos pixels que formam a tela: eixo y)
 
 /*
  * VARIÁVEIS DO MOUSE
  */
-float largura = 400;   // Largura fixa da tela (metade dos pixels que formam a tela: eixo x)
-float altura = 300;    // Altura fixa da tela (metade dos pixels que formam a tela: eixo y)
 float mouseX;          // Posição do mouse no eixo x
 float mouseY;          // Posição do mouse no eixo y
 int statusMouse = 0;   // Indica se o mouse foi clicado ou não (não foi clicado: 0; clicado: 1)
@@ -63,10 +61,8 @@ void opcoesMenu();
 void selecionarOpcao(int opcaoSelecionada);
 
 void funcoesMouse(int botaoMouse, int statusMouse, int x, int y);
-void arrastarMouse(int x, int y);
-
-void funcoesTeclado(int tecla, int x, int y);
-void gerenciarTeclado(unsigned char key, int x, int y);
+void funcoesMovimento(int x, int y);
+void funcoesTeclado(unsigned char key, int x, int y);
 
 /*
  * FUNÇÃO PARA INICIAR O SISTEMA
@@ -92,10 +88,9 @@ int main (int argc, char ** argv)
     glOrtho(-largura, largura, -altura, altura, -1.0f, 1.0f);
 
     glutMouseFunc(funcoesMouse);         //
-    glutSpecialFunc(funcoesTeclado);     //
+    glutMotionFunc(funcoesMovimento);    // Função que é chamada quando um botão do mouse é mantido pressionado
+    glutKeyboardFunc(funcoesTeclado);    // Função que é chamada quando um botão do teclado é pressionado
     glutDisplayFunc(telaInicial);        //
-    glutKeyboardFunc(gerenciarTeclado);  // Função que é chamada quando um botão do teclado é pressionado
-    glutMotionFunc(arrastarMouse);       // Função que é chamada quando um botão do mouse é mantido pressionado
     glutMainLoop();
     return 0;
 }
@@ -112,7 +107,7 @@ void telaInicial()
 
     // Desenhar elementos na tela
     desenharPontos(listaPontos);
-    desenharRetas(reta, listaRetas);
+    desenharRetas(listaRetas);
 
     glutSwapBuffers();
 }
@@ -138,8 +133,8 @@ void opcoesMenu()
     menuPrincipal = glutCreateMenu(selecionarOpcao);
     glutAddSubMenu("Criar", menuCriarObjetos);
     glutAddSubMenu("Selecionar", menuSelecionarObjetos);
-    glutAddMenuEntry("Salvar", 7);
-    glutAddMenuEntry("Carregar", 8);
+    glutAddMenuEntry("Salvar objetos", 7);
+    glutAddMenuEntry("Carregar objetos", 8);
     glutAddMenuEntry("Cancelar", 0);
     glutAddMenuEntry("Sair", -1);
 
@@ -160,13 +155,9 @@ void selecionarOpcao(int opcaoSelecionada)
     // Caso o usuário tenha selecionado alguma outra opção
     else {
         // Reinicializa todas as variáveis para o valor inicial (valor que tem enquanto não estão sendo manipuladas)
-        statusObjeto = -1;
-
-        ponto = -1;
-        reta = -1;
-
+        chave = -1;
         statusMouse = 0;
-
+        statusObjeto = -1;
         opcao = opcaoSelecionada;
         printf("Opcao selecionada: %d\n", opcao);
     }
@@ -187,9 +178,9 @@ void funcoesMouse(int botaoMouse, int statusMouse, int x, int y)
 
     // Se o botão esquerdo do mouse foi pressionado
     if (botaoMouse == GLUT_LEFT_BUTTON && statusMouse == GLUT_DOWN) {
-        printf("mouseX: %f, mouseY: %f\n", mouseX, mouseY);
+        printf("mouseX: %.1f, mouseY: %.1f\n", mouseX, mouseY);
 
-        ////////// Opções Criar
+        ////////// Opções: Criar
         // Se a opção for 1 (Criar ponto)
         if (opcao == 1) {
             adicionarPonto(mouseX, mouseY, listaPontos);
@@ -205,46 +196,36 @@ void funcoesMouse(int botaoMouse, int statusMouse, int x, int y)
 
         }
 
-        ////////// Opção Selecionar
+        ////////// Opção: Selecionar
         // Se a opção for 4 (Selecionar ponto)
         else if (opcao == 4) {
-            ponto = selecionarPonto(mouseX, mouseY, listaPontos);
-            if (ponto != -1) { //se o mouse clicar em um ponto existente será imprimida a posição do ponto
-                printf("-----mouseX: %f, mouseY: %f\n", mouseX, mouseY);
-                printf("-----PX: %f, PY: %f\n", listaPontos->pontos[ponto].x, listaPontos->pontos[ponto].y);
-                /*MatrizTransformacao * matrizTranslacao = criarMatrizTranslacao(
-                        mouseX - listaPontos->pontos[ponto].x,
-                        mouseY - listaPontos->pontos[ponto].y
-                );
-                transladarPonto(ponto, listaPontos, matrizTranslacao);*/
-            }
+            // Retorna a chave da lista onde o ponto que foi selecionado com o mouse está
+            chave = selecionarPonto(mouseX, mouseY, listaPontos);
+            printf("Chave selecionada: %d\n", chave);
         }
         // Se a opção for 5 (Selecionar segmento de reta)
         else if (opcao == 5) {
-
+            // Retorna a chave da lista onde a reta que foi selecionada com o mouse está
+            chave = selecionarReta(mouseX, mouseY, listaRetas);
+            printf("Chave selecionada: %d\n", chave);
         }
         // Se a opção for 6 (Selecionar polígono)
         else if (opcao == 6) {
-
+            // Retorna a chave da lista onde o polígono que foi selecionado com o mouse está
         }
 
-        ////////// Opção Salvar objetos
+        ////////// Opção: Salvar objetos
         else if (opcao == 7) {
-            salvarPontos(listaPontos);
-            salvarRetas(listaRetas);
-            // salvarPoligonos(listaPoligonos);
+            salvarListaPontos(listaPontos);
+            salvarListaRetas(listaRetas);
+            // salvarListaPoligonos(listaPoligonos);
         }
 
-        ////////// Opção Carregar objetos
+        ////////// Opção: Carregar objetos
         else if (opcao == 8) {
-            carregarPontos();
-            // carregarRetas(listaRetas);
-            // carregarPoligonos(listaPoligonos);
-        }
-
-        ////////// Opção Cancelar
-        else if (opcao == 0) {
-
+            carregarListaPontos();
+            // carregarListaRetas(listaRetas);
+            // carregarListaPoligonos(listaPoligonos);
         }
     }
 
@@ -254,60 +235,123 @@ void funcoesMouse(int botaoMouse, int statusMouse, int x, int y)
 /*
  * FUNÇÃO CHAMADA QUANDO O BOTÃO DO MOUSE É MANTIDO PRESSIONADO
  */
-void arrastarMouse(int x, int y)
+void funcoesMovimento(int x, int y)
 {
-    mouseX = x - largura;
-    mouseY = altura - y;
+    // Localização atualizada do mouse
+    mouseX = x - largura;  // Localização do eixo x (horizontal - largura)
+    mouseY = altura - y;   // Localização do eixo y (vertical - altura)
 
-    // Se estiver na opção selecionar ponto e um ponto já estiver selecionado, mouse fica transladando o ponto
-    if (opcao == 4 && ponto != -1) {
-        MatrizTransformacao * matrizTranslacao = criarMatrizTranslacao(
-            mouseX - listaPontos->pontos[ponto].x,
-            mouseY - listaPontos->pontos[ponto].y
+    ////////// Transladar ponto
+    // Se estiver na opção "Selecionar" ponto e um ponto já estiver selecionado, o mouse fica transladando o ponto
+    if (opcao == 4 && chave != -1) {
+        // Realizar o cálculo da transformação para movimentar o ponto
+        MatrizTransformacao * matrizTranslacaoPonto = criarMatrizTranslacao(
+            mouseX - listaPontos->pontos[chave].x,
+            mouseY - listaPontos->pontos[chave].y
         );
-        transladarPonto(ponto, listaPontos, matrizTranslacao);
+
+        // Realizar a translação do ponto selecionado
+        transladarPonto(chave, listaPontos, matrizTranslacaoPonto);
+    }
+
+    ////////// Transladar reta
+    // Se estivar na opção "Selecionar" reta e uma reta já estiver selecionada, o mouse fica transladando a reta
+    else if (opcao == 5 && chave != -1) {
+        // Realizar o cálculo da transformação para movimentar a reta
+        MatrizTransformacao * matrizTranslacaoReta = criarMatrizTranslacao(
+            mouseX - listaRetas->retas[chave].central.x,
+            mouseY - listaRetas->retas[chave].central.y
+        );
+
+        // Realizar a translação da reta selecionada
+        transladarReta(chave, listaRetas, matrizTranslacaoReta);
+    }
+
+    ////////// Transladar polígono
+    // Se estiver na opção "Selecionar" polígono e um polígono já estiver selecionado, o mouse fica transladando o polígono
+    else if (opcao == 6 && chave != -1) {
+
     }
 
     glutPostRedisplay();
 }
 
-///////////////////////////////////////////////////////////////////
-
-/*
- * FUNÇÃO PARA DEFINIR O USO DO TECLADO PELO USUÁRIO
- */
-void funcoesTeclado(int tecla, int x, int y)
-{
-    // Opções Selecionar
-    if (tecla == GLUT_KEY_F1) {
-        if (opcao == 4 && ponto != -1) {
-            if (excluirPonto(ponto, listaPontos)) {
-                if (statusMouse != 0) statusMouse = 0;
-                ponto = -1;
-            }
-        }
-    }
-}
-
 /*
  * FUNÇÃO PARA USAR O TECLADO ASCII PARA APLICAR AS FUNÇÕES DE ROTACIONAR E ESCALAR
  */
-void gerenciarTeclado(unsigned char key, int x, int y)
+void funcoesTeclado(unsigned char key, int x, int y)
 {
     switch (key) {
+        // Excluir objetos selecionados da tela (D - Delete)
+        case 'D':
+        case 'd':
+            ////////// Excluir ponto
+            // Se um ponto está na opção "Selecionar" e a chave contém um valor diferente de -1
+            if (opcao == 4 && chave != -1) {
+                if (excluirPonto(chave, listaPontos)) {
+                    imprimirListaPontos(listaPontos);
+                    chave = -1;
+                }
+            }
+
+            ////////// Excluir reta
+            // Se uma reta está na opção "Selecionar" e a chave contém um valor diferente de -1
+            else if (opcao == 5 && chave != -1) {
+                if (excluirReta(chave, listaRetas)) {
+                    imprimirListaRetas(listaRetas);
+                    chave = -1;
+                }
+            }
+
+            ////////// Excluir polígono
+            // Se um polígono está na opção "Selecionar" e a chave contém um valor diferente de -1
+            else if (opcao == 6 && chave != -1) {
+
+            }
+
+            break;
+
+        // Rotacionar objetos selecionados da tela (R - Rotate)
         // Rotaciona o ponto 45 graus apertando r caso esteja na opção de selecionar o ponto e um ponto esteja selecionado
         case 'R':
         case 'r':
-            if (opcao == 4 && ponto != -1) {
-                MatrizTransformacao * matrizRotacao = criarMatrizRotacao(45);
-                rotacionarPonto(ponto, listaPontos, matrizRotacao);
+            ////////// Rotacionar ponto
+            // Se um ponto está na opção "Selecionar" e a chave conter um valor diferente de -1
+            if (opcao == 4 && chave != -1) {
+                MatrizTransformacao * matrizRotacao = criarMatrizRotacao(teta);
+                rotacionarPonto(chave, listaPontos, matrizRotacao);
             }
+
+            ////////// Rotacionar reta
+            // Se uma reta está na opção "Selecionar" e a chave conter um valor diferente de -1
+            else if (opcao == 5 && chave != -1) {
+
+            }
+
+            ////////// Rotacionar polígono
+            // Se um polígono está na opção "Selecionar" e a chave conter um valor diferente de -1
+            else if (opcao == 6 && chave != -1) {
+
+            }
+
             break;
 
-        // Esse vai ser o botão de escala
+        // Escalar objetos selecionados da tela (S - scale)
         case 'S':
         case 's':
-                break;
+            ////////// Escalar reta
+            // Se uma reta está na opção "Selecionar" e a chave conter um valor diferente de -1
+            if (opcao == 5 && chave != -1) {
+
+            }
+
+            ////////// Escalar polígono
+            // Se um polígono está na opção "Selecionar" e a chave conter um valor diferente de -1
+            else if (opcao == 6 && chave != -1) {
+
+            }
+
+            break;
     }
 
     glutPostRedisplay();

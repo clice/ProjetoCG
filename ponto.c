@@ -20,121 +20,34 @@ ListaPontos * criarListaPontos()
     return listaPontos;
 }
 
-///////////////////////////////////////////////////////////////////
-
-/*
- * FUNÇÃO PARA ADICIONAR UM PONTO A TELA
- */
-int adicionarPonto(float x, float y, ListaPontos * listaPontos)
-{
-    // Se a lista está vazia
-    if (listaPontos == NULL || listaPontos->qtdPontos == MAX_PONTOS) {
-        return 0;
-    }
-    // Adicionar o ponto
-    else {
-        // Adicionando na lista a posição x e y, assim como a cor vermelha fixa para os pontos
-        listaPontos->pontos[listaPontos->qtdPontos].x = x;
-        listaPontos->pontos[listaPontos->qtdPontos].y = y;
-        listaPontos->pontos[listaPontos->qtdPontos].cor = vermelha;
-        listaPontos->qtdPontos++;
-        return 1;
-    }
-}
-
-/*
- * FUNÇÃO PARA EXCLUIR UM PONTO DA TELA
- */
-int excluirPonto(int statusObjeto, ListaPontos * listaPontos)
-{
-    // Se a lista de pontos estiver vazia ou a quantidade de pontos for zero
-    if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
-        return 0;
-    }
-    // Excluir ponto
-    else {
-        // Laço para percorrer a lista de pontos de trás para frente
-        // for (int i = listaPontos->qtdPontos - 1; i >= ponto; i--) {
-        //     listaPontos->pontos[i - 1] = listaPontos->pontos[i];
-        // }
-        // Laço para percorrer a lista de pontos de trás para frente
-        // for (int i = statusObjeto; i < listaPontos->qtdPontos; i++) {
-        //     listaPontos->pontos[i] = listaPontos->pontos[i + 1];
-        // }
-
-        // Diminuir uma unidade da quantidade de pontos
-        listaPontos->qtdPontos--;
-        return 1;
-    }
-}
-
-/*
- * FUNÇÃO PARA SELECIONAR UM PONTO DA TELA
- */
-int selecionarPonto(float mouseX, float mouseY, ListaPontos * listaPontos)
-{
-    // Se a lista de pontos estiver vazia ou a quantidade de pontos for zero
-    if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
-        return -1;
-    }
-    //
-    else {
-        // Vai procurar na lista de pontos algum ponto que esteja sendo clicado pelo mouse
-        for (int i = 0; i < listaPontos->qtdPontos; i++) {
-            if (mouseX <= listaPontos->pontos[i].x + 3 && mouseX >= listaPontos->pontos[i].x - 3) { // O 3 é o valor de tolerância para a região de detecção
-                if (mouseY <= listaPontos->pontos[i].y + 3 && mouseY >= listaPontos->pontos[i].y - 3) { // O valor é 3 porque é metade do size do ponto
-                    return i;
-                }
-            }
-        }
-
-        return -1;
-    }
-}
-
-///////////////////////////////////////////////////////////////////
-
-/*
- * FUNÇÃO PARA DESENHAR OS PONTOS NA TELA
- */
-void desenharPontos(ListaPontos * listaPontos)
-{
-    glPointSize(6.0);
-    glBegin(GL_POINTS);
-
-    for (int i = 0; i < listaPontos->qtdPontos; i++) {
-        // Imprimindo os valores e intensidades de cores RGB
-        glColor3f(listaPontos->pontos[i].cor.red, listaPontos->pontos[i].cor.green, listaPontos->pontos[i].cor.blue);
-        // Posicionando o ponto na largura e altura corretas do mouse
-        glVertex2f(listaPontos->pontos[i].x, listaPontos->pontos[i].y);
-    }
-
-    glEnd();
-}
-
 /*
  * FUNÇÃO PARA IMPRIMIR LISTA DE PONTOS
  */
 void imprimirListaPontos(ListaPontos * listaPontos)
 {
-    for (int i = 0; i < listaPontos->qtdPontos; i++) {
-        printf("%d: x: %.1f, y: %.1f, cor: { %.1f, %.1f, %.1f }\n",
-            i + 1,
-            listaPontos->pontos[i].x,
-            listaPontos->pontos[i].y,
-            listaPontos->pontos[i].cor.red,
-            listaPontos->pontos[i].cor.green,
-            listaPontos->pontos[i].cor.blue
-        );
+    // Se a lista de pontos não foi criada ou a quantidade de pontos for zero
+    if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
+        printf("Lista de pontos nao foi criada ou esta vazia! Nao e possivel imprimir pontos!\n");
+    }
+    // Imprimir ponto
+    else {
+        for (int i = 0; i < listaPontos->qtdPontos; i++) {
+            printf("%d: x: %.1f, y: %.1f, cor: { %.1f, %.1f, %.1f }\n",
+                i + 1,
+                listaPontos->pontos[i].x,
+                listaPontos->pontos[i].y,
+                listaPontos->pontos[i].cor.red,
+                listaPontos->pontos[i].cor.green,
+                listaPontos->pontos[i].cor.blue
+            );
+        }
     }
 }
-
-///////////////////////////////////////////////////////////////////
 
 /*
  * FUNÇÃO PARA SALVAR A LISTA DE PONTOS
  */
-void salvarPontos(ListaPontos * listaPontos)
+void salvarListaPontos(ListaPontos * listaPontos)
 {
     // Se a lista de pontos não está vazia
     if (listaPontos != NULL) {
@@ -173,7 +86,7 @@ void salvarPontos(ListaPontos * listaPontos)
     }
     // Se a lista de pontos está vazia
     else {
-        printf("A lista de pontos esta vazia. Nada foi salvo no arquivo.\n");
+        printf("A lista de pontos esta vazia! Nada foi salvo no arquivo!\n");
         return;
     }
 }
@@ -181,7 +94,7 @@ void salvarPontos(ListaPontos * listaPontos)
 /*
  * FUNÇÃO PARA CARREGAR A LISTA DE PONTOS NA TELA
  */
-void carregarPontos()
+void carregarListaPontos()
 {
     // int ponto = -1;
     int * qtdPontos;
@@ -241,39 +154,147 @@ void carregarPontos()
 ///////////////////////////////////////////////////////////////////
 
 /*
- * FUNÇÃO PARA TRANSLADAR UM PONTO (ARRASTAR E SOLTAR)
+ * FUNÇÃO PARA ADICIONAR UM PONTO A TELA
  */
-int transladarPonto(int ponto, ListaPontos * listaPontos, MatrizTransformacao * matrizTranslacao)
+int adicionarPonto(float mouseX, float mouseY, ListaPontos * listaPontos)
 {
-    // Se a lista de pontos estiver vazia ou a quantidade de pontos for zero
-    if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
+    // Se a lista de pontos não foi criada ou está cheia não é possível adicionar mais pontos
+    if (listaPontos == NULL || listaPontos->qtdPontos == MAX_PONTOS) {
+        printf("Lista de pontos nao foi criada ou esta cheia! Nao e possivel adicionar o ponto!\n");
         return 0;
     }
-    // Transladar ponto
+    // Adicionar o ponto
     else {
-        MatrizPonto * matrizComposta = criarMatrizPonto(listaPontos->pontos[ponto].x, listaPontos->pontos[ponto].y);
-        matrizComposta = multiplicarMatrizPonto(matrizComposta, matrizTranslacao);
-        listaPontos->pontos[ponto].x = matrizComposta->matriz[0][0];
-        listaPontos->pontos[ponto].y = matrizComposta->matriz[0][1];
+        // Adicionando na lista a posição x e y, assim como a cor vermelha fixa para os pontos
+        listaPontos->pontos[listaPontos->qtdPontos].x = mouseX;
+        listaPontos->pontos[listaPontos->qtdPontos].y = mouseY;
+        listaPontos->pontos[listaPontos->qtdPontos].cor = vermelha;
+        listaPontos->qtdPontos++;
+
+        printf("Ponto adicionado com sucesso!\n");
         return 1;
     }
 }
 
 /*
- * FUNÇÃO PARA ROTACIONAR UM PONTO
+ * FUNÇÃO PARA EXCLUIR UM PONTO DA TELA
  */
-int rotacionarPonto(int ponto, ListaPontos * listaPontos, MatrizTransformacao * matrizRotacao)
+int excluirPonto(int chave, ListaPontos * listaPontos)
 {
-    // Se a lista de pontos estiver vazia ou a quantidade de pontos for zero
+    // Se a lista de pontos não foi criada ou a quantidade de pontos for zero
     if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
+        printf("Lista de pontos nao foi criada ou esta vazia! Nao e possivel excluir o ponto!\n");
+        return 0;
+    }
+    // Excluir um ponto
+    else {
+        // Laço para percorrer a lista de pontos a partir da chave do ponto até o final da lista
+        // Para não quebrar a integridade da lista
+        for (int i = chave; i < listaPontos->qtdPontos; i++) {
+            listaPontos->pontos[i] = listaPontos->pontos[i + 1];
+        }
+
+        // Diminuir uma unidade da quantidade de pontos
+        listaPontos->qtdPontos--;
+
+        printf("Ponto excluido com sucesso!\n");
+        return 1;
+    }
+}
+
+/*
+ * FUNÇÃO PARA SELECIONAR UM PONTO DA TELA RETORNANDO A CHAVE ONDE O PONTO ESTÁ NA LISTA
+ */
+int selecionarPonto(float mouseX, float mouseY, ListaPontos * listaPontos)
+{
+    int tolerancia = 3; // Representa metade do tamanho do ponto desenhado, dando uma área para o ponto
+
+    // Se a lista de pontos não foi criada ou a quantidade de pontos for zero
+    if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
+        printf("Lista de pontos nao foi criada ou esta vazia! Nao e possivel selecionar o ponto!\n");
+        return -1;
+    }
+    // Selecionar o ponto
+    else {
+        // Procurar na lista de pontos algum ponto que esteja sendo clicado pelo mouse
+        for (int i = 0; i < listaPontos->qtdPontos; i++) {
+            if (mouseX <= listaPontos->pontos[i].x + tolerancia && mouseX >= listaPontos->pontos[i].x - tolerancia) { // O 3 é o valor de tolerância para a região de detecção
+                if (mouseY <= listaPontos->pontos[i].y + tolerancia && mouseY >= listaPontos->pontos[i].y - tolerancia) { // O valor é 3 porque é metade do size do ponto
+                    printf("Ponto selecionado com sucesso!\n");
+                    return i;
+                }
+            }
+        }
+
+        printf("Ponto nao encontrado na lista!\n");
+        return -1;
+    }
+}
+
+/*
+ * FUNÇÃO PARA DESENHAR OS PONTOS NA TELA
+ */
+void desenharPontos(ListaPontos * listaPontos)
+{
+    glPointSize(6.0);
+    glBegin(GL_POINTS);
+
+    for (int i = 0; i < listaPontos->qtdPontos; i++) {
+        // Imprimindo os valores e intensidades de cores RGB
+        glColor3f(listaPontos->pontos[i].cor.red, listaPontos->pontos[i].cor.green, listaPontos->pontos[i].cor.blue);
+        // Posicionando o ponto na largura e altura corretas do mouse
+        glVertex2f(listaPontos->pontos[i].x, listaPontos->pontos[i].y);
+    }
+
+    glEnd();
+}
+
+///////////////////////////////////////////////////////////////////
+
+/*
+ * FUNÇÃO PARA TRANSLADAR UM PONTO (ARRASTAR E SOLTAR)
+ */
+int transladarPonto(int chave, ListaPontos * listaPontos, MatrizTransformacao * matrizTranslacao)
+{
+    // Se a lista de pontos não foi criada ou a quantidade de pontos for zero
+    if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
+        printf("Lista de pontos nao foi criada ou esta vazia! Nao e possivel transladar o ponto!\n");
+        return 0;
+    }
+    // Transladar ponto
+    else {
+        // Criar a matriz composta com a posição do mouse onde o objeto foi clicado
+        // para realizar a mudança de local do ponto onde foi selecionado
+        MatrizPonto * matrizComposta = criarMatrizPonto(listaPontos->pontos[chave].x, listaPontos->pontos[chave].y);
+
+        //
+        matrizComposta = multiplicarMatrizPonto(matrizComposta, matrizTranslacao);
+
+        // Modifica a posição do ponto a partir do resultado do cálculo da translação
+        listaPontos->pontos[chave].x = matrizComposta->matriz[0][0];
+        listaPontos->pontos[chave].y = matrizComposta->matriz[0][1];
+        return 1;
+    }
+}
+
+/*
+ * FUNÇÃO PARA ROTACIONAR UM PONTO (GIRAR PONTO NA TELA A PARTIR DE GRAUS)
+ */
+int rotacionarPonto(int chave, ListaPontos * listaPontos, MatrizTransformacao * matrizRotacao)
+{
+    // Se a lista de pontos não foi criada ou a quantidade de pontos for zero
+    if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
+        printf("Lista de pontos nao foi criada ou esta vazia! Nao e possivel rotacionar o ponto!\n");
         return 0;
     }
     // Rotacionar ponto
     else {
-        MatrizPonto * matrizPonto = criarMatrizPonto(listaPontos->pontos[ponto].x, listaPontos->pontos[ponto].y);
+        MatrizPonto * matrizPonto = criarMatrizPonto(listaPontos->pontos[chave].x, listaPontos->pontos[chave].y);
         matrizPonto = multiplicarMatrizPonto(matrizPonto, matrizRotacao);
-        listaPontos->pontos[ponto].x = matrizPonto->matriz[0][0];
-        listaPontos->pontos[ponto].y = matrizPonto->matriz[0][1];
+
+        // Modifica a posição do ponto a partir do resultado do cálculo da rotação
+        listaPontos->pontos[chave].x = matrizPonto->matriz[0][0];
+        listaPontos->pontos[chave].y = matrizPonto->matriz[0][1];
         return 1;
     }
 }

@@ -31,19 +31,18 @@ typedef struct
  * DECLARAÇÕES DAS FUNÇÕES
  */
 ListaRetas * criarListaRetas();
-
-int adicionarReta(float x, float y, int aux, ListaRetas * listaRetas);
-int excluirReta(int reta, ListaRetas * listaRetas);
-int selecionarReta(float mouseX, float mouseY, int aux, ListaRetas * listaRetas);
-
-void desenharRetas(int reta, ListaRetas * listaRetas);
 void imprimirListaRetas(ListaRetas * listaRetas);
+void salvarListaRetas(ListaRetas * listaRetas);
+void carregarListaRetas();
 
-void salvarRetas(ListaRetas * listaRetas);
-void carregarRetas(ListaRetas * listaRetas);
+int adicionarReta(float mouseX, float mouseY, int statusObjeto, ListaRetas * listaRetas);
+int excluirReta(int chave, ListaRetas * listaRetas);
+int selecionarReta(float mouseX, float mouseY, ListaRetas * listaRetas);
+int verificarPontoNaReta(float mouseX, float mouseY, float x1, float y1, float x2, float y2);
+void desenharRetas(ListaRetas * listaRetas);
 
-int transladarReta(int reta, ListaRetas * listaRetas, MatrizTransformacao * matrizTranslacao);
-int rotacionarReta(int reta, ListaRetas * listaRetas, MatrizTransformacao * matrizRotacao);
-int escalarReta(int reta, ListaRetas * listaRetas, MatrizTransformacao * matrizEscalar);
+int transladarReta(int chave, ListaRetas * listaRetas, MatrizTransformacao * matrizTranslacao);
+int rotacionarReta(int chave, ListaRetas * listaRetas, MatrizTransformacao * matrizRotacao);
+int escalarReta(int chave, ListaRetas * listaRetas, MatrizTransformacao * matrizEscalar);
 
 #endif // RETA_H

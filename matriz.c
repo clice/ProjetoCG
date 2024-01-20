@@ -60,6 +60,30 @@ MatrizTransformacao * criarMatrizTransformacao()
 /*
  * FUNÇÃO PARA CRIAR A MATRIZ DA TRANSFORMAÇÃO
  */
+MatrizTransformacao * multiplicarMatrizesTransformacao(MatrizTransformacao * matrizTransformacao1, MatrizTransformacao * matrizTransformacao2)
+{
+    if (matrizTransformacao1 == NULL || matrizTransformacao2 == NULL) {
+        return 0;
+    }
+    else {
+        MatrizTransformacao * matrizComposta = criarMatrizTransformacao();
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                matrizComposta->matriz[i][j] = matrizTransformacao1->matriz[i][0] * matrizTransformacao2->matriz[0][j] + matrizTransformacao1->matriz[i][1] * matrizTransformacao2->matriz[1][j] + matrizTransformacao1->matriz[i][2] * matrizTransformacao2->matriz[2][j];
+            }
+        }
+
+        return matrizComposta;
+    }
+}
+
+
+///////////////////////////////////////////////////////////////////
+
+/*
+ * FUNÇÃO PARA CRIAR A MATRIZ DA TRANSFORMAÇÃO
+ */
 MatrizTransformacao * criarMatrizTranslacao(float tX, float tY)
 {
     MatrizTransformacao * matrizTranslacao = criarMatrizTransformacao();
@@ -90,25 +114,4 @@ MatrizTransformacao * criarMatrizEscalar(float escala)
     matrizEscalar->matriz[0][0] = escala;
     matrizEscalar->matriz[1][1] = escala;
     return matrizEscalar;
-}
-
-/*
- * FUNÇÃO PARA CRIAR A MATRIZ DA TRANSFORMAÇÃO
- */
-MatrizTransformacao * multiplicarMatrizesTransformacao(MatrizTransformacao * matrizTransformacao1, MatrizTransformacao * matrizTransformacao2)
-{
-    if (matrizTransformacao1 == NULL || matrizTransformacao2 == NULL) {
-        return 0;
-    }
-    else {
-        MatrizTransformacao * matrizComposta = criarMatrizTransformacao();
-
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                matrizComposta->matriz[i][j] = matrizTransformacao1->matriz[i][0] * matrizTransformacao2->matriz[0][j] + matrizTransformacao1->matriz[i][1] * matrizTransformacao2->matriz[1][j] + matrizTransformacao1->matriz[i][2] * matrizTransformacao2->matriz[2][j];
-            }
-        }
-
-        return matrizComposta;
-    }
 }

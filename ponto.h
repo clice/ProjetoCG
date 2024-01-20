@@ -40,18 +40,16 @@ typedef struct
  * DECLARAÇÕES DAS FUNÇÕES
  */
 ListaPontos * criarListaPontos();
-
-int adicionarPonto(float x, float y, ListaPontos * listaPontos);
-int excluirPonto(int statusObjeto, ListaPontos * listaPontos);
-int selecionarPonto(float mouseX, float mouseY, ListaPontos * listaPontos);
-
-void desenharPontos(ListaPontos * listaPontos);
 void imprimirListaPontos(ListaPontos * listaPontos);
+void salvarListaPontos(ListaPontos * listaPontos);
+void carregarListaPontos();
 
-void salvarPontos(ListaPontos * listaPontos);
-void carregarPontos();
+int adicionarPonto(float mouseX, float mouseY, ListaPontos * listaPontos);
+int excluirPonto(int chave, ListaPontos * listaPontos);
+int selecionarPonto(float mouseX, float mouseY, ListaPontos * listaPontos);
+void desenharPontos(ListaPontos * listaPontos);
 
-int transladarPonto(int ponto, ListaPontos * listaPontos, MatrizTransformacao * matrizTranslacao);
-int rotacionarPonto(int ponto, ListaPontos * listaPontos, MatrizTransformacao * matrizRotacao);
+int transladarPonto(int chave, ListaPontos * listaPontos, MatrizTransformacao * matrizTranslacao);
+int rotacionarPonto(int chave, ListaPontos * listaPontos, MatrizTransformacao * matrizRotacao);
 
 #endif // PONTO_H
