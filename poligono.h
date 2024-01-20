@@ -44,10 +44,12 @@ void salvarListaPoligonos(ListaPoligonos * listaPoligonos);
 void carregarListaPoligonos();
 
 PontoPoligono * criarPontoPoligono(float mouseX, float mouseY);
-PontoPoligono * ultimoPontoPoligono(PontoPoligono * pontoInicial);
-void imprimirPontosPoligono(PontoPoligono * pontoInicial);
+void inserirPontoPoligono(PontoPoligono ** pontoPoligonoInicial, float mouseX, float mouseY);
+void imprimirPontosPoligono(PontoPoligono * pontoPoligonoInicial);
+PontoPoligono * buscarUltimoPontoPoligono(PontoPoligono * pontoPoligonoInicial);
 
 int adicionarPoligono(float mouseX, float mouseY, int statusObjeto, ListaPoligonos * listaPoligonos);
+void finalizarPoligono(int statusObjeto, ListaPoligonos * listaPoligonos);
 int excluirPoligono(int chave, ListaPoligonos * listaPoligonos);
 int selecionarPoligono(float mouseX, float mouseY, ListaPoligonos * listaPoligonos);
 void desenharPoligonos(ListaPoligonos * listaPoligonos);

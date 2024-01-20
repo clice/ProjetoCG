@@ -194,7 +194,7 @@ void funcoesMouse(int botaoMouse, int statusMouse, int x, int y)
         // Se a opção for 3 (Criar polígono)
         else if (opcao == 3) {
             statusObjeto = adicionarPoligono(mouseX, mouseY, statusObjeto, listaPoligonos);
-            imprimirListaPoligonos(listaPoligonos);
+            // imprimirListaPoligonos(listaPoligonos);
         }
 
         ////////// Opção: Selecionar
@@ -311,22 +311,26 @@ void funcoesTeclado(unsigned char key, int x, int y)
             ////////// Excluir polígono
             // Se um polígono está na opção "Selecionar" e a chave contém um valor diferente de -1
             else if (opcao == 6 && chave != -1) {
-
+                if (excluirPoligono(chave, listaPoligonos)) {
+                    imprimirListaPoligonos(listaPoligonos);
+                    chave = -1;
+                }
             }
 
             break;
 
-        // Finalizar o polígono
-        case 'F':
-        case 'f':
+        // Finalizar o polígono (E - end)
+        case 'E':
+        case 'e':
             if (opcao == 3 && statusObjeto == 1) {
-                // Mudar status do objeto para ele ser finalizado
-                statusObjeto = 2;
 
                 // Adicionar o último ponto do polígono para finalizá-lo
-                statusObjeto = adicionarPoligono(mouseX, mouseY, statusObjeto, listaPoligonos);
-
+                // statusObjeto = adicionarPoligono(mouseX, mouseY, statusObjeto, listaPoligonos);
+                finalizarPoligono(statusObjeto, listaPoligonos);
                 imprimirListaPoligonos(listaPoligonos);
+
+                // Mudar status do objeto para ele ser finalizado
+                statusObjeto = -1;
             }
 
             break;
