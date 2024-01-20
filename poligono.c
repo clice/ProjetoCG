@@ -265,7 +265,28 @@ int selecionarPoligono(float mouseX, float mouseY, ListaPoligonos * listaPoligon
  */
 void desenharPoligonos(ListaPoligonos * listaPoligonos)
 {
+	// Criando uma variável ponto para auxílio na manipulação dos dados
+	PontoPoligono * auxPontoPoligono = (PontoPoligono *)malloc(sizeof(PontoPoligono));
 
+	glLineWidth(6.0);
+    
+	// Laço para percorrer toda a lista de polígonos
+    for (int i = 0; i < listaPoligonos->qtdPoligonos; i++) {
+		// Recebe os mesmos dados do ponto inicial para manipulação
+		auxPontoPoligono = listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].inicial;
+
+		glBegin(GL_POLYGON);
+
+		// Laço para percorrer toda a lista de pontos do polígono
+		while (auxPontoPoligono->prox != NULL) {
+			// Imprimindo os valores e intensidades de cores RGB
+			glColor3f(auxPontoPoligono->ponto.cor.red, auxPontoPoligono->ponto.cor.green, auxPontoPoligono->ponto.cor.blue);
+			// Posicionando o ponto na largura e altura corretas do mouse
+			glVertex2f(auxPontoPoligono->ponto.x, auxPontoPoligono->ponto.y);	
+		}
+
+		glEnd();
+    }
 }
 
 ///////////////////////////////////////////////////////////////////
