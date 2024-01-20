@@ -24,14 +24,18 @@ static int opcao = 0;  // Opção selecionada pelo usuário
 /*
  * INICIALIZANDO VARIÁVEIS PARA PONTO, RETA E POLIGONO
  */
+int chave = -1;        // Guarda a chave da lista para manipulação dos objetos (desenhando: > -1; finalizado: -1)
 int statusObjeto = -1; // Indica se o objeto ainda está sendo desenhado (desenhando: 1; finalizado: -1)
-int chave = -1;   // Guarda a chave da lista para manipulação dos objetos (desenhando: > -1; finalizado: -1)
+
+/*
+ * VARIÁVEIS DAS DIMENSÕES DA TELA
+ */
+float largura = 400;   // Largura fixa da tela (metade dos pixels que formam a tela: eixo x)
+float altura = 300;    // Altura fixa da tela (metade dos pixels que formam a tela: eixo y)
 
 /*
  * VARIÁVEIS DO MOUSE
  */
-float largura = 400;   // Largura fixa da tela (metade dos pixels que formam a tela: eixo x)
-float altura = 300;    // Altura fixa da tela (metade dos pixels que formam a tela: eixo y)
 float mouseX;          // Posição do mouse no eixo x
 float mouseY;          // Posição do mouse no eixo y
 int statusMouse = 0;   // Indica se o mouse foi clicado ou não (não foi clicado: 0; clicado: 1)
@@ -127,8 +131,8 @@ void opcoesMenu()
     menuPrincipal = glutCreateMenu(selecionarOpcao);
     glutAddSubMenu("Criar", menuCriarObjetos);
     glutAddSubMenu("Selecionar", menuSelecionarObjetos);
-    glutAddMenuEntry("Salvar", 7);
-    glutAddMenuEntry("Carregar", 8);
+    glutAddMenuEntry("Salvar objetos", 7);
+    glutAddMenuEntry("Carregar objetos", 8);
     glutAddMenuEntry("Cancelar", 0);
     glutAddMenuEntry("Sair", -1);
 
@@ -149,9 +153,9 @@ void selecionarOpcao(int opcaoSelecionada)
     // Caso o usuário tenha selecionado alguma outra opção
     else {
         // Reinicializa todas as variáveis para o valor inicial (valor que tem enquanto não estão sendo manipuladas)
-        statusObjeto = -1;
         chave = -1;
         statusMouse = 0;
+        statusObjeto = -1;
         opcao = opcaoSelecionada;
         printf("Opcao selecionada: %d\n", opcao);
     }
@@ -174,7 +178,7 @@ void funcoesMouse(int botaoMouse, int statusMouse, int x, int y)
     if (botaoMouse == GLUT_LEFT_BUTTON && statusMouse == GLUT_DOWN) {
         printf("mouseX: %.1f, mouseY: %.1f\n", mouseX, mouseY);
 
-        ////////// Opções Criar
+        ////////// Opções: Criar
         // Se a opção for 1 (Criar ponto)
         if (opcao == 1) {
             adicionarPonto(mouseX, mouseY, listaPontos);
@@ -190,7 +194,7 @@ void funcoesMouse(int botaoMouse, int statusMouse, int x, int y)
 
         }
 
-        ////////// Opção Selecionar
+        ////////// Opção: Selecionar
         // Se a opção for 4 (Selecionar ponto)
         else if (opcao == 4) {
             // Retorna a chave da lista onde o ponto que foi selecionado com o mouse está
@@ -205,26 +209,21 @@ void funcoesMouse(int botaoMouse, int statusMouse, int x, int y)
         }
         // Se a opção for 6 (Selecionar polígono)
         else if (opcao == 6) {
-
+            // Retorna a chave da lista onde o polígono que foi selecionado com o mouse está
         }
 
-        ////////// Opção Salvar objetos
+        ////////// Opção: Salvar objetos
         else if (opcao == 7) {
             salvarListaPontos(listaPontos);
             salvarListaRetas(listaRetas);
-            // salvarPoligonos(listaPoligonos);
+            // salvarListaPoligonos(listaPoligonos);
         }
 
-        ////////// Opção Carregar objetos
+        ////////// Opção: Carregar objetos
         else if (opcao == 8) {
             carregarListaPontos();
-            // carregarRetas(listaRetas);
-            // carregarPoligonos(listaPoligonos);
-        }
-
-        ////////// Opção Cancelar
-        else if (opcao == 0) {
-
+            // carregarListaRetas(listaRetas);
+            // carregarListaPoligonos(listaPoligonos);
         }
     }
 
@@ -236,11 +235,12 @@ void funcoesMouse(int botaoMouse, int statusMouse, int x, int y)
  */
 void funcoesMovimento(int x, int y)
 {
-    mouseX = x - largura;
-    mouseY = altura - y;
+    // Localização atualizada do mouse
+    mouseX = x - largura;  // Localização do eixo x (horizontal - largura)
+    mouseY = altura - y;   // Localização do eixo y (vertical - altura)
 
     ////////// Transladar ponto
-    // Se estiver na opção selecionar ponto e um ponto já estiver selecionado, mouse fica transladando o ponto
+    // Se estiver na opção "Selecionar" ponto e um ponto já estiver selecionado, o mouse fica transladando o ponto
     if (opcao == 4 && chave != -1) {
         // Realizar o cálculo da transformação para movimentar o ponto
         MatrizTransformacao * matrizTranslacaoPonto = criarMatrizTranslacao(
@@ -253,6 +253,7 @@ void funcoesMovimento(int x, int y)
     }
 
     ////////// Transladar reta
+    // Se estivar na opção "Selecionar" reta e uma reta já estiver selecionada, o mouse fica transladando a reta
     else if (opcao == 5 && chave != -1) {
         // Realizar o cálculo da transformação para movimentar a reta
         MatrizTransformacao * matrizTranslacaoReta = criarMatrizTranslacao(
@@ -262,6 +263,12 @@ void funcoesMovimento(int x, int y)
 
         // Realizar a translação da reta selecionada
         transladarReta(chave, listaRetas, matrizTranslacaoReta);
+    }
+
+    ////////// Transladar polígono
+    // Se estiver na opção "Selecionar" polígono e um polígono já estiver selecionado, o mouse fica transladando o polígono
+    else if (opcao == 6 && chave != -1) {
+
     }
 
     glutPostRedisplay();
@@ -276,28 +283,72 @@ void funcoesTeclado(unsigned char key, int x, int y)
         // Excluir objetos selecionados da tela (D - Delete)
         case 'D':
         case 'd':
-            // Se um ponto está na opção "Selecionar" e a chave conter um valor diferente
+            ////////// Excluir ponto
+            // Se um ponto está na opção "Selecionar" e a chave contém um valor diferente de -1
             if (opcao == 4 && chave != -1) {
                 if (excluirPonto(chave, listaPontos)) {
                     imprimirListaPontos(listaPontos);
                     chave = -1;
                 }
             }
+
+            ////////// Excluir reta
+            // Se uma reta está na opção "Selecionar" e a chave contém um valor diferente de -1
+            else if (opcao == 5 && chave != -1) {
+                if (excluirReta(chave, listaRetas)) {
+                    imprimirListaRetas(listaRetas);
+                    chave = -1;
+                }
+            }
+
+            ////////// Excluir polígono
+            // Se um polígono está na opção "Selecionar" e a chave contém um valor diferente de -1
+            else if (opcao == 6 && chave != -1) {
+
+            }
+
             break;
 
+        // Rotacionar objetos selecionados da tela (R - Rotate)
         // Rotaciona o ponto 45 graus apertando r caso esteja na opção de selecionar o ponto e um ponto esteja selecionado
         case 'R':
         case 'r':
-            // Se um ponto está na opção "Selecionar" e a chave conter um valor diferente
+            ////////// Rotacionar ponto
+            // Se um ponto está na opção "Selecionar" e a chave conter um valor diferente de -1
             if (opcao == 4 && chave != -1) {
                 MatrizTransformacao * matrizRotacao = criarMatrizRotacao(45);
                 rotacionarPonto(chave, listaPontos, matrizRotacao);
             }
+
+            ////////// Rotacionar reta
+            // Se uma reta está na opção "Selecionar" e a chave conter um valor diferente de -1
+            else if (opcao == 5 && chave != -1) {
+
+            }
+
+            ////////// Rotacionar polígono
+            // Se um polígono está na opção "Selecionar" e a chave conter um valor diferente de -1
+            else if (opcao == 6 && chave != -1) {
+
+            }
+
             break;
 
-        // Esse vai ser o botão de escala
+        // Escalar objetos selecionados da tela (S - scale)
         case 'S':
         case 's':
+            ////////// Escalar reta
+            // Se uma reta está na opção "Selecionar" e a chave conter um valor diferente de -1
+            if (opcao == 5 && chave != -1) {
+
+            }
+
+            ////////// Escalar polígono
+            // Se um polígono está na opção "Selecionar" e a chave conter um valor diferente de -1
+            else if (opcao == 6 && chave != -1) {
+
+            }
+
             break;
     }
 

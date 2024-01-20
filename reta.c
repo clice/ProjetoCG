@@ -27,32 +27,39 @@ ListaRetas * criarListaRetas()
  */
 void imprimirListaRetas(ListaRetas * listaRetas)
 {
-	for (int i = 0; i < listaRetas->qtdRetas; i++) {
-		printf("Ponto %d:\n", i + 1);
+	// Se a lista de retas estiver vazia ou a quantidade de retas for zero
+	if (listaRetas == NULL || listaRetas->qtdRetas == 0) {
+		printf("Lista de retas nao foi criada ou esta cheia! Nao e possivel imprimir retas!\n");
+	}
+	// Imprimir retas
+	else {
+		for (int i = 0; i < listaRetas->qtdRetas; i++) {
+			printf("Ponto %d:\n", i + 1);
 
-		printf("Inicial:\nx: %.1f, y: %.1f, cor: { %.1f, %.1f, %.1f }\n",
-            listaRetas->retas[i].inicial.x,
-            listaRetas->retas[i].inicial.y,
-            listaRetas->retas[i].inicial.cor.red,
-            listaRetas->retas[i].inicial.cor.green,
-            listaRetas->retas[i].inicial.cor.blue
-        );
+			printf("Inicial:\nx: %.1f, y: %.1f, cor: { %.1f, %.1f, %.1f }\n",
+				listaRetas->retas[i].inicial.x,
+				listaRetas->retas[i].inicial.y,
+				listaRetas->retas[i].inicial.cor.red,
+				listaRetas->retas[i].inicial.cor.green,
+				listaRetas->retas[i].inicial.cor.blue
+			);
 
-		printf("Central:\nx: %.1f, y: %.1f, cor: { %.1f, %.1f, %.1f }\n",
-            listaRetas->retas[i].central.x,
-            listaRetas->retas[i].central.y,
-            listaRetas->retas[i].central.cor.red,
-            listaRetas->retas[i].central.cor.green,
-            listaRetas->retas[i].central.cor.blue
-        );
+			printf("Central:\nx: %.1f, y: %.1f, cor: { %.1f, %.1f, %.1f }\n",
+				listaRetas->retas[i].central.x,
+				listaRetas->retas[i].central.y,
+				listaRetas->retas[i].central.cor.red,
+				listaRetas->retas[i].central.cor.green,
+				listaRetas->retas[i].central.cor.blue
+			);
 
-		printf("Final:\nx: %.1f, y: %.1f, cor: { %.1f, %.1f, %.1f }\n",
-            listaRetas->retas[i].final.x,
-            listaRetas->retas[i].final.y,
-            listaRetas->retas[i].final.cor.red,
-            listaRetas->retas[i].final.cor.green,
-            listaRetas->retas[i].final.cor.blue
-        );
+			printf("Final:\nx: %.1f, y: %.1f, cor: { %.1f, %.1f, %.1f }\n",
+				listaRetas->retas[i].final.x,
+				listaRetas->retas[i].final.y,
+				listaRetas->retas[i].final.cor.red,
+				listaRetas->retas[i].final.cor.green,
+				listaRetas->retas[i].final.cor.blue
+			);
+		}
 	}
 }
 
@@ -142,7 +149,7 @@ int adicionarReta(float mouseX, float mouseY, int statusObjeto, ListaRetas * lis
 {
 	// Se a lista de retas não foi criada ou está cheia não é possível adicionar mais retas
 	if (listaRetas == NULL || listaRetas->qtdRetas == MAX_RETAS) {
-		printf("Lista de retas nao foi criada ou esta cheia! Não é possivel adicionar a reta!\n");
+		printf("Lista de retas nao foi criada ou esta cheia! Nao e possivel adicionar a reta!\n");
 		return 0;
 	}
 	// Adicionar a reta
@@ -185,7 +192,7 @@ int excluirReta(int chaveReta, ListaRetas * listaRetas)
 {
 	// Se a lista de retas não foi criada ou a quantidade de retas for zero
 	if (listaRetas == NULL || listaRetas->qtdRetas == 0) {
-		printf("Lista de retas nao foi criada ou esta cheia! Não é possivel excluir a reta!\n");
+		printf("Lista de retas nao foi criada ou esta cheia! Nao e possivel excluir a reta!\n");
 		return 0;
 	}
 	// Remover uma reta
@@ -211,7 +218,7 @@ int selecionarReta(float mouseX, float mouseY, ListaRetas * listaRetas)
 {
     // Se a lista de retas estiver vazia ou a quantidade de retas for zero
 	if (listaRetas == NULL || listaRetas->qtdRetas == 0) {
-		printf("Lista de retas nao foi criada ou esta cheia! Não é possivel selecionar a reta!\n");
+		printf("Lista de retas nao foi criada ou esta cheia! Nao e possivel selecionar a reta!\n");
 		return 0;
 	}
 	//
@@ -300,7 +307,7 @@ int transladarReta(int chave, ListaRetas * listaRetas, MatrizTransformacao * mat
 {
     // Se a lista de retas estiver vazia ou a quantidade de retas for zero
 	if (listaRetas == NULL || listaRetas->qtdRetas == 0) {
-		printf("Lista de retas nao foi criada ou esta cheia! Não é possivel transladar a reta!\n");
+		printf("Lista de retas nao foi criada ou esta cheia! Nao e possivel transladar a reta!\n");
 		return 0;
 	}
 	//
@@ -338,7 +345,7 @@ int rotacionarReta(int reta, ListaRetas * listaRetas, MatrizTransformacao * matr
 {
     // Se a lista de retas estiver vazia ou a quantidade de retas for zero
 	if (listaRetas == NULL || listaRetas->qtdRetas == 0) {
-		printf("Lista de retas nao foi criada ou esta cheia! Não é possivel rotacionar a reta!\n");
+		printf("Lista de retas nao foi criada ou esta cheia! Nao e possivel rotacionar a reta!\n");
 		return 0;
 	}
 	//
@@ -354,7 +361,7 @@ int escalarReta(int reta, ListaRetas * listaRetas, MatrizTransformacao * matrizE
 {
     // Se a lista de retas estiver vazia ou a quantidade de retas for zero
 	if (listaRetas == NULL || listaRetas->qtdRetas == 0) {
-		printf("Lista de retas nao foi criada ou esta cheia! Não é possivel escalar a reta!\n");
+		printf("Lista de retas nao foi criada ou esta cheia! Nao e possivel escalar a reta!\n");
 		return 0;
 	}
 	//

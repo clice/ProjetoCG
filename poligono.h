@@ -30,7 +30,7 @@ typedef struct
  */
 typedef struct
 {
-    int qtdPoligonos;    	     	 // Quantidade de polígonos na lista
+    int qtdPoligonos;    	     	     // Quantidade de polígonos na lista
     Poligono poligonos[MAX_POLIGONOS];   // Dados dos polígonos da lista de polígonos
 } ListaPoligonos;
 
@@ -40,19 +40,17 @@ typedef struct
  * DECLARAÇÕES DAS FUNÇÕES
  */
 ListaPoligonos * criarListaPoligonos();
-
-int adicionarPoligono(float mouseX, float mouseY, int poligono, ListaPoligonos * listaPoligonos);
-int excluirPoligono(int poligono, ListaPoligonos * listaPoligonos);
-int selecionarPoligono(float mouseX, float mouseY, int aux, ListaPoligonos * listaPoligonos);
-
-void desenharPoligonos(int poligono, ListaPoligonos * listaPoligonos);
 void imprimirListaPoligonos(ListaPoligonos * listaPoligonos);
+void salvarListaPoligonos(ListaPoligonos * listaPoligonos);
+void carregarListaPoligonos();
 
-void salvarPoligonos(ListaPoligonos * listaPoligonos);
-void carregarPoligonos(ListaPoligonos * listaPoligonos);
+int adicionarPoligono(float mouseX, float mouseY, int statusObjeto, ListaPoligonos * listaPoligonos);
+int excluirPoligono(int chave, ListaPoligonos * listaPoligonos);
+int selecionarPoligono(float mouseX, float mouseY, ListaPoligonos * listaPoligonos);
+void desenharPoligonos(ListaPoligonos * listaPoligonos);
 
-int transladarPoligono(int poligono, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizTranslacao);
-int rotacionarPoligono(int poligono, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizRotacao);
-int escalarPoligono(int poligono, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizEscalar);
+int transladarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizTranslacao);
+int rotacionarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizRotacao);
+int escalarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizEscalar);
 
 #endif // POLIGONO_H
