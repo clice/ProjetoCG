@@ -8,7 +8,7 @@
 /*
  * ESTRUTURA PARA A RETA
  */
-typedef struct
+typedef struct Reta
 {
     Ponto inicial;   // Ponto inicial da reta
     Ponto central;   // Ponto central da reta
@@ -18,7 +18,7 @@ typedef struct
 /*
  * ESTRUTURA PARA LISTA DE RETAS
  */
-typedef struct
+typedef struct ListaRetas
 {
     int qtdRetas;            // Quantidade de retas na lista
     Reta retas[MAX_RETAS];   // Dados das retas da lista de retas

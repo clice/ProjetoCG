@@ -8,7 +8,7 @@
 /*
  * ESTRUTURA PARA OS PONTOS QUE COMPOEM OS CANTOS DO POLÍGONO
  */
-typedef struct
+typedef struct PontoPoligono
 {
     Ponto ponto;   			       // Ponto para armazenar um ponto dos cantos do polígono
     struct PontoPoligono * prox;   // Ponteiro para o próximo ponto dos cantos do polígono
@@ -17,7 +17,7 @@ typedef struct
 /*
  * ESTRUTURA PARA O POLÍGONO
  */
-typedef struct
+typedef struct Poligono
 {
     int qtdLados;   			  // Quantos lados tem o polígono
     Ponto central;    		  // Ponto para armazenar o ponto central do polígono
@@ -27,7 +27,7 @@ typedef struct
 /*
  * ESTRUTURA PARA LISTA DE POLÍGONOS
  */
-typedef struct
+typedef struct ListaPoligonos
 {
     int qtdPoligonos;    	     	     // Quantidade de polígonos na lista
     Poligono poligonos[MAX_POLIGONOS];   // Dados dos polígonos da lista de polígonos

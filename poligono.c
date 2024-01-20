@@ -86,11 +86,6 @@ PontoPoligono * criarPontoPoligono(float mouseX, float mouseY)
  */
 void imprimirPontosPoligono(PontoPoligono * pontoInicial)
 {
-	// Checar se a variável para o ponto passada ainda é nula
-	if (pontoInicial == NULL) {
-		return NULL;
-	}
-
 	// Laço para percorrer a lista encadeada dos pontos pertencentes ao polígono
 	// A variável do pontoInicial na iteração vai apontando para o próximo ponto até encontrar um ponteiro nulo
 	int i = 0;
@@ -100,7 +95,7 @@ void imprimirPontosPoligono(PontoPoligono * pontoInicial)
 			pontoInicial->ponto.x,
 			pontoInicial->ponto.y
 		);
-		
+
 		pontoInicial = pontoInicial->prox;
 		i++;
 	}
@@ -151,7 +146,7 @@ int adicionarPoligono(float mouseX, float mouseY, int statusObjeto, ListaPoligon
 			listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].inicial = pontoInicial;
 
 			// Adicionando mais um quantidade de lados do polígono
-			listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].qtdLados++;
+			listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].qtdLados = 1;
 
 			// Retornar para continuar a adição de pontos ao polígono
 			printf("statusObjeto: %d!\n", statusObjeto);
@@ -159,40 +154,33 @@ int adicionarPoligono(float mouseX, float mouseY, int statusObjeto, ListaPoligon
 			return 1;
 		}
 		// Se o polígono está sendo desenhando (adicionando outros pontos ao polígono)
-		else if (statusObjeto == 1) {
+		else {
 			// Criando uma variável ponto para auxílio na manipulação dos dados
 			PontoPoligono * auxPontoPoligono = (PontoPoligono *)malloc(sizeof(PontoPoligono));
 
 			// Recebe os mesmos dados do ponto inicial para manipulação
 			auxPontoPoligono = listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].inicial;
 
-			// Recebe o último ponto da lista depois que percorre toda a lista
-			auxPontoPoligono = ultimoPontoPoligono(auxPontoPoligono);
+			if (statusObjeto == 1) {
+				// Recebe o último ponto da lista depois que percorre toda a lista
+				auxPontoPoligono = ultimoPontoPoligono(auxPontoPoligono);
 
-			// Criando o ponto do final do polígono
-			PontoPoligono * pontoFinal = criarPontoPoligono(mouseX, mouseY);
+				// Criando o ponto do final do polígono
+				PontoPoligono * pontoFinal = criarPontoPoligono(mouseX, mouseY);
 
-			// Adicionando o ponteiro para o próximo ponto
-			auxPontoPoligono->prox = pontoFinal;
+				// Adicionando o ponteiro para o próximo ponto
+				auxPontoPoligono->prox = pontoFinal;
 
-			// Adicionando mais um quantidade de lados do polígono
-			listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].qtdLados++;
+				// Adicionando mais um quantidade de lados do polígono
+				listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].qtdLados++;
 
-			// Retornar o status que o objeto ainda terá mais pontos
-			printf("statusObjeto: %d!\n", statusObjeto);
-			printf("qtdLados: %d!\n", listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].qtdLados);
-			return 1;
-		} 
-		// Se for finalizar o polígono
-		else {
-			// Se o polígono tem 3 ou mais lados
-			if (listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].qtdLados > 2) {
-				// Criando uma variável ponto para auxílio na manipulação dos dados
-				PontoPoligono * auxPontoPoligono = (PontoPoligono *)malloc(sizeof(PontoPoligono));
-
-				// Recebe os mesmos dados do ponto inicial para manipulação
-				auxPontoPoligono = listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].inicial;
-
+				// Retornar o status que o objeto ainda terá mais pontos
+				printf("statusObjeto: %d!\n", statusObjeto);
+				printf("qtdLados: %d!\n", listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].qtdLados);
+				return 1;
+			}
+			// Se for finalizar o polígono e ele tiver 3 ou mais lados
+			else if (statusObjeto == 2 && listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].qtdLados > 2) {
 				// // Laço para percorrer toda a lista de pontos do polígono
 				// while (listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].inicial != NULL) {
 				// 	// Movendo para o próximo ponto da lista de pontos para pegar o ponto final
@@ -208,14 +196,14 @@ int adicionarPoligono(float mouseX, float mouseY, int statusObjeto, ListaPoligon
 				// 	// Movendo para o próximo ponto da lista de pontos
 				// 	listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].inicial = listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].inicial->prox;
 				// }
-							
+
 				printf("statusObjeto: %d!\n", statusObjeto);
 				printf("qtdLados: %d!\n", listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].qtdLados);
 
 				// Acrescentando um polígono a lista
 				listaPoligonos->qtdPoligonos++;
 
-				// Retornar ao status inicial para finalizar o polígono	
+				// Retornar ao status inicial para finalizar o polígono
 				return -1;
 			}
 
@@ -269,7 +257,7 @@ void desenharPoligonos(ListaPoligonos * listaPoligonos)
 	PontoPoligono * auxPontoPoligono = (PontoPoligono *)malloc(sizeof(PontoPoligono));
 
 	glLineWidth(6.0);
-    
+
 	// Laço para percorrer toda a lista de polígonos
     for (int i = 0; i < listaPoligonos->qtdPoligonos; i++) {
 		// Recebe os mesmos dados do ponto inicial para manipulação
@@ -282,7 +270,7 @@ void desenharPoligonos(ListaPoligonos * listaPoligonos)
 			// Imprimindo os valores e intensidades de cores RGB
 			glColor3f(auxPontoPoligono->ponto.cor.red, auxPontoPoligono->ponto.cor.green, auxPontoPoligono->ponto.cor.blue);
 			// Posicionando o ponto na largura e altura corretas do mouse
-			glVertex2f(auxPontoPoligono->ponto.x, auxPontoPoligono->ponto.y);	
+			glVertex2f(auxPontoPoligono->ponto.x, auxPontoPoligono->ponto.y);
 		}
 
 		glEnd();

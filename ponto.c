@@ -99,8 +99,8 @@ void salvarListaPontos(ListaPontos * listaPontos)
 void carregarListaPontos()
 {
     // int ponto = -1;
-    int * qtdPontos;
-    float auxListaPontos[1][5];
+    int * qtdPontos = 0;
+    // float auxListaPontos[1][5];
 
     ListaPontos * listaPontos = criarListaPontos();
 
@@ -269,7 +269,7 @@ int transladarPonto(int chave, ListaPontos * listaPontos, MatrizTransformacao * 
         // para realizar a mudança de local do ponto onde foi selecionado
         MatrizPonto * matrizComposta = criarMatrizPonto(listaPontos->pontos[chave].x, listaPontos->pontos[chave].y);
 
-        // 
+        //
         matrizComposta = multiplicarMatrizPonto(matrizComposta, matrizTranslacao);
 
         // Modifica a posição do ponto a partir do resultado do cálculo da translação
