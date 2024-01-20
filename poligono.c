@@ -231,7 +231,25 @@ int adicionarPoligono(float mouseX, float mouseY, int statusObjeto, ListaPoligon
  */
 int excluirPoligono(int chave, ListaPoligonos * listaPoligonos)
 {
-	return 0;
+	// Se a lista de polígonos não foi criada ou a quantidade de polígonos for zero
+	if (listaPoligonos == NULL || listaPoligonos->qtdPoligonos == 0) {
+		printf("Lista de poligonos nao foi criada ou nao ha poligonos! Nao e possivel excluir o poligono!\n");
+		return 0;
+	}
+	// Remover um polígono
+	else {
+		// Laço para percorrer a lista de polígonos a partir da chave do polígono até o final da lista
+        // Para não quebrar a integridade da lista
+		for (int i = chave; i < listaPoligonos->qtdPoligonos; i++) {
+			listaPoligonos->poligonos[i] = listaPoligonos->poligonos[i + 1];
+		}
+
+		// Diminuir uma unidade da quantidade de polígonos
+		listaPoligonos->qtdPoligonos--;
+
+		printf("Poligono excluido com sucesso!\n");
+		return 1;
+	}
 }
 
 /*

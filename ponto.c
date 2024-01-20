@@ -29,7 +29,7 @@ void imprimirListaPontos(ListaPontos * listaPontos)
 {
     // Se a lista de pontos não foi criada ou a quantidade de pontos for zero
     if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
-        printf("Lista de pontos nao foi criada ou esta vazia! Nao e possivel imprimir pontos!\n");
+        printf("Lista de pontos nao foi criada ou nao ha pontos! Nao e possivel imprimir pontos!\n");
     }
     // Imprimir ponto
     else {
@@ -185,7 +185,7 @@ int excluirPonto(int chave, ListaPontos * listaPontos)
 {
     // Se a lista de pontos não foi criada ou a quantidade de pontos for zero
     if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
-        printf("Lista de pontos nao foi criada ou esta vazia! Nao e possivel excluir o ponto!\n");
+        printf("Lista de pontos nao foi criada ou nao ha pontos! Nao e possivel excluir o ponto!\n");
         return 0;
     }
     // Excluir um ponto
@@ -213,7 +213,7 @@ int selecionarPonto(float mouseX, float mouseY, ListaPontos * listaPontos)
 
     // Se a lista de pontos não foi criada ou a quantidade de pontos for zero
     if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
-        printf("Lista de pontos nao foi criada ou esta vazia! Nao e possivel selecionar o ponto!\n");
+        printf("Lista de pontos nao foi criada ou nao ha pontos! Nao e possivel selecionar o ponto!\n");
         return -1;
     }
     // Selecionar o ponto
@@ -260,7 +260,7 @@ int transladarPonto(int chave, ListaPontos * listaPontos, MatrizTransformacao * 
 {
     // Se a lista de pontos não foi criada ou a quantidade de pontos for zero
     if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
-        printf("Lista de pontos nao foi criada ou esta vazia! Nao e possivel transladar o ponto!\n");
+        printf("Lista de pontos nao foi criada ou nao ha pontos! Nao e possivel transladar o ponto!\n");
         return 0;
     }
     // Transladar ponto
@@ -286,7 +286,7 @@ int rotacionarPonto(int chave, ListaPontos * listaPontos, MatrizTransformacao * 
 {
     // Se a lista de pontos não foi criada ou a quantidade de pontos for zero
     if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
-        printf("Lista de pontos nao foi criada ou esta vazia! Nao e possivel rotacionar o ponto!\n");
+        printf("Lista de pontos nao foi criada ou nao ha pontos! Nao e possivel rotacionar o ponto!\n");
         return 0;
     }
     // Rotacionar ponto
