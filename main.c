@@ -5,6 +5,7 @@
 
 #include "ponto.h"
 #include "reta.h"
+#include "poligono.h"
 
 ///////////////////////////////////////////////////////////////////
 
@@ -47,6 +48,7 @@ int statusMouse = 0;   // Indica se o mouse foi clicado ou não (não foi clicad
  */
 ListaPontos * listaPontos = NULL;
 ListaRetas * listaRetas = NULL;
+ListaPoligonos * listaPoligonos = NULL;
 
 ///////////////////////////////////////////////////////////////////
 
@@ -80,15 +82,16 @@ int main (int argc, char ** argv)
     // Inicialização das variáveis das listas de objetos manipulados
     listaPontos = criarListaPontos();
     listaRetas = criarListaRetas();
+    listaPoligonos = criarListaPoligonos();
 
     glClearColor(1.0, 1.0, 1.0, 0.0); // Cor do background
     glMatrixMode(GL_PROJECTION);
     glOrtho(-largura, largura, -altura, altura, -1.0f, 1.0f);
 
-    glutMouseFunc(funcoesMouse);         //
-    glutMotionFunc(funcoesMovimento);    // Função que é chamada quando um botão do mouse é mantido pressionado
-    glutKeyboardFunc(funcoesTeclado);    // Função que é chamada quando um botão do teclado é pressionado
-    glutDisplayFunc(telaInicial);        //
+    glutMouseFunc(funcoesMouse);         // Chamadas quando um botão do mouse é acionado
+    glutMotionFunc(funcoesMovimento);    // Chamadas quando o mouse é movimentado
+    glutKeyboardFunc(funcoesTeclado);    // Chamadas quando o teclado ASCII é acionado
+    glutDisplayFunc(telaInicial);        // Para mostrar elementos na tela rederizando os objetos
     glutMainLoop();
     return 0;
 }
@@ -106,6 +109,7 @@ void telaInicial()
     // Desenhar elementos na tela
     desenharPontos(listaPontos);
     desenharRetas(listaRetas);
+    desenharPoligonos(listaPoligonos);
 
     glutSwapBuffers();
 }
@@ -191,7 +195,8 @@ void funcoesMouse(int botaoMouse, int statusMouse, int x, int y)
         }
         // Se a opção for 3 (Criar polígono)
         else if (opcao == 3) {
-
+            statusObjeto = adicionarPoligono(mouseX, mouseY, statusObjeto, listaPoligonos);
+            // imprimirListaPoligonos(listaPoligonos);
         }
 
         ////////// Opção: Selecionar
