@@ -3,8 +3,7 @@
 
 #define MAX_POLIGONOS 1000
 
-#include "ponto.h"
-#include "matriz.h"
+#include "reta.h"
 
 /*
  * ESTRUTURA PARA OS PONTOS QUE COMPOEM OS CANTOS DO POLÍGONO
@@ -20,8 +19,8 @@ typedef struct
  */
 typedef struct
 {
-    int tamanho;   			  // Quantos lados tem o polígono
-    Ponto centro;    		  // Ponto para armazenar o ponto central do polígono
+    int qtdLados;   			  // Quantos lados tem o polígono
+    Ponto central;    		  // Ponto para armazenar o ponto central do polígono
     PontoPoligono * inicial;  // PontoPoligono para o ponto inicial do polígono
 } Poligono;
 
@@ -45,8 +44,8 @@ void salvarListaPoligonos(ListaPoligonos * listaPoligonos);
 void carregarListaPoligonos();
 
 PontoPoligono * criarPontoPoligono(float mouseX, float mouseY);
-PontoPoligono * ultimoPontoPoligono(PontoPoligono * auxPontoPoligono);
-// void imprimirPontosPoligono(ListaPoligonos * listaPoligonos);
+PontoPoligono * ultimoPontoPoligono(PontoPoligono * pontoInicial);
+void imprimirPontosPoligono(PontoPoligono * pontoInicial);
 
 int adicionarPoligono(float mouseX, float mouseY, int statusObjeto, ListaPoligonos * listaPoligonos);
 int excluirPoligono(int chave, ListaPoligonos * listaPoligonos);

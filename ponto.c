@@ -34,7 +34,7 @@ void imprimirListaPontos(ListaPontos * listaPontos)
     // Imprimir ponto
     else {
         for (int i = 0; i < listaPontos->qtdPontos; i++) {
-            printf("%d: x: %.1f, y: %.1f, cor: { %.1f, %.1f, %.1f }\n",
+            printf("Ponto %d: x: %.1f, y: %.1f, cor: { %.1f, %.1f, %.1f }\n",
                 i + 1,
                 listaPontos->pontos[i].x,
                 listaPontos->pontos[i].y,

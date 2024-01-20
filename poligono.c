@@ -7,6 +7,7 @@
 /*
  * DECLARAÇÃO DAS CORES FIXAS
  */
+Cor verde = { 0.0, 1.0, 0.0 };
 Cor magenta = { 1.0, 0.0, 1.0 };
 
 ///////////////////////////////////////////////////////////////////
@@ -30,9 +31,15 @@ void imprimirListaPoligonos(ListaPoligonos * listaPoligonos)
 	if (listaPoligonos == NULL || listaPoligonos->qtdPoligonos == 0) {
 		printf("Lista de poligonos nao foi criada ou esta vazia! Nao e possivel imprimir poligonos!\n");
 	}
-	//
+	// Imprimir polígonos
 	else {
+		printf("Quantidade de poligonos: %d\n", listaPoligonos->qtdPoligonos);
 
+		for (int i = 0; i < listaPoligonos->qtdPoligonos; i++) {
+			printf("Poligono %d\n", i + 1);
+			printf("Quantidade de lados: %d\n", listaPoligonos->poligonos[i].qtdLados);
+			imprimirPontosPoligono(listaPoligonos->poligonos[i].inicial);
+		}
 	}
 }
 
@@ -66,7 +73,7 @@ PontoPoligono * criarPontoPoligono(float mouseX, float mouseY)
 		// Inicializando os valores do ponto do polígono
 		novoPontoPoligono->ponto.x = mouseX;
 		novoPontoPoligono->ponto.y = mouseY;
-		novoPontoPoligono->ponto.cor = magenta;
+		novoPontoPoligono->ponto.cor = verde;
 		novoPontoPoligono->prox = NULL;
 	}
 
@@ -77,41 +84,46 @@ PontoPoligono * criarPontoPoligono(float mouseX, float mouseY)
 /*
  * FUNÇÃO PARA IMPRIMIR A LISTA DE PONTOS DOS POLÍGONOS
  */
-// void imprimirPontosPoligono(ListaPoligonos * listaPoligonos)
-// {
-	// PontoPoligono * novoPontoPoligono = (PontoPoligono *)malloc(sizeof(PontoPoligono));
-
-	// Checando se o novo ponto está vazio antes de inserir os dados
-	// if (novoPontoPoligono != NULL) {
-	// 	// Inicializando os valores do ponto do polígono
-	// 	novoPontoPoligono->ponto.x = mouseX;
-	// 	novoPontoPoligono->ponto.y = mouseY;
-	// 	novoPontoPoligono->ponto.cor = magenta;
-	// 	novoPontoPoligono->prox = NULL;
-	// }
-
-	// Retornar ponto do polígono
-	// return novoPontoPoligono;
-// }
-
-/*
- * FUNÇÃO PARA RETORNAR O ÚLTIMO PONTO DO POLÍGONO
- */
-PontoPoligono * ultimoPontoPoligono(PontoPoligono * auxPontoPoligono)
+void imprimirPontosPoligono(PontoPoligono * pontoInicial)
 {
 	// Checar se a variável para o ponto passada ainda é nula
-	if (auxPontoPoligono == NULL) {
+	if (pontoInicial == NULL) {
 		return NULL;
 	}
 
 	// Laço para percorrer a lista encadeada dos pontos pertencentes ao polígono
 	// A variável do pontoInicial na iteração vai apontando para o próximo ponto até encontrar um ponteiro nulo
-	while (auxPontoPoligono->prox != NULL) {
-		auxPontoPoligono = auxPontoPoligono->prox;
+	int i = 0;
+	while (pontoInicial->prox != NULL) {
+		printf("Ponto %d: x: %.1f, y: %.1f\n",
+			i + 1,
+			pontoInicial->ponto.x,
+			pontoInicial->ponto.y
+		);
+		
+		pontoInicial = pontoInicial->prox;
+		i++;
+	}
+}
+
+/*
+ * FUNÇÃO PARA RETORNAR O ÚLTIMO PONTO DO POLÍGONO
+ */
+PontoPoligono * ultimoPontoPoligono(PontoPoligono * pontoInicial)
+{
+	// Checar se a variável para o ponto passada ainda é nula
+	if (pontoInicial == NULL) {
+		return NULL;
+	}
+
+	// Laço para percorrer a lista encadeada dos pontos pertencentes ao polígono
+	// A variável do pontoInicial na iteração vai apontando para o próximo ponto até encontrar um ponteiro nulo
+	while (pontoInicial->prox != NULL) {
+		pontoInicial = pontoInicial->prox;
 	}
 
 	// Retorna o último elemento da lista de pontos do polígono
-	return auxPontoPoligono;
+	return pontoInicial;
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -123,23 +135,31 @@ int adicionarPoligono(float mouseX, float mouseY, int statusObjeto, ListaPoligon
 {
 	// Se a lista de polígonos não foi criada ou está cheia, não é possível adicionar mais polígonos
 	if (listaPoligonos == NULL || listaPoligonos->qtdPoligonos == MAX_POLIGONOS) {
-		printf("Lista de poligonos nao foi criada ou esta cheia! Nao e possivel imprimir poligonos!\n");
+		printf("Lista de poligonos nao foi criada ou esta cheia! Nao e possivel adicionar o poligono!\n");
 		return 0;
 	}
 	//
 	else {
+		printf("listaPoligonos->qtdPoligonos: %d\n", listaPoligonos->qtdPoligonos);
+
 		// Se o polígono está sendo inicializado (primeiro ponto do polígono)
 		if (statusObjeto == -1) {
 			// Criando o ponto inicial do polígono
 			PontoPoligono * pontoInicial = criarPontoPoligono(mouseX, mouseY);
 
 			// Inicializando a lista de polígonos com o primeiro ponto
-			listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].tamanho = 1;
 			listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].inicial = pontoInicial;
-			printf("entrou -1!\n");
+
+			// Adicionando mais um quantidade de lados do polígono
+			listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].qtdLados++;
+
+			// Retornar para continuar a adição de pontos ao polígono
+			printf("statusObjeto: %d!\n", statusObjeto);
+			printf("qtdLados: %d!\n", listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].qtdLados);
+			return 1;
 		}
 		// Se o polígono está sendo desenhando (adicionando outros pontos ao polígono)
-		else {
+		else if (statusObjeto == 1) {
 			// Criando uma variável ponto para auxílio na manipulação dos dados
 			PontoPoligono * auxPontoPoligono = (PontoPoligono *)malloc(sizeof(PontoPoligono));
 
@@ -152,15 +172,57 @@ int adicionarPoligono(float mouseX, float mouseY, int statusObjeto, ListaPoligon
 			// Criando o ponto do final do polígono
 			PontoPoligono * pontoFinal = criarPontoPoligono(mouseX, mouseY);
 
-			// Adicionando o ponteiro para do inicial para o próximo ponto
+			// Adicionando o ponteiro para o próximo ponto
 			auxPontoPoligono->prox = pontoFinal;
 
-			// Adicionando mais um ponto ao tamanho do polígono
-			listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].tamanho++;
-			printf("entrou 1!\n");
-		}
+			// Adicionando mais um quantidade de lados do polígono
+			listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].qtdLados++;
 
-		return 1;
+			// Retornar o status que o objeto ainda terá mais pontos
+			printf("statusObjeto: %d!\n", statusObjeto);
+			printf("qtdLados: %d!\n", listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].qtdLados);
+			return 1;
+		} 
+		// Se for finalizar o polígono
+		else {
+			// Se o polígono tem 3 ou mais lados
+			if (listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].qtdLados > 2) {
+				// Criando uma variável ponto para auxílio na manipulação dos dados
+				PontoPoligono * auxPontoPoligono = (PontoPoligono *)malloc(sizeof(PontoPoligono));
+
+				// Recebe os mesmos dados do ponto inicial para manipulação
+				auxPontoPoligono = listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].inicial;
+
+				// // Laço para percorrer toda a lista de pontos do polígono
+				// while (listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].inicial != NULL) {
+				// 	// Movendo para o próximo ponto da lista de pontos para pegar o ponto final
+				// 	auxPontoPoligono = auxPontoPoligono->prox;
+
+				// 	// Calcular o ponto central das "retas" que compoem o polígono
+				// 	listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].central.x = (listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].inicial->ponto.x + auxPontoPoligono->ponto.x) / 2;
+				// 	listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].central.y = (listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].inicial->ponto.y + auxPontoPoligono->ponto.y) / 2;
+
+				// 	// Adicionando a cor do ponto central da "reta"
+				// 	listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].central.cor = magenta;
+
+				// 	// Movendo para o próximo ponto da lista de pontos
+				// 	listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].inicial = listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].inicial->prox;
+				// }
+							
+				printf("statusObjeto: %d!\n", statusObjeto);
+				printf("qtdLados: %d!\n", listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].qtdLados);
+
+				// Acrescentando um polígono a lista
+				listaPoligonos->qtdPoligonos++;
+
+				// Retornar ao status inicial para finalizar o polígono	
+				return -1;
+			}
+
+			// Se não tem lados o suficiente para montar um polígono
+            printf("Nao ha lados suficientes para montar o poligono!\n");
+            return 1;
+		}
 	}
 }
 

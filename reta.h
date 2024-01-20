@@ -4,7 +4,6 @@
 #define MAX_RETAS 1000
 
 #include "ponto.h"
-#include "matriz.h"
 
 /*
  * ESTRUTURA PARA A RETA

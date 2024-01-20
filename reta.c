@@ -36,7 +36,7 @@ void imprimirListaRetas(ListaRetas * listaRetas)
 	// Imprimir retas
 	else {
 		for (int i = 0; i < listaRetas->qtdRetas; i++) {
-			printf("Ponto %d:\n", i + 1);
+			printf("Ponto: %d:\n", i + 1);
 
 			printf("Inicial:\nx: %.1f, y: %.1f, cor: { %.1f, %.1f, %.1f }\n",
 				listaRetas->retas[i].inicial.x,
