@@ -14,6 +14,38 @@ ListaPoligonos * criarListaPoligonos()
 	return listaPoligonos;
 }
 
+/*
+ * FUNÇÃO PARA IMPRIMIR LISTA DE POLÍGONOS
+ */
+void imprimirListaPoligonos(ListaPoligonos * listaPoligonos)
+{
+    // Se a lista de polígonos estiver vazia ou a quantidade de polígomos for zero
+	if (listaPoligonos == NULL || listaPoligonos->qtdPoligonos == 0) {
+		printf("Lista de poligonos nao foi criada ou esta cheia! Não é possivel imprimir os poligonos!\n");
+		return 0;
+	}
+	//
+	else {
+		return 1;
+	}
+}
+
+/*
+ * FUNÇÃO PARA SALVAR A LISTA DE POLÍGONOS
+ */
+void salvarListaPoligonos(ListaPoligonos * listaPoligonos)
+{
+    
+}
+
+/*
+ * FUNÇÃO PARA CARREGAR A LISTA DE POLÍGONOS NA TELA
+ */
+void carregarListaPoligonos()
+{
+    
+}
+
 ///////////////////////////////////////////////////////////////////
 
 /*
@@ -35,43 +67,15 @@ int excluirPoligono(int poligono, ListaPoligonos * listaPoligonos)
 /*
  * FUNÇÃO PARA SELECIONAR UM POLÍGONO DA TELA
  */
-int selecionarPoligono(float mouseX, float mouseY, int aux, ListaPoligonos * listaPoligonos)
+int selecionarPoligono(float mouseX, float mouseY, ListaPoligonos * listaPoligonos)
 {
     return 0;
 }
 
-///////////////////////////////////////////////////////////////////
-
 /*
  * FUNÇÃO PARA DESENHAR OS POLÍGONOS NA TELA
  */
-void desenharPoligonos(int poligono, ListaPoligonos * listaPoligonos)
-{
-    
-}
-
-/*
- * FUNÇÃO PARA IMPRIMIR LISTA DE POLÍGONOS
- */
-void imprimirListaPoligonos(ListaPoligonos * listaPoligonos)
-{
-    
-}
-
-///////////////////////////////////////////////////////////////////
-
-/*
- * FUNÇÃO PARA SALVAR A LISTA DE POLÍGONOS
- */
-void salvarPoligonos(ListaPoligonos * listaPoligonos)
-{
-    
-}
-
-/*
- * FUNÇÃO PARA CARREGAR A LISTA DE POLÍGONOS NA TELA
- */
-void carregarPoligonos(ListaPoligonos * listaPoligonos)
+void desenharPoligonos(ListaPoligonos * listaPoligonos)
 {
     
 }
@@ -81,7 +85,7 @@ void carregarPoligonos(ListaPoligonos * listaPoligonos)
 /*
  * FUNÇÃO PARA TRANSLADAR UM POLÍGONO (ARRASTAR E SOLTAR)
  */
-int transladarPoligono(int poligono, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizTranslacao)
+int transladarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizTranslacao)
 {
     return 0;
 }
@@ -89,7 +93,7 @@ int transladarPoligono(int poligono, ListaPoligonos * listaPoligonos, MatrizTran
 /*
  * FUNÇÃO PARA ROTACIONAR UM POLÍGONO
  */
-int rotacionarPoligono(int poligono, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizRotacao)
+int rotacionarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizRotacao)
 {
     return 0;
 }
@@ -97,7 +101,7 @@ int rotacionarPoligono(int poligono, ListaPoligonos * listaPoligonos, MatrizTran
 /*
  * FUNÇÃO PARA ESCALAR UM POLÍGONO
  */
-int escalarPoligono(int poligono, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizEscalar)
+int escalarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizEscalar)
 {
     return 0;
 }

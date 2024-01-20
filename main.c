@@ -24,14 +24,18 @@ static int opcao = 0;  // Opção selecionada pelo usuário
 /*
  * INICIALIZANDO VARIÁVEIS PARA PONTO, RETA E POLIGONO
  */
+int chave = -1;        // Guarda a chave da lista para manipulação dos objetos (desenhando: > -1; finalizado: -1)
 int statusObjeto = -1; // Indica se o objeto ainda está sendo desenhado (desenhando: 1; finalizado: -1)
-int chave = -1;   // Guarda a chave da lista para manipulação dos objetos (desenhando: > -1; finalizado: -1)
+
+/*
+ * VARIÁVEIS DAS DIMENSÕES DA TELA
+ */
+float largura = 400;   // Largura fixa da tela (metade dos pixels que formam a tela: eixo x)
+float altura = 300;    // Altura fixa da tela (metade dos pixels que formam a tela: eixo y)
 
 /*
  * VARIÁVEIS DO MOUSE
  */
-float largura = 400;   // Largura fixa da tela (metade dos pixels que formam a tela: eixo x)
-float altura = 300;    // Altura fixa da tela (metade dos pixels que formam a tela: eixo y)
 float mouseX;          // Posição do mouse no eixo x
 float mouseY;          // Posição do mouse no eixo y
 int statusMouse = 0;   // Indica se o mouse foi clicado ou não (não foi clicado: 0; clicado: 1)
@@ -127,8 +131,8 @@ void opcoesMenu()
     menuPrincipal = glutCreateMenu(selecionarOpcao);
     glutAddSubMenu("Criar", menuCriarObjetos);
     glutAddSubMenu("Selecionar", menuSelecionarObjetos);
-    glutAddMenuEntry("Salvar", 7);
-    glutAddMenuEntry("Carregar", 8);
+    glutAddMenuEntry("Salvar objetos", 7);
+    glutAddMenuEntry("Carregar objetos", 8);
     glutAddMenuEntry("Cancelar", 0);
     glutAddMenuEntry("Sair", -1);
 
@@ -149,9 +153,9 @@ void selecionarOpcao(int opcaoSelecionada)
     // Caso o usuário tenha selecionado alguma outra opção
     else {
         // Reinicializa todas as variáveis para o valor inicial (valor que tem enquanto não estão sendo manipuladas)
-        statusObjeto = -1;
         chave = -1;
         statusMouse = 0;
+        statusObjeto = -1;
         opcao = opcaoSelecionada;
         printf("Opcao selecionada: %d\n", opcao);
     }
@@ -174,7 +178,7 @@ void funcoesMouse(int botaoMouse, int statusMouse, int x, int y)
     if (botaoMouse == GLUT_LEFT_BUTTON && statusMouse == GLUT_DOWN) {
         printf("mouseX: %.1f, mouseY: %.1f\n", mouseX, mouseY);
 
-        ////////// Opções Criar
+        ////////// Opções: Criar
         // Se a opção for 1 (Criar ponto)
         if (opcao == 1) {
             adicionarPonto(mouseX, mouseY, listaPontos);
@@ -190,7 +194,7 @@ void funcoesMouse(int botaoMouse, int statusMouse, int x, int y)
 
         }
 
-        ////////// Opção Selecionar
+        ////////// Opção: Selecionar
         // Se a opção for 4 (Selecionar ponto)
         else if (opcao == 4) {
             // Retorna a chave da lista onde o ponto que foi selecionado com o mouse está
@@ -208,23 +212,18 @@ void funcoesMouse(int botaoMouse, int statusMouse, int x, int y)
             // Retorna a chave da lista onde o polígono que foi selecionado com o mouse está
         }
 
-        ////////// Opção Salvar objetos
+        ////////// Opção: Salvar objetos
         else if (opcao == 7) {
             salvarListaPontos(listaPontos);
             salvarListaRetas(listaRetas);
             // salvarListaPoligonos(listaPoligonos);
         }
 
-        ////////// Opção Carregar objetos
+        ////////// Opção: Carregar objetos
         else if (opcao == 8) {
             carregarListaPontos();
             // carregarListaRetas(listaRetas);
             // carregarListaPoligonos(listaPoligonos);
-        }
-
-        ////////// Opção Cancelar
-        else if (opcao == 0) {
-
         }
     }
 
@@ -310,6 +309,7 @@ void funcoesTeclado(unsigned char key, int x, int y)
 
             break;
 
+        // Rotacionar objetos selecionados da tela (R - Rotate)
         // Rotaciona o ponto 45 graus apertando r caso esteja na opção de selecionar o ponto e um ponto esteja selecionado
         case 'R':
         case 'r':
@@ -334,7 +334,7 @@ void funcoesTeclado(unsigned char key, int x, int y)
 
             break;
 
-        // Esse vai ser o botão de escala
+        // Escalar objetos selecionados da tela (S - scale)
         case 'S':
         case 's':
             ////////// Escalar reta

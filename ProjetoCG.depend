@@ -25,7 +25,7 @@
 	<GL/glut.h>
 	"ponto.h"
 
-1705706435 source:c:\users\clice\projects\cg\ponto\projetocg\matriz.c
+1705709245 source:c:\users\clice\projects\cg\ponto\projetocg\matriz.c
 	<math.h>
 	<stdio.h>
 	<stdlib.h>
@@ -34,7 +34,7 @@
 
 1705645478 c:\users\clice\projects\cg\ponto\projetocg\matriz.h
 
-1705707937 source:c:\users\clice\projects\cg\ponto\projetocg\reta.c
+1705708679 source:c:\users\clice\projects\cg\ponto\projetocg\reta.c
 	<math.h>
 	<stdio.h>
 	<stdlib.h>

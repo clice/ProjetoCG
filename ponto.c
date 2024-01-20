@@ -25,15 +25,22 @@ ListaPontos * criarListaPontos()
  */
 void imprimirListaPontos(ListaPontos * listaPontos)
 {
-    for (int i = 0; i < listaPontos->qtdPontos; i++) {
-        printf("%d: x: %.1f, y: %.1f, cor: { %.1f, %.1f, %.1f }\n",
-            i + 1,
-            listaPontos->pontos[i].x,
-            listaPontos->pontos[i].y,
-            listaPontos->pontos[i].cor.red,
-            listaPontos->pontos[i].cor.green,
-            listaPontos->pontos[i].cor.blue
-        );
+    // Se a lista de pontos não foi criada ou a quantidade de pontos for zero
+    if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
+        printf("Lista de pontos nao foi criada ou esta vazia! Nao e possivel imprimir pontos!\n");
+    }
+    // Imprimir ponto
+    else {
+        for (int i = 0; i < listaPontos->qtdPontos; i++) {
+            printf("%d: x: %.1f, y: %.1f, cor: { %.1f, %.1f, %.1f }\n",
+                i + 1,
+                listaPontos->pontos[i].x,
+                listaPontos->pontos[i].y,
+                listaPontos->pontos[i].cor.red,
+                listaPontos->pontos[i].cor.green,
+                listaPontos->pontos[i].cor.blue
+            );
+        }
     }
 }
 
@@ -153,7 +160,7 @@ int adicionarPonto(float mouseX, float mouseY, ListaPontos * listaPontos)
 {
     // Se a lista de pontos não foi criada ou está cheia não é possível adicionar mais pontos
     if (listaPontos == NULL || listaPontos->qtdPontos == MAX_PONTOS) {
-        printf("Lista de pontos nao foi criada ou esta cheia! Não é possivel adicionar o ponto!\n");
+        printf("Lista de pontos nao foi criada ou esta cheia! Nao e possivel adicionar o ponto!\n");
         return 0;
     }
     // Adicionar o ponto
@@ -176,7 +183,7 @@ int excluirPonto(int chave, ListaPontos * listaPontos)
 {
     // Se a lista de pontos não foi criada ou a quantidade de pontos for zero
     if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
-        printf("Lista de pontos nao foi criada ou esta vazia! Não é possivel excluir o ponto!\n");
+        printf("Lista de pontos nao foi criada ou esta vazia! Nao e possivel excluir o ponto!\n");
         return 0;
     }
     // Excluir um ponto
@@ -200,17 +207,19 @@ int excluirPonto(int chave, ListaPontos * listaPontos)
  */
 int selecionarPonto(float mouseX, float mouseY, ListaPontos * listaPontos)
 {
+    int tolerancia = 3; // Representa metade do tamanho do ponto desenhado, dando uma área para o ponto
+
     // Se a lista de pontos não foi criada ou a quantidade de pontos for zero
     if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
-        printf("Lista de pontos nao foi criada ou esta vazia! Não é possivel selecionar o ponto!\n");
+        printf("Lista de pontos nao foi criada ou esta vazia! Nao e possivel selecionar o ponto!\n");
         return -1;
     }
     // Selecionar o ponto
     else {
         // Procurar na lista de pontos algum ponto que esteja sendo clicado pelo mouse
         for (int i = 0; i < listaPontos->qtdPontos; i++) {
-            if (mouseX <= listaPontos->pontos[i].x + 3 && mouseX >= listaPontos->pontos[i].x - 3) { // O 3 é o valor de tolerância para a região de detecção
-                if (mouseY <= listaPontos->pontos[i].y + 3 && mouseY >= listaPontos->pontos[i].y - 3) { // O valor é 3 porque é metade do size do ponto
+            if (mouseX <= listaPontos->pontos[i].x + tolerancia && mouseX >= listaPontos->pontos[i].x - tolerancia) { // O 3 é o valor de tolerância para a região de detecção
+                if (mouseY <= listaPontos->pontos[i].y + tolerancia && mouseY >= listaPontos->pontos[i].y - tolerancia) { // O valor é 3 porque é metade do size do ponto
                     printf("Ponto selecionado com sucesso!\n");
                     return i;
                 }
@@ -249,7 +258,7 @@ int transladarPonto(int chave, ListaPontos * listaPontos, MatrizTransformacao * 
 {
     // Se a lista de pontos não foi criada ou a quantidade de pontos for zero
     if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
-        printf("Lista de pontos nao foi criada ou esta vazia! Não é possivel transladar o ponto!\n");
+        printf("Lista de pontos nao foi criada ou esta vazia! Nao e possivel transladar o ponto!\n");
         return 0;
     }
     // Transladar ponto
@@ -275,7 +284,7 @@ int rotacionarPonto(int chave, ListaPontos * listaPontos, MatrizTransformacao * 
 {
     // Se a lista de pontos não foi criada ou a quantidade de pontos for zero
     if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
-        printf("Lista de pontos nao foi criada ou esta vazia! Não é possivel rotacionar o ponto!\n");
+        printf("Lista de pontos nao foi criada ou esta vazia! Nao e possivel rotacionar o ponto!\n");
         return 0;
     }
     // Rotacionar ponto
