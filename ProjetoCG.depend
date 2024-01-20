@@ -8,7 +8,7 @@
 
 1705357889 c:\users\clice\projects\cg\main\projetocg\ponto.h
 
-1705622712 source:c:\users\clice\projects\cg\ponto\projetocg\main.c
+1705708081 source:c:\users\clice\projects\cg\ponto\projetocg\main.c
 	<math.h>
 	<stdio.h>
 	<stdlib.h>
@@ -16,41 +16,42 @@
 	"ponto.h"
 	"reta.h"
 
-1705621251 c:\users\clice\projects\cg\ponto\projetocg\ponto.h
+1705700664 c:\users\clice\projects\cg\ponto\projetocg\ponto.h
 	"matriz.h"
 
-1705619217 source:c:\users\clice\projects\cg\ponto\projetocg\ponto.c
+1705705252 source:c:\users\clice\projects\cg\ponto\projetocg\ponto.c
 	<stdio.h>
 	<stdlib.h>
 	<GL/glut.h>
 	"ponto.h"
 
-1705426546 source:c:\users\clice\projects\cg\ponto\projetocg\matriz.c
+1705706435 source:c:\users\clice\projects\cg\ponto\projetocg\matriz.c
 	<math.h>
 	<stdio.h>
 	<stdlib.h>
 	<GL/glut.h>
 	"matriz.h"
 
-1705426493 c:\users\clice\projects\cg\ponto\projetocg\matriz.h
+1705645478 c:\users\clice\projects\cg\ponto\projetocg\matriz.h
 
-1705619678 source:c:\users\clice\projects\cg\ponto\projetocg\reta.c
+1705707937 source:c:\users\clice\projects\cg\ponto\projetocg\reta.c
+	<math.h>
 	<stdio.h>
 	<stdlib.h>
 	<GL/glut.h>
 	"reta.h"
 
-1705615479 c:\users\clice\projects\cg\ponto\projetocg\reta.h
+1705704551 c:\users\clice\projects\cg\ponto\projetocg\reta.h
 	"ponto.h"
 	"matriz.h"
 
-1705602196 source:c:\users\clice\projects\cg\ponto\projetocg\poligono.c
+1705645478 source:c:\users\clice\projects\cg\ponto\projetocg\poligono.c
 	<stdio.h>
 	<stdlib.h>
 	<GL/glut.h>
 	"poligono.h"
 
-1705518485 c:\users\clice\projects\cg\ponto\projetocg\poligono.h
+1705645478 c:\users\clice\projects\cg\ponto\projetocg\poligono.h
 	"ponto.h"
 	"matriz.h"
 
