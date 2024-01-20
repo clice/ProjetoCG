@@ -11,8 +11,8 @@
  */
 typedef struct
 {
-    Ponto ponto;   			 // Ponto para armazenar um ponto dos cantos do polígono
-    struct PontoPoligono * prox;    // Ponteiro para o próximo ponto dos cantos do polígono
+    Ponto ponto;   			       // Ponto para armazenar um ponto dos cantos do polígono
+    struct PontoPoligono * prox;   // Ponteiro para o próximo ponto dos cantos do polígono
 } PontoPoligono;
 
 /*
@@ -20,9 +20,9 @@ typedef struct
  */
 typedef struct
 {
-    int tamanho;   			  //
+    int tamanho;   			  // Quantos lados tem o polígono
     Ponto centro;    		  // Ponto para armazenar o ponto central do polígono
-    PontoPoligono * inicio;   // PontoPoligono para o início do polígono
+    PontoPoligono * inicial;  // PontoPoligono para o ponto inicial do polígono
 } Poligono;
 
 /*
@@ -30,7 +30,7 @@ typedef struct
  */
 typedef struct
 {
-    int qtdPoligonos;    	     	 // Quantidade de polígonos na lista
+    int qtdPoligonos;    	     	     // Quantidade de polígonos na lista
     Poligono poligonos[MAX_POLIGONOS];   // Dados dos polígonos da lista de polígonos
 } ListaPoligonos;
 
@@ -40,19 +40,21 @@ typedef struct
  * DECLARAÇÕES DAS FUNÇÕES
  */
 ListaPoligonos * criarListaPoligonos();
-
-int adicionarPoligono(float mouseX, float mouseY, int poligono, ListaPoligonos * listaPoligonos);
-int excluirPoligono(int poligono, ListaPoligonos * listaPoligonos);
-int selecionarPoligono(float mouseX, float mouseY, int aux, ListaPoligonos * listaPoligonos);
-
-void desenharPoligonos(int poligono, ListaPoligonos * listaPoligonos);
 void imprimirListaPoligonos(ListaPoligonos * listaPoligonos);
+void salvarListaPoligonos(ListaPoligonos * listaPoligonos);
+void carregarListaPoligonos();
 
-void salvarPoligonos(ListaPoligonos * listaPoligonos);
-void carregarPoligonos(ListaPoligonos * listaPoligonos);
+PontoPoligono * criarPontoPoligono(float mouseX, float mouseY);
+PontoPoligono * ultimoPontoPoligono(PontoPoligono * auxPontoPoligono);
+// void imprimirPontosPoligono(ListaPoligonos * listaPoligonos);
 
-int transladarPoligono(int poligono, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizTranslacao);
-int rotacionarPoligono(int poligono, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizRotacao);
-int escalarPoligono(int poligono, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizEscalar);
+int adicionarPoligono(float mouseX, float mouseY, int statusObjeto, ListaPoligonos * listaPoligonos);
+int excluirPoligono(int chave, ListaPoligonos * listaPoligonos);
+int selecionarPoligono(float mouseX, float mouseY, ListaPoligonos * listaPoligonos);
+void desenharPoligonos(ListaPoligonos * listaPoligonos);
+
+int transladarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizTranslacao);
+int rotacionarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizRotacao);
+int escalarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizEscalar);
 
 #endif // POLIGONO_H

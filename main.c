@@ -5,6 +5,7 @@
 
 #include "ponto.h"
 #include "reta.h"
+#include "poligono.h"
 
 ///////////////////////////////////////////////////////////////////
 
@@ -26,8 +27,11 @@ static int opcao = 0;  // Opção selecionada pelo usuário
  */
 int chave = -1;        // Guarda a chave da lista para manipulação dos objetos (desenhando: > -1; finalizado: -1)
 int statusObjeto = -1; // Indica se o objeto ainda está sendo desenhado (desenhando: 1; finalizado: -1)
+<<<<<<< HEAD
 int rot = 0;
 int theta;
+=======
+>>>>>>> 97115f8cc1ce7d58893f93a2c8537af0e09a330d
 
 /*
  * VARIÁVEIS DAS DIMENSÕES DA TELA
@@ -49,6 +53,7 @@ int statusMouse = 0;   // Indica se o mouse foi clicado ou não (não foi clicad
  */
 ListaPontos * listaPontos = NULL;
 ListaRetas * listaRetas = NULL;
+ListaPoligonos * listaPoligonos = NULL;
 
 ///////////////////////////////////////////////////////////////////
 
@@ -82,15 +87,23 @@ int main (int argc, char ** argv)
     // Inicialização das variáveis das listas de objetos manipulados
     listaPontos = criarListaPontos();
     listaRetas = criarListaRetas();
+    listaPoligonos = criarListaPoligonos();
 
     glClearColor(1.0, 1.0, 1.0, 0.0); // Cor do background
     glMatrixMode(GL_PROJECTION);
     glOrtho(-largura, largura, -altura, altura, -1.0f, 1.0f);
 
+<<<<<<< HEAD
     glutMouseFunc(funcoesMouse);         //
     glutMotionFunc(funcoesMovimento);    // Função que é chamada quando um botão do mouse é mantido pressionado
     glutKeyboardFunc(funcoesTeclado);    // Função que é chamada quando um botão do teclado é pressionado
     glutDisplayFunc(telaInicial);        //
+=======
+    glutMouseFunc(funcoesMouse);         // Chamadas quando um botão do mouse é acionado
+    glutMotionFunc(funcoesMovimento);    // Chamadas quando o mouse é movimentado
+    glutKeyboardFunc(funcoesTeclado);    // Chamadas quando o teclado ASCII é acionado
+    glutDisplayFunc(telaInicial);        // Para mostrar elementos na tela rederizando os objetos
+>>>>>>> 97115f8cc1ce7d58893f93a2c8537af0e09a330d
     glutMainLoop();
     return 0;
 }
@@ -108,6 +121,10 @@ void telaInicial()
     // Desenhar elementos na tela
     desenharPontos(listaPontos);
     desenharRetas(listaRetas);
+<<<<<<< HEAD
+=======
+    desenharPoligonos(listaPoligonos);
+>>>>>>> 97115f8cc1ce7d58893f93a2c8537af0e09a330d
 
     glutSwapBuffers();
 }
@@ -193,7 +210,8 @@ void funcoesMouse(int botaoMouse, int statusMouse, int x, int y)
         }
         // Se a opção for 3 (Criar polígono)
         else if (opcao == 3) {
-
+            statusObjeto = adicionarPoligono(mouseX, mouseY, statusObjeto, listaPoligonos);
+            // imprimirListaPoligonos(listaPoligonos);
         }
 
         ////////// Opção: Selecionar
@@ -318,7 +336,11 @@ void funcoesTeclado(unsigned char key, int x, int y)
             ////////// Rotacionar ponto
             // Se um ponto está na opção "Selecionar" e a chave conter um valor diferente de -1
             if (opcao == 4 && chave != -1) {
+<<<<<<< HEAD
                 MatrizTransformacao * matrizRotacao = criarMatrizRotacao(teta);
+=======
+                MatrizTransformacao * matrizRotacao = criarMatrizRotacao(45);
+>>>>>>> 97115f8cc1ce7d58893f93a2c8537af0e09a330d
                 rotacionarPonto(chave, listaPontos, matrizRotacao);
             }
 
