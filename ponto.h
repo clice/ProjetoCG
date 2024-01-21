@@ -20,9 +20,11 @@ typedef struct
  */
 typedef struct
 {
+    float teta;
     float x;   // Posição na largura
     float y;   // Posição na altura
     Cor cor;   // Estrutura das cores
+    int vsele[4];
 } Ponto;
 
 /*

@@ -27,11 +27,7 @@ static int opcao = 0;  // Opção selecionada pelo usuário
  */
 int chave = -1;        // Guarda a chave da lista para manipulação dos objetos (desenhando: > -1; finalizado: -1)
 int statusObjeto = -1; // Indica se o objeto ainda está sendo desenhado (desenhando: 1; finalizado: -1)
-<<<<<<< HEAD
-int rot = 0;
-int theta;
-=======
->>>>>>> 97115f8cc1ce7d58893f93a2c8537af0e09a330d
+float pi = M_PI;
 
 /*
  * VARIÁVEIS DAS DIMENSÕES DA TELA
@@ -54,6 +50,7 @@ int statusMouse = 0;   // Indica se o mouse foi clicado ou não (não foi clicad
 ListaPontos * listaPontos = NULL;
 ListaRetas * listaRetas = NULL;
 ListaPoligonos * listaPoligonos = NULL;
+MatrizTransformacao * matrizAnt = NULL;
 
 ///////////////////////////////////////////////////////////////////
 
@@ -93,17 +90,10 @@ int main (int argc, char ** argv)
     glMatrixMode(GL_PROJECTION);
     glOrtho(-largura, largura, -altura, altura, -1.0f, 1.0f);
 
-<<<<<<< HEAD
-    glutMouseFunc(funcoesMouse);         //
-    glutMotionFunc(funcoesMovimento);    // Função que é chamada quando um botão do mouse é mantido pressionado
-    glutKeyboardFunc(funcoesTeclado);    // Função que é chamada quando um botão do teclado é pressionado
-    glutDisplayFunc(telaInicial);        //
-=======
     glutMouseFunc(funcoesMouse);         // Chamadas quando um botão do mouse é acionado
     glutMotionFunc(funcoesMovimento);    // Chamadas quando o mouse é movimentado
     glutKeyboardFunc(funcoesTeclado);    // Chamadas quando o teclado ASCII é acionado
     glutDisplayFunc(telaInicial);        // Para mostrar elementos na tela rederizando os objetos
->>>>>>> 97115f8cc1ce7d58893f93a2c8537af0e09a330d
     glutMainLoop();
     return 0;
 }
@@ -121,10 +111,7 @@ void telaInicial()
     // Desenhar elementos na tela
     desenharPontos(listaPontos);
     desenharRetas(listaRetas);
-<<<<<<< HEAD
-=======
     desenharPoligonos(listaPoligonos);
->>>>>>> 97115f8cc1ce7d58893f93a2c8537af0e09a330d
 
     glutSwapBuffers();
 }
@@ -336,17 +323,45 @@ void funcoesTeclado(unsigned char key, int x, int y)
             ////////// Rotacionar ponto
             // Se um ponto está na opção "Selecionar" e a chave conter um valor diferente de -1
             if (opcao == 4 && chave != -1) {
-<<<<<<< HEAD
-                MatrizTransformacao * matrizRotacao = criarMatrizRotacao(teta);
-=======
-                MatrizTransformacao * matrizRotacao = criarMatrizRotacao(45);
->>>>>>> 97115f8cc1ce7d58893f93a2c8537af0e09a330d
+                MatrizTransformacao * matrizRotacao = criarMatrizRotacao(pi/36.0);
                 rotacionarPonto(chave, listaPontos, matrizRotacao);
             }
 
             ////////// Rotacionar reta
             // Se uma reta está na opção "Selecionar" e a chave conter um valor diferente de -1
             else if (opcao == 5 && chave != -1) {
+                float intx = 0.0 - listaRetas->retas[chave].central.x;
+                float inty = 0.0 - listaRetas->retas[chave].central.y;
+                MatrizTransformacao * matrizRotacaor = criarMatrizRotacao(pi/36.0);
+                MatrizTransformacao * ida = criarMatrizTranslacao(intx, inty);
+                MatrizTransformacao * volta = criarMatrizTranslacao((-1*intx), (-1*inty));
+                rotacionarReta(chave, listaRetas, matrizRotacaor, ida, volta);
+
+            }
+
+            ////////// Rotacionar polígono
+            // Se um polígono está na opção "Selecionar" e a chave conter um valor diferente de -1
+            else if (opcao == 6 && chave != -1) {
+
+            }
+
+            break;
+        case 'T':
+        case 't':
+            if (opcao == 4 && chave != -1) {
+                MatrizTransformacao * matrizRotacao = criarMatrizRotacao((-1)*pi/36.0);
+                rotacionarPonto(chave, listaPontos, matrizRotacao);
+            }
+
+            ////////// Rotacionar reta
+            // Se uma reta está na opção "Selecionar" e a chave conter um valor diferente de -1
+            else if (opcao == 5 && chave != -1) {
+                float intx = 0.0 - listaRetas->retas[chave].central.x;
+                float inty = 0.0 - listaRetas->retas[chave].central.y;
+                MatrizTransformacao * matrizRotacaor = criarMatrizRotacao((-1)*pi/36.0);
+                MatrizTransformacao * ida = criarMatrizTranslacao(intx, inty);
+                MatrizTransformacao * volta = criarMatrizTranslacao((-1*intx), (-1*inty));
+                rotacionarReta(chave, listaRetas, matrizRotacaor, ida, volta);
 
             }
 
@@ -364,7 +379,12 @@ void funcoesTeclado(unsigned char key, int x, int y)
             ////////// Escalar reta
             // Se uma reta está na opção "Selecionar" e a chave conter um valor diferente de -1
             if (opcao == 5 && chave != -1) {
-
+                float intx = 0.0 - listaRetas->retas[chave].central.x;
+                float inty = 0.0 - listaRetas->retas[chave].central.y;
+                MatrizTransformacao * escalaR = criarMatrizEscalar(2.0);
+                MatrizTransformacao * ida = criarMatrizTranslacao(intx, inty);
+                MatrizTransformacao * volta = criarMatrizTranslacao((-1*intx), (-1*inty));
+                escalarReta(chave, listaRetas, escalaR, ida, volta);
             }
 
             ////////// Escalar polígono

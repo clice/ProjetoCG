@@ -228,6 +228,9 @@ int selecionarReta(float mouseX, float mouseY, ListaRetas * listaRetas)
 		for (int i = 0; i < listaRetas->qtdRetas; i++) {
 			// Calcular formula da reta para saber se um ponto pertence a ela
 			// Pegando o ponto inicial da reta
+			int vnd = 0;
+			int vi = 0;
+			int vf = 0;
 			float x1 = listaRetas->retas[i].inicial.x;
 			float y1 = listaRetas->retas[i].inicial.y;
 
@@ -236,9 +239,25 @@ int selecionarReta(float mouseX, float mouseY, ListaRetas * listaRetas)
 			float y2 = listaRetas->retas[i].final.y;
 
 			// Verificando se o ponto do mouse quando clicado pertence a reta
-			if (verificarPontoNaReta(mouseX, mouseY, x1, y1, x2, y2)) {
-				printf("Reta selecionada com sucesso!\n");
-				return i;
+			VetorSel * ipon = (verificarPontoNaReta(mouseX, mouseY, x1, y1));
+			VetorSel * fpon = (verificarPontoNaReta(mouseX, mouseY, x2, y2));
+			for(int j = 0; j< 4; j++){
+                if(ipon->vetor[j] == 0 ){
+                    vi++ ;
+                    vnd++;
+                }
+                if(fpon->vetor[j] == 0){
+                    vf++ ;
+                    vnd++ ;
+                }
+			}
+			if(vi == 4 || vf == 4){
+                printf("Ponto foi encontrado na lista de retas!\n");
+                return i;
+			}
+			else if(vnd == 4){
+                printf("Ponto foi encontrado na lista de retas!\n");
+                return i;
 			}
 		}
 
@@ -250,9 +269,9 @@ int selecionarReta(float mouseX, float mouseY, ListaRetas * listaRetas)
 /*
  * FUNÇÃO PARA VERIFICAR SE UM PONTO PERTENCE A UMA RETA
  */
-int verificarPontoNaReta(float mouseX, float mouseY, float x1, float y1, float x2, float y2)
+VetorSel * verificarPontoNaReta(float mouseX, float mouseY, float x, float y)
 {
-	float m, b, aux;
+	/*float m, b, aux;
 	int tolerancia = 3; // Representa metade do tamanho da linha desenhada da reta, dando uma área para a reta
 
 	// Baseado na equação da reta: y = mx + b
@@ -274,7 +293,81 @@ int verificarPontoNaReta(float mouseX, float mouseY, float x1, float y1, float x
 	} else {
 		printf("O ponto selecionado nao pertence a reta!\n");
 		return 0;
+	} */
+	float tolerancia = 3.0;
+	VetorSel * v = (VetorSel *)malloc(sizeof(VetorSel));
+	if(mouseX <= x + tolerancia && mouseX >= x - tolerancia){
+        if(mouseY <= y + tolerancia && mouseY >= y - tolerancia){
+            v->vetor[0] = 0;
+            v->vetor[1] = 0;
+            v->vetor[2] = 0;
+            v->vetor[3] = 0;
+            return v;
+        }
+        else if(mouseY > y + tolerancia){
+            v->vetor[0] = 0;
+            v->vetor[1] = 0;
+            v->vetor[2] = 0;
+            v->vetor[3] = 1;
+            return v;
+        }
+        else{
+            v->vetor[0] = 0;
+            v->vetor[1] = 0;
+            v->vetor[2] = 1;
+            v->vetor[3] = 0;
+            return v;
+        }
 	}
+	else if(mouseY <= y + tolerancia && mouseY >= y - tolerancia){
+        if(mouseX > x + tolerancia){
+            v->vetor[0] = 0;
+            v->vetor[1] = 1;
+            v->vetor[2] = 0;
+            v->vetor[3] = 0;
+            return v;
+        }
+        else{
+            v->vetor[0] = 1;
+            v->vetor[1] = 0;
+            v->vetor[2] = 0;
+            v->vetor[3] = 0;
+            return v;
+        }
+	}
+	else if(mouseX > x + tolerancia){
+        if(mouseY > y + tolerancia){
+            v->vetor[0] = 0;
+            v->vetor[1] = 1;
+            v->vetor[2] = 0;
+            v->vetor[3] = 1;
+            return v;
+        }
+        else{
+            v->vetor[0] = 0;
+            v->vetor[1] = 1;
+            v->vetor[2] = 1;
+            v->vetor[3] = 0;
+            return v;
+        }
+	}
+	else if(mouseX < x - tolerancia){
+        if(mouseY > y + tolerancia){
+            v->vetor[0] = 1;
+            v->vetor[1] = 0;
+            v->vetor[2] = 0;
+            v->vetor[3] = 1;
+            return v;
+        }
+        else{
+            v->vetor[0] = 1;
+            v->vetor[1] = 0;
+            v->vetor[2] = 1;
+            v->vetor[3] = 0;
+            return v;
+        }
+	}
+
 }
 
 /*
@@ -343,7 +436,7 @@ int transladarReta(int chave, ListaRetas * listaRetas, MatrizTransformacao * mat
 /*
  * FUNÇÃO PARA ROTACIONAR UMA RETA
  */
-int rotacionarReta(int reta, ListaRetas * listaRetas, MatrizTransformacao * matrizRotacao)
+int rotacionarReta(int chave, ListaRetas * listaRetas, MatrizTransformacao * matrizRotacao, MatrizTransformacao * ida, MatrizTransformacao * volta)
 {
     // Se a lista de retas estiver vazia ou a quantidade de retas for zero
 	if (listaRetas == NULL || listaRetas->qtdRetas == 0) {
@@ -352,6 +445,27 @@ int rotacionarReta(int reta, ListaRetas * listaRetas, MatrizTransformacao * matr
 	}
 	//
 	else {
+	    MatrizPonto * matrizInicial = criarMatrizPonto(listaRetas->retas[chave].inicial.x, listaRetas->retas[chave].inicial.y);
+		MatrizPonto * matrizCentral = criarMatrizPonto(listaRetas->retas[chave].central.x, listaRetas->retas[chave].central.y);
+		MatrizPonto * matrizFinal = criarMatrizPonto(listaRetas->retas[chave].final.x, listaRetas->retas[chave].final.y);
+
+		MatrizTransformacao * cpstinicial = multiplicarMatrizesTransformacao(matrizRotacao, ida);
+		MatrizTransformacao * composta = multiplicarMatrizesTransformacao(volta, cpstinicial);
+
+		matrizInicial = multiplicarMatrizPonto(matrizInicial, composta);
+		matrizCentral = multiplicarMatrizPonto(matrizCentral, composta);
+		matrizFinal = multiplicarMatrizPonto(matrizFinal, composta);
+
+		listaRetas->retas[chave].inicial.x = matrizInicial->matriz[0][0];
+		listaRetas->retas[chave].inicial.y = matrizInicial->matriz[0][1];
+
+		//
+		listaRetas->retas[chave].central.x = matrizCentral->matriz[0][0];
+		listaRetas->retas[chave].central.y = matrizCentral->matriz[0][1];
+
+		//
+		listaRetas->retas[chave].final.x = matrizFinal->matriz[0][0];
+		listaRetas->retas[chave].final.y = matrizFinal->matriz[0][1];
 		return 1;
 	}
 }
@@ -359,7 +473,7 @@ int rotacionarReta(int reta, ListaRetas * listaRetas, MatrizTransformacao * matr
 /*
  * FUNÇÃO PARA ESCALAR UMA RETA
  */
-int escalarReta(int reta, ListaRetas * listaRetas, MatrizTransformacao * matrizEscalar)
+int escalarReta(int chave, ListaRetas * listaRetas, MatrizTransformacao * matrizEscalar, MatrizTransformacao * ida, MatrizTransformacao * volta)
 {
     // Se a lista de retas estiver vazia ou a quantidade de retas for zero
 	if (listaRetas == NULL || listaRetas->qtdRetas == 0) {
@@ -368,6 +482,27 @@ int escalarReta(int reta, ListaRetas * listaRetas, MatrizTransformacao * matrizE
 	}
 	//
 	else {
+        MatrizPonto * matrizInicial = criarMatrizPonto(listaRetas->retas[chave].inicial.x, listaRetas->retas[chave].inicial.y);
+		MatrizPonto * matrizCentral = criarMatrizPonto(listaRetas->retas[chave].central.x, listaRetas->retas[chave].central.y);
+		MatrizPonto * matrizFinal = criarMatrizPonto(listaRetas->retas[chave].final.x, listaRetas->retas[chave].final.y);
+
+		MatrizTransformacao * cpstinicial = multiplicarMatrizesTransformacao(matrizEscalar, ida);
+		MatrizTransformacao * composta = multiplicarMatrizesTransformacao(volta, cpstinicial);
+
+		matrizInicial = multiplicarMatrizPonto(matrizInicial, composta);
+		matrizCentral = multiplicarMatrizPonto(matrizCentral, composta);
+		matrizFinal = multiplicarMatrizPonto(matrizFinal, composta);
+
+		listaRetas->retas[chave].inicial.x = matrizInicial->matriz[0][0];
+		listaRetas->retas[chave].inicial.y = matrizInicial->matriz[0][1];
+
+		//
+		listaRetas->retas[chave].central.x = matrizCentral->matriz[0][0];
+		listaRetas->retas[chave].central.y = matrizCentral->matriz[0][1];
+
+		//
+		listaRetas->retas[chave].final.x = matrizFinal->matriz[0][0];
+		listaRetas->retas[chave].final.y = matrizFinal->matriz[0][1];
 		return 1;
 	}
 }

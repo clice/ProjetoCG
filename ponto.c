@@ -160,11 +160,7 @@ void carregarListaPontos()
  */
 int adicionarPonto(float mouseX, float mouseY, ListaPontos * listaPontos)
 {
-<<<<<<< HEAD
-    // Se a lista de pontos não foi criada ou está cheia não é possível adicionar mais pontos
-=======
     // Se a lista de pontos não foi criada ou está cheia, não é possível adicionar mais pontos
->>>>>>> 97115f8cc1ce7d58893f93a2c8537af0e09a330d
     if (listaPontos == NULL || listaPontos->qtdPontos == MAX_PONTOS) {
         printf("Lista de pontos nao foi criada ou esta cheia! Nao e possivel adicionar o ponto!\n");
         return 0;
@@ -273,11 +269,7 @@ int transladarPonto(int chave, ListaPontos * listaPontos, MatrizTransformacao * 
         // para realizar a mudança de local do ponto onde foi selecionado
         MatrizPonto * matrizComposta = criarMatrizPonto(listaPontos->pontos[chave].x, listaPontos->pontos[chave].y);
 
-<<<<<<< HEAD
         //
-=======
-        // 
->>>>>>> 97115f8cc1ce7d58893f93a2c8537af0e09a330d
         matrizComposta = multiplicarMatrizPonto(matrizComposta, matrizTranslacao);
 
         // Modifica a posição do ponto a partir do resultado do cálculo da translação
