@@ -3,6 +3,8 @@
 
 #define MAX_POLIGONOS 1000
 
+#include <stdbool.h>
+
 #include "reta.h"
 
 /*
@@ -19,9 +21,9 @@ typedef struct PontoPoligono
  */
 typedef struct Poligono
 {
-    int qtdLados;   			  // Quantos lados tem o polígono
-    Ponto central;    		  // Ponto para armazenar o ponto central do polígono
-    PontoPoligono * inicial;  // PontoPoligono para o ponto inicial do polígono
+    int qtdLados;   		   // Quantos lados tem o polígono
+    Ponto centroide;    	   // Ponto para armazenar o ponto central do polígono (centróide)
+    PontoPoligono * inicial;   // PontoPoligono para o ponto inicial do polígono
 } Poligono;
 
 /*
@@ -40,6 +42,7 @@ typedef struct ListaPoligonos
  */
 ListaPoligonos * criarListaPoligonos();
 void imprimirListaPoligonos(ListaPoligonos * listaPoligonos);
+void liberarListaPoligonos(ListaPoligonos * listaPoligonos);
 void salvarListaPoligonos(ListaPoligonos * listaPoligonos);
 void carregarListaPoligonos();
 
@@ -49,13 +52,14 @@ void imprimirPontosPoligono(PontoPoligono * pontoPoligonoInicial);
 PontoPoligono * buscarUltimoPontoPoligono(PontoPoligono * pontoPoligonoInicial);
 
 int adicionarPoligono(float mouseX, float mouseY, int statusObjeto, ListaPoligonos * listaPoligonos);
-void finalizarPoligono(int statusObjeto, ListaPoligonos * listaPoligonos);
+void calcularCentroidePoligono(ListaPoligonos * listaPoligonos);
 int excluirPoligono(int chave, ListaPoligonos * listaPoligonos);
 int selecionarPoligono(float mouseX, float mouseY, ListaPoligonos * listaPoligonos);
+bool verificarPontoPoligono(float mouseX, float mouseY, Poligono * poligono);
 void desenharPoligonos(ListaPoligonos * listaPoligonos);
 
-int transladarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizTranslacao);
-int rotacionarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizRotacao);
-int escalarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizEscalar);
+int transladarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizTranslacaoPoligono);
+int rotacionarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizRotacaoPoligono);
+int escalarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizEscalarPoligono);
 
 #endif // POLIGONO_H

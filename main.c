@@ -91,6 +91,12 @@ int main (int argc, char ** argv)
     glutKeyboardFunc(funcoesTeclado);    // Chamadas quando o teclado ASCII é acionado
     glutDisplayFunc(telaInicial);        // Para mostrar elementos na tela rederizando os objetos
     glutMainLoop();
+
+    // Liberando espaço da memória ocupado pelas listas de objetos
+    liberarListaPontos(listaPontos);
+    liberarListaRetas(listaRetas);
+    liberarListaPoligonos(listaPoligonos);
+
     return 0;
 }
 
@@ -213,6 +219,8 @@ void funcoesMouse(int botaoMouse, int statusMouse, int x, int y)
         // Se a opção for 6 (Selecionar polígono)
         else if (opcao == 6) {
             // Retorna a chave da lista onde o polígono que foi selecionado com o mouse está
+            chave = selecionarPoligono(mouseX, mouseY, listaPoligonos);
+            printf("Chave selecionada: %d\n", chave);
         }
 
         ////////// Opção: Salvar objetos
@@ -247,9 +255,9 @@ void funcoesMovimento(int x, int y)
     if (opcao == 4 && chave != -1) {
         // Realizar o cálculo da transformação para movimentar o ponto
         MatrizTransformacao * matrizTranslacaoPonto = criarMatrizTranslacao(
-            mouseX - listaPontos->pontos[chave].x,
-            mouseY - listaPontos->pontos[chave].y
-        );
+                mouseX - listaPontos->pontos[chave].x,
+                mouseY - listaPontos->pontos[chave].y
+            );
 
         // Realizar a translação do ponto selecionado
         transladarPonto(chave, listaPontos, matrizTranslacaoPonto);
@@ -262,7 +270,7 @@ void funcoesMovimento(int x, int y)
         MatrizTransformacao * matrizTranslacaoReta = criarMatrizTranslacao(
             mouseX - listaRetas->retas[chave].central.x,
             mouseY - listaRetas->retas[chave].central.y
-        );
+            );
 
         // Realizar a translação da reta selecionada
         transladarReta(chave, listaRetas, matrizTranslacaoReta);
@@ -271,7 +279,14 @@ void funcoesMovimento(int x, int y)
     ////////// Transladar polígono
     // Se estiver na opção "Selecionar" polígono e um polígono já estiver selecionado, o mouse fica transladando o polígono
     else if (opcao == 6 && chave != -1) {
+        // Realizar o cálculo da transformação para movimentar o polígono
+        MatrizTransformacao * matrizTranslacaoPoligono = criarMatrizTranslacao(
+                mouseX - listaPoligonos->poligonos[chave].centroide.x,
+                mouseY - listaPoligonos->poligonos[chave].centroide.y
+            );
 
+        // Realizar a translação do polígono selecionado
+        transladarPoligono(chave, listaPoligonos, matrizTranslacaoPoligono);
     }
 
     glutPostRedisplay();
@@ -323,10 +338,10 @@ void funcoesTeclado(unsigned char key, int x, int y)
         case 'E':
         case 'e':
             if (opcao == 3 && statusObjeto == 1) {
-
+                statusObjeto = 2;
                 // Adicionar o último ponto do polígono para finalizá-lo
-                // statusObjeto = adicionarPoligono(mouseX, mouseY, statusObjeto, listaPoligonos);
-                finalizarPoligono(statusObjeto, listaPoligonos);
+                statusObjeto = adicionarPoligono(mouseX, mouseY, statusObjeto, listaPoligonos);
+                // finalizarPoligono(statusObjeto, listaPoligonos);
                 imprimirListaPoligonos(listaPoligonos);
 
                 // Mudar status do objeto para ele ser finalizado

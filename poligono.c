@@ -38,9 +38,18 @@ void imprimirListaPoligonos(ListaPoligonos * listaPoligonos)
 		for (int i = 0; i < listaPoligonos->qtdPoligonos; i++) {
 			printf("Poligono: %d\n", i + 1);
 			printf("Quantidade de lados: %d\n", listaPoligonos->poligonos[i].qtdLados);
+			printf("Centroide: (%.1f, %.1f)\n", listaPoligonos->poligonos[i].centroide.x, listaPoligonos->poligonos[i].centroide.y);
 			imprimirPontosPoligono(listaPoligonos->poligonos[i].inicial);
 		}
 	}
+}
+
+/*
+ * FUNÇÃO PARA LIBERAR O ESPAÇO DE MEMÓRIA USADO PARA ARMAZENAR A LISTA DE POLÍGONOS
+ */
+void liberarListaPoligonos(ListaPoligonos * listaPoligonos)
+{
+
 }
 
 /*
@@ -86,7 +95,7 @@ PontoPoligono * criarPontoPoligono(float mouseX, float mouseY)
  */
 void inserirPontoPoligono(PontoPoligono ** pontoPoligonoInicial, float mouseX, float mouseY)
 {
-	// Criando o novo ponto 
+	// Criando o novo ponto
 	PontoPoligono * novoPontoPoligono = criarPontoPoligono(mouseX, mouseY);
 
 	// Se a lista estiver vazia, o novo ponto vira o ponto inicial da lista
@@ -111,9 +120,9 @@ void imprimirPontosPoligono(PontoPoligono * pontoPoligonoInicial)
 	// A variável do pontoPoligonoInicial na iteração vai apontando para o próximo ponto até encontrar um ponteiro nulo
 	int i = 0;
 	while (pontoPoligonoInicial->prox != NULL) {
-		printf("Ponto %d: x: %.1f, y: %.1f, cor: { %.1f, %.1f, %.1f }\n", 
-			i + 1, 
-			pontoPoligonoInicial->ponto.x, 
+		printf("Ponto %d: x: %.1f, y: %.1f, cor: { %.1f, %.1f, %.1f }\n",
+			i + 1,
+			pontoPoligonoInicial->ponto.x,
 			pontoPoligonoInicial->ponto.y,
             pontoPoligonoInicial->ponto.cor.red,
             pontoPoligonoInicial->ponto.cor.green,
@@ -161,18 +170,18 @@ int adicionarPoligono(float mouseX, float mouseY, int statusObjeto, ListaPoligon
 	else {
 		// Se o polígono está sendo inicializado (primeiro ponto do polígono)
 		if (statusObjeto == -1) {
-			// Inserir o ponto do polígono no próximo ponteiro da lista 
+			// Inserir o ponto do polígono no próximo ponteiro da lista
 			inserirPontoPoligono(&listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].inicial, mouseX, mouseY);
 
 			// Adicionando mais um quantidade de lados do polígono
-			listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].qtdLados = 1;
+			listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].qtdLados = 0;
 
 			// Retornar para continuar a adição de pontos ao polígono
 			return 1;
 		}
 		// Se o polígono está sendo desenhando (adicionando outros pontos ao polígono)
 		else if (statusObjeto == 1) {
-			// Inserir o ponto do polígono no próximo ponteiro da lista 
+			// Inserir o ponto do polígono no próximo ponteiro da lista
 			inserirPontoPoligono(&listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].inicial, mouseX, mouseY);
 
 			// Adicionando mais um quantidade de lados do polígono
@@ -183,22 +192,8 @@ int adicionarPoligono(float mouseX, float mouseY, int statusObjeto, ListaPoligon
 		}
 		// Se for finalizar o polígono e ele tiver 3 ou mais lados
 		else if (statusObjeto == 2 && listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].qtdLados > 2) {
-			imprimirPontosPoligono(listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].inicial);
-			// // Laço para percorrer toda a lista de pontos do polígono
-			// while (listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].inicial != NULL) {
-			// 	// Movendo para o próximo ponto da lista de pontos para pegar o ponto final
-			// 	auxPontoPoligono = auxPontoPoligono->prox;
-
-			// 	// Calcular o ponto central das "retas" que compoem o polígono
-			// 	listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].central.x = (listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].inicial->ponto.x + auxPontoPoligono->ponto.x) / 2;
-			// 	listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].central.y = (listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].inicial->ponto.y + auxPontoPoligono->ponto.y) / 2;
-
-			// 	// Adicionando a cor do ponto central da "reta"
-			// 	listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].central.cor = magenta;
-
-			// 	// Movendo para o próximo ponto da lista de pontos
-			// 	listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].inicial = listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].inicial->prox;
-			// }
+			// Calcular o centróide do polígono
+			calcularCentroidePoligono(listaPoligonos);
 
 			// Acrescentando um polígono a lista
 			listaPoligonos->qtdPoligonos++;
@@ -214,40 +209,65 @@ int adicionarPoligono(float mouseX, float mouseY, int statusObjeto, ListaPoligon
 }
 
 /*
- * FUNÇÃO PARA FINALIZAR A ADIÇÃO DO POLÍGONO NA LISTA 
+ * FUNÇÃO PARA CALCULAR O CENTRÓIDE DO POLÍGONO
  */
-void finalizarPoligono(int statusObjeto, ListaPoligonos * listaPoligonos)
+void calcularCentroidePoligono(ListaPoligonos * listaPoligonos)
 {
-	// Se a lista de polígonos não foi criada ou está cheia, não é possível adicionar mais polígonos
-	if (listaPoligonos == NULL || listaPoligonos->qtdPoligonos == MAX_POLIGONOS) {
-		printf("Lista de poligonos nao foi criada ou esta cheia! Nao e possivel adicionar o poligono!\n");
+	// Se a lista de polígonos não foi criada ou a quantidade de polígonos for zero
+	if (listaPoligonos == NULL || listaPoligonos->qtdPoligonos == 0) {
+		printf("Lista de poligonos nao foi criada ou nao ha poligonos! Nao e possivel calcular o centroide do poligono!\n");
+		return 0;
 	}
-	// Finalizar polígono
+	// Calcular o centróide de um polígono
 	else {
-		if (statusObjeto == 1 && listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].qtdLados > 2) {
-			imprimirPontosPoligono(listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].inicial);
-			// // Laço para percorrer toda a lista de pontos do polígono
-			// while (listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].inicial != NULL) {
-			// 	// Movendo para o próximo ponto da lista de pontos para pegar o ponto final
-			// 	auxPontoPoligono = auxPontoPoligono->prox;
+		float areaPoligono = 0.0, centroideX = 0.0, centroideY = 0.0, auxPoligono = 0.0;
 
-			// 	// Calcular o ponto central das "retas" que compoem o polígono
-			// 	listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].central.x = (listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].inicial->ponto.x + auxPontoPoligono->ponto.x) / 2;
-			// 	listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].central.y = (listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].inicial->ponto.y + auxPontoPoligono->ponto.y) / 2;
+		// Variáveis para iterar a lista de polígonos e fazer o cálculo do centroide do polígono
+		PontoPoligono * inicialPontoPoligono = (PontoPoligono *)malloc(sizeof(PontoPoligono));
+		PontoPoligono * finalPontoPoligono = (PontoPoligono *)malloc(sizeof(PontoPoligono));
 
-			// 	// Adicionando a cor do ponto central da "reta"
-			// 	listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].central.cor = magenta;
+		// Inicializando as variáveis com o primeiro ponto e com o próximo ponto, respectivamente inicialPontoPoligono e finalPontoPoligono
+		inicialPontoPoligono = listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].inicial;
+		finalPontoPoligono = listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].inicial->prox;
 
-			// 	// Movendo para o próximo ponto da lista de pontos
-			// 	listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].inicial = listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].inicial->prox;
-			// }
+		// Laço para percorrer toda a lista de pontos do polígono
+		// Utilizando o finalPontoPoligono como condição de parada (já que ele está mais a frente na iteração)
+		// Utilizando também a fórmula do cálculo do centróide de um polígono
+		while (finalPontoPoligono != NULL) {
+			// Variável auxiliar para o cálculo da área e do centróide do polígono
+			// Realizando a subtração das variáveis que serão utilizadas nos cálculos necessários
+			auxPoligono = (inicialPontoPoligono->ponto.x * finalPontoPoligono->ponto.y) - (finalPontoPoligono->ponto.x * inicialPontoPoligono->ponto.y);
 
-			// Acrescentando um polígono a lista
-			listaPoligonos->qtdPoligonos++;
+			// Somatório para o cálculo do centróide
+			// Sendo Cx = soma((xI + xImais1) * (xI * yImais1 - yI * xImais1)) / (6 * A)
+			centroideX += (inicialPontoPoligono->ponto.x + finalPontoPoligono->ponto.x) * auxPoligono;
+			// Sendo Cy = soma((yI + yImais1) * (xI * yImais1 - yI * xImais1)) / (6 * A)
+			centroideY += (inicialPontoPoligono->ponto.y + finalPontoPoligono->ponto.y) * auxPoligono;
 
-			// Retornar ao status inicial para finalizar o polígono
-			return;
+			// Sendo a área A = soma(xI * yImais1 - yI * xImais1) / 2, onde i é igual a quantidade de ponto de um polígono
+			areaPoligono += auxPoligono;
+
+			// Passando para os próximos pontos da lista
+			inicialPontoPoligono = inicialPontoPoligono->prox;
+			finalPontoPoligono = finalPontoPoligono->prox;
 		}
+
+		// Atribuindo a variável finalPontoPoligono com o último ponto que está na inicialPontoPoligono
+		finalPontoPoligono = inicialPontoPoligono;
+		inicialPontoPoligono = listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].inicial;
+
+		// Atribuindo o valor para finalizar a soma do cálculo da área do polígono
+		auxPoligono = (finalPontoPoligono->ponto.x * inicialPontoPoligono->ponto.y) - (inicialPontoPoligono->ponto.x * finalPontoPoligono->ponto.y);
+		areaPoligono += auxPoligono;
+		areaPoligono = areaPoligono / 2;
+
+		// Atribuindo o valor para finalizar a soma do cálculo do centróide
+		centroideX += (inicialPontoPoligono->ponto.x + finalPontoPoligono->ponto.x) * auxPoligono;
+		centroideY += (inicialPontoPoligono->ponto.y + finalPontoPoligono->ponto.y) * auxPoligono;
+
+		// Atribuindo o valor do cálculo do centróide a variável referente a ele na lista de polígonos
+		listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].centroide.x = centroideX / (6 * areaPoligono);
+		listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].centroide.y = centroideY / (6 * areaPoligono);
 	}
 }
 
@@ -282,7 +302,80 @@ int excluirPoligono(int chave, ListaPoligonos * listaPoligonos)
  */
 int selecionarPoligono(float mouseX, float mouseY, ListaPoligonos * listaPoligonos)
 {
-    return 0;
+    // Se a lista de polígonos não foi criada ou a quantidade de polígonos for zero
+	if (listaPoligonos == NULL || listaPoligonos->qtdPoligonos == 0) {
+		printf("Lista de poligonos nao foi criada ou nao ha poligonos! Nao e possivel selecionar o poligono!\n");
+		return 0;
+	}
+	// Remover um polígono
+	else {
+		// Variável para manipular os dados da lista
+		Poligono * poligonos = (Poligono *)malloc(sizeof(Poligono));
+
+		// Laço para percorrer a lista de polígonos
+		for (int i = 0; i < listaPoligonos->qtdPoligonos; i++) {
+			// Inicializar com os pontos do polígono sendo verificado
+			poligonos[i] = listaPoligonos->poligonos[i];
+
+			// Se o ponto passado pertencer ao poligono, retornar a chave da lista de polígonos referente ao polígono
+			if (verificarPontoPoligono(mouseX, mouseY, &poligonos[i])) {
+				return i;
+			}
+		}
+
+		return 0;
+	}
+}
+
+/*
+ * FUNÇÃO PARA VERIFICAR SE O PONTO PERTENCE AO POLÍGONO
+ */
+bool verificarPontoPoligono(float mouseX, float mouseY, Poligono * poligono)
+{
+	// Se a lista de polígonos não foi criada ou a quantidade de polígonos for zero
+	if (poligono == NULL) {
+		printf("Lista de poligonos nao foi criada ou nao ha poligonos! Nao e possivel verificar o ponto no poligono!\n");
+		return false;
+	}
+	// Verificar ponto no polígono
+	else {
+		// Variável para registrar caso o ponto faz parte do polígono
+		bool dentroPoligono = false;
+
+		// Variáveis para auxiliar a manipulação dos dados
+		PontoPoligono * atualPontoPoligono = poligono->inicial;
+		PontoPoligono * anteriorPontoPoligono = NULL;
+
+		// Laço para percorrer todos os pontos do polígono
+		while (atualPontoPoligono != NULL) {
+			// Conferindo se os pontos do polígono são maiores que os que foram passados
+			// Os pontos do eixo Y devem estar em diferentes lados do eixo X (horizontal)
+			// A expressão é usado para detectar se o raio horizontal se extende a partir do ponto passado com a
+			// coordenada Y, intersectando com a borda definida pelos vertices (pontos) que compoem o polígono
+			// E o ponto passado no eixo X for também menor que a coordenada X
+			// Se ambas as condições forem verdadeiras, significa que o ponto está dentro do polígono
+
+			// Checar se os raios se intersectam com a borda entre o ponto anterior e o atual
+			if (anteriorPontoPoligono != NULL &&
+				(anteriorPontoPoligono->ponto.y > mouseY) != (atualPontoPoligono->ponto.y > mouseY) &&
+				(mouseX < (atualPontoPoligono->ponto.x - anteriorPontoPoligono->ponto.x) * (mouseY - anteriorPontoPoligono->ponto.y) / (atualPontoPoligono->ponto.y - anteriorPontoPoligono->ponto.y) + anteriorPontoPoligono->ponto.x)) {
+				dentroPoligono = !dentroPoligono;
+			}
+
+			anteriorPontoPoligono = atualPontoPoligono;
+			atualPontoPoligono = atualPontoPoligono->prox;
+		}
+
+		// Chechar se os raios intesectam com as bordas entre o último e primeiro pontos
+		// Isso é necessário porque o laço não dá a volta para o início, então é necessa'rio pegar o último ponto e comparar com o primeiro
+		if (poligono->qtdLados >= 2 &&
+			(anteriorPontoPoligono->ponto.y > mouseY) != (poligono->inicial->ponto.y > mouseY) &&
+			(mouseX < (poligono->inicial->ponto.x - anteriorPontoPoligono->ponto.x) * (mouseY - anteriorPontoPoligono->ponto.y) / (poligono->inicial->ponto.y - anteriorPontoPoligono->ponto.y) + anteriorPontoPoligono->ponto.x)) {
+			dentroPoligono = !dentroPoligono;
+		}
+
+		return dentroPoligono;
+	}
 }
 
 /*
@@ -294,12 +387,13 @@ void desenharPoligonos(ListaPoligonos * listaPoligonos)
 	PontoPoligono * auxPontoPoligono = (PontoPoligono *)malloc(sizeof(PontoPoligono));
 
 	glLineWidth(6.0);
-	glBegin(GL_POLYGON);
 
 	// Laço para percorrer toda a lista de polígonos
     for (int i = 0; i < listaPoligonos->qtdPoligonos; i++) {
+		glBegin(GL_POLYGON);
+
 		// Recebe os mesmos dados do ponto inicial para manipulação
-		auxPontoPoligono = listaPoligonos->poligonos[i].inicial;		
+		auxPontoPoligono = listaPoligonos->poligonos[i].inicial;
 
 		// Laço para percorrer toda a lista de pontos do polígono
 		while (auxPontoPoligono->prox != NULL) {
@@ -307,6 +401,9 @@ void desenharPoligonos(ListaPoligonos * listaPoligonos)
 			glColor3f(auxPontoPoligono->ponto.cor.red, auxPontoPoligono->ponto.cor.green, auxPontoPoligono->ponto.cor.blue);
 			// Posicionando o ponto na largura e altura corretas do mouse
 			glVertex2f(auxPontoPoligono->ponto.x, auxPontoPoligono->ponto.y);
+
+			// Iteração para o próximo ponto da lista
+			auxPontoPoligono = auxPontoPoligono->prox;
 		}
 
 		glEnd();
@@ -318,23 +415,69 @@ void desenharPoligonos(ListaPoligonos * listaPoligonos)
 /*
  * FUNÇÃO PARA TRANSLADAR UM POLÍGONO (ARRASTAR E SOLTAR)
  */
-int transladarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizTranslacao)
+int transladarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizTranslacaoPoligono)
 {
-    return 0;
+    // Se a lista de polígonos não foi criada ou a quantidade de polígonos for zero
+	if (listaPoligonos == NULL || listaPoligonos->qtdPoligonos == 0) {
+		printf("Lista de poligonos nao foi criada ou nao ha poligonos! Nao e possivel transladar o poligono!\n");
+		return 0;
+	}
+	// Transladar um polígono
+	else {
+		float centroideX = 0.0, centroideY = 0.0;
+
+		// Variáveis para iterar a lista de polígonos auxiliando a manipulação de dados
+		PontoPoligono * inicialPontoPoligono = (PontoPoligono *)malloc(sizeof(PontoPoligono));
+		inicialPontoPoligono = listaPoligonos->poligonos[chave].inicial;
+
+		// Criar a matriz composta com a posição do mouse onde o objeto foi clicado
+		// para realizar a mudança de local do ponto onde foi selecionado
+		MatrizPonto * matrizInicial = NULL;
+
+		// Laço para percorrer toda a lista de pontos do polígono
+		while (inicialPontoPoligono->prox != NULL) {
+			matrizInicial = criarMatrizPonto(inicialPontoPoligono->ponto.x, inicialPontoPoligono->ponto.y);
+			matrizInicial = multiplicarMatrizPonto(matrizInicial, matrizTranslacaoPoligono);
+
+			inicialPontoPoligono->ponto.x = matrizInicial->matriz[0][0];
+			inicialPontoPoligono->ponto.y = matrizInicial->matriz[0][1];
+		}
+
+		// Calcular o centróide do novo lugar para o polígono
+		calcularCentroidePoligono(listaPoligonos);
+
+		return 1;
+	}
 }
 
 /*
  * FUNÇÃO PARA ROTACIONAR UM POLÍGONO
  */
-int rotacionarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizRotacao)
+int rotacionarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizRotacaoPoligono)
 {
-    return 0;
+    // Se a lista de polígonos não foi criada ou a quantidade de polígonos for zero
+	if (listaPoligonos == NULL || listaPoligonos->qtdPoligonos == 0) {
+		printf("Lista de poligonos nao foi criada ou nao ha poligonos! Nao e possivel rotacionar o poligono!\n");
+		return 0;
+	}
+	// Rotacionar um polígono
+	else {
+		return 1;
+	}
 }
 
 /*
  * FUNÇÃO PARA ESCALAR UM POLÍGONO
  */
-int escalarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizEscalar)
+int escalarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizEscalarPoligono)
 {
-    return 0;
+    // Se a lista de polígonos não foi criada ou a quantidade de polígonos for zero
+	if (listaPoligonos == NULL || listaPoligonos->qtdPoligonos == 0) {
+		printf("Lista de poligonos nao foi criada ou nao ha poligonos! Nao e possivel rotacionar o poligono!\n");
+		return 0;
+	}
+	// Escalar um polígono
+	else {
+		return 1;
+	}
 }
