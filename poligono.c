@@ -45,6 +45,14 @@ void imprimirListaPoligonos(ListaPoligonos * listaPoligonos)
 }
 
 /*
+ * FUNÇÃO PARA LIBERAR O ESPAÇO DE MEMÓRIA USADO PARA ARMAZENAR A LISTA DE POLÍGONOS
+ */
+void liberarListaPoligonos(ListaPoligonos * listaPoligonos)
+{
+    
+}
+
+/*
  * FUNÇÃO PARA SALVAR A LISTA DE POLÍGONOS
  */
 void salvarListaPoligonos(ListaPoligonos * listaPoligonos)
@@ -277,7 +285,64 @@ int excluirPoligono(int chave, ListaPoligonos * listaPoligonos)
  */
 int selecionarPoligono(float mouseX, float mouseY, ListaPoligonos * listaPoligonos)
 {
-    return 0;
+    // Se a lista de polígonos não foi criada ou a quantidade de polígonos for zero
+	if (listaPoligonos == NULL || listaPoligonos->qtdPoligonos == 0) {
+		printf("Lista de poligonos nao foi criada ou nao ha poligonos! Nao e possivel selecionar o poligono!\n");
+		return 0;
+	}
+	// Remover um polígono
+	else {
+		// // Laço para percorrer a lista de polígonos a partir da chave do polígono até o final da lista
+        // // Para não quebrar a integridade da lista
+		// for (int i = chave; i < listaPoligonos->qtdPoligonos; i++) {
+		// 	listaPoligonos->poligonos[i] = listaPoligonos->poligonos[i + 1];
+		// }
+
+		// // Diminuir uma unidade da quantidade de polígonos
+		// listaPoligonos->qtdPoligonos--;
+
+		// printf("Poligono excluido com sucesso!\n");
+		return 1;
+	}
+}
+
+/*
+ * FUNÇÃO PARA VERIFICAR SE O PONTO PERTENCE AO POLÍGONO
+ */
+int verificarPontoPoligono(float mouseX, float mouseY, ListaPoligonos * listaPoligonos)
+{
+	// Se a lista de polígonos não foi criada ou a quantidade de polígonos for zero
+	if (listaPoligonos == NULL || listaPoligonos->qtdPoligonos == 0) {
+		printf("Lista de poligonos nao foi criada ou nao ha poligonos! Nao e possivel verificar o ponto no poligono!\n");
+		return 0;
+	}
+	// Verificar ponto no polígono
+	else {
+		// Variável para manipular os dados da lista
+		PontoPoligono * inicialPontoPoligono = (PontoPoligono *)malloc(sizeof(PontoPoligono));
+
+		// Laço para percorrer a lista de polígonos
+		for (int i = 0; i < listaPoligonos->qtdPoligonos; i++) {
+			// Inicializar com os pontos do polígono sendo verificado
+			inicialPontoPoligono = listaPoligonos->poligonos[i].inicial->prox;
+
+			// Laço para percorrer os pontos (vertices) do polígono
+			while (inicialPontoPoligono->prox != NULL) {
+				// // Checar se o ponto passado está em uma borda ou vertice do polígono
+				// if ((inicialPontoPoligono->ponto.y > mouseY) != (polygon.vertices[j].y > point.y) &&
+            	// 	(point.x < (polygon.vertices[j].x - polygon.vertices[i].x) * (point.y - polygon.vertices[i].y) /
+                //     (polygon.vertices[j].y - polygon.vertices[i].y) + polygon.vertices[i].x)) {
+
+				// }
+
+				// Iteração para passar para o próximo ponto (vertice)
+				inicialPontoPoligono = inicialPontoPoligono->prox;
+			}
+		}
+
+		printf("Poligono excluido com sucesso!\n");
+		return 1;
+	}
 }
 
 /*
@@ -304,7 +369,7 @@ void desenharPoligonos(ListaPoligonos * listaPoligonos)
 			// Posicionando o ponto na largura e altura corretas do mouse
 			glVertex2f(auxPontoPoligono->ponto.x, auxPontoPoligono->ponto.y);
 
-			// 
+			// Iteração para o próximo ponto da lista
 			auxPontoPoligono = auxPontoPoligono->prox;
 		}
 
@@ -317,7 +382,7 @@ void desenharPoligonos(ListaPoligonos * listaPoligonos)
 /*
  * FUNÇÃO PARA TRANSLADAR UM POLÍGONO (ARRASTAR E SOLTAR)
  */
-int transladarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizTranslacao)
+int transladarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizTranslacaoPoligono)
 {
     return 0;
 }
@@ -325,7 +390,7 @@ int transladarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransfo
 /*
  * FUNÇÃO PARA ROTACIONAR UM POLÍGONO
  */
-int rotacionarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizRotacao)
+int rotacionarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizRotacaoPoligono)
 {
     return 0;
 }
@@ -333,7 +398,7 @@ int rotacionarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransfo
 /*
  * FUNÇÃO PARA ESCALAR UM POLÍGONO
  */
-int escalarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizEscalar)
+int escalarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizEscalarPoligono)
 {
     return 0;
 }

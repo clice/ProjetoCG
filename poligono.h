@@ -40,6 +40,7 @@ typedef struct ListaPoligonos
  */
 ListaPoligonos * criarListaPoligonos();
 void imprimirListaPoligonos(ListaPoligonos * listaPoligonos);
+void liberarListaPoligonos(ListaPoligonos * listaPoligonos);
 void salvarListaPoligonos(ListaPoligonos * listaPoligonos);
 void carregarListaPoligonos();
 
@@ -51,10 +52,11 @@ PontoPoligono * buscarUltimoPontoPoligono(PontoPoligono * pontoPoligonoInicial);
 int adicionarPoligono(float mouseX, float mouseY, int statusObjeto, ListaPoligonos * listaPoligonos);
 int excluirPoligono(int chave, ListaPoligonos * listaPoligonos);
 int selecionarPoligono(float mouseX, float mouseY, ListaPoligonos * listaPoligonos);
+// int verificarPontoPoligono(float mouseX, float mouseY, ListaPoligonos * listaPoligonos);
 void desenharPoligonos(ListaPoligonos * listaPoligonos);
 
-int transladarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizTranslacao);
-int rotacionarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizRotacao);
-int escalarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizEscalar);
+int transladarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizTranslacaoPoligono);
+int rotacionarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizRotacaoPoligono);
+int escalarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizEscalarPoligono);
 
 #endif // POLIGONO_H

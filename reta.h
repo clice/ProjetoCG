@@ -31,17 +31,18 @@ typedef struct ListaRetas
  */
 ListaRetas * criarListaRetas();
 void imprimirListaRetas(ListaRetas * listaRetas);
+void liberarListaRetas(ListaRetas * listaRetas);
 void salvarListaRetas(ListaRetas * listaRetas);
 void carregarListaRetas();
 
 int adicionarReta(float mouseX, float mouseY, int statusObjeto, ListaRetas * listaRetas);
 int excluirReta(int chave, ListaRetas * listaRetas);
 int selecionarReta(float mouseX, float mouseY, ListaRetas * listaRetas);
-int verificarPontoNaReta(float mouseX, float mouseY, float x1, float y1, float x2, float y2);
+int verificarPontoReta(float mouseX, float mouseY, float x1, float y1, float x2, float y2);
 void desenharRetas(ListaRetas * listaRetas);
 
-int transladarReta(int chave, ListaRetas * listaRetas, MatrizTransformacao * matrizTranslacao);
-int rotacionarReta(int chave, ListaRetas * listaRetas, MatrizTransformacao * matrizRotacao);
-int escalarReta(int chave, ListaRetas * listaRetas, MatrizTransformacao * matrizEscalar);
+int transladarReta(int chave, ListaRetas * listaRetas, MatrizTransformacao * matrizTranslacaoReta);
+int rotacionarReta(int chave, ListaRetas * listaRetas, MatrizTransformacao * matrizRotacaoReta);
+int escalarReta(int chave, ListaRetas * listaRetas, MatrizTransformacao * matrizEscalarReta);
 
 #endif // RETA_H

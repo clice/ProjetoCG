@@ -133,14 +133,14 @@
 	<GL/glut.h>
 	"ponto.h"
 
-1705782340 source:c:\users\clice\projects\cg\poligono\projetocg\reta.c
+1705815229 source:c:\users\clice\projects\cg\poligono\projetocg\reta.c
 	<math.h>
 	<stdio.h>
 	<stdlib.h>
 	<GL/glut.h>
 	"reta.h"
 
-1705813949 source:c:\users\clice\projects\cg\poligono\projetocg\poligono.c
+1705814742 source:c:\users\clice\projects\cg\poligono\projetocg\poligono.c
 	<stdio.h>
 	<stdlib.h>
 	<GL/glut.h>

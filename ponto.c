@@ -47,6 +47,14 @@ void imprimirListaPontos(ListaPontos * listaPontos)
 }
 
 /*
+ * FUNÇÃO PARA LIBERAR O ESPAÇO DE MEMÓRIA USADO PARA ARMAZENAR A LISTA DE PONTOS
+ */
+void liberarListaPontos(ListaPontos * listaPontos)
+{
+    
+}
+
+/*
  * FUNÇÃO PARA SALVAR A LISTA DE PONTOS
  */
 void salvarListaPontos(ListaPontos * listaPontos)
@@ -256,7 +264,7 @@ void desenharPontos(ListaPontos * listaPontos)
 /*
  * FUNÇÃO PARA TRANSLADAR UM PONTO (ARRASTAR E SOLTAR)
  */
-int transladarPonto(int chave, ListaPontos * listaPontos, MatrizTransformacao * matrizTranslacao)
+int transladarPonto(int chave, ListaPontos * listaPontos, MatrizTransformacao * matrizTranslacaoPonto)
 {
     // Se a lista de pontos não foi criada ou a quantidade de pontos for zero
     if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
@@ -270,7 +278,7 @@ int transladarPonto(int chave, ListaPontos * listaPontos, MatrizTransformacao * 
         MatrizPonto * matrizComposta = criarMatrizPonto(listaPontos->pontos[chave].x, listaPontos->pontos[chave].y);
 
         //
-        matrizComposta = multiplicarMatrizPonto(matrizComposta, matrizTranslacao);
+        matrizComposta = multiplicarMatrizPonto(matrizComposta, matrizTranslacaoPonto);
 
         // Modifica a posição do ponto a partir do resultado do cálculo da translação
         listaPontos->pontos[chave].x = matrizComposta->matriz[0][0];
@@ -282,7 +290,7 @@ int transladarPonto(int chave, ListaPontos * listaPontos, MatrizTransformacao * 
 /*
  * FUNÇÃO PARA ROTACIONAR UM PONTO (GIRAR PONTO NA TELA A PARTIR DE GRAUS)
  */
-int rotacionarPonto(int chave, ListaPontos * listaPontos, MatrizTransformacao * matrizRotacao)
+int rotacionarPonto(int chave, ListaPontos * listaPontos, MatrizTransformacao * matrizRotacaoPonto)
 {
     // Se a lista de pontos não foi criada ou a quantidade de pontos for zero
     if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
@@ -292,7 +300,7 @@ int rotacionarPonto(int chave, ListaPontos * listaPontos, MatrizTransformacao * 
     // Rotacionar ponto
     else {
         MatrizPonto * matrizPonto = criarMatrizPonto(listaPontos->pontos[chave].x, listaPontos->pontos[chave].y);
-        matrizPonto = multiplicarMatrizPonto(matrizPonto, matrizRotacao);
+        matrizPonto = multiplicarMatrizPonto(matrizPonto, matrizRotacaoPonto);
 
         // Modifica a posição do ponto a partir do resultado do cálculo da rotação
         listaPontos->pontos[chave].x = matrizPonto->matriz[0][0];

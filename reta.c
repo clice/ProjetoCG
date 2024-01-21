@@ -66,6 +66,14 @@ void imprimirListaRetas(ListaRetas * listaRetas)
 }
 
 /*
+ * FUNÇÃO PARA LIBERAR O ESPAÇO DE MEMÓRIA USADO PARA ARMAZENAR A LISTA DE RETAS
+ */
+void liberarListaRetas(ListaRetas * listaRetas)
+{
+    
+}
+
+/*
  * FUNÇÃO PARA SALVAR A LISTA DE RETAS
  */
 void salvarListaRetas(ListaRetas * listaRetas)
@@ -236,7 +244,7 @@ int selecionarReta(float mouseX, float mouseY, ListaRetas * listaRetas)
 			float y2 = listaRetas->retas[i].final.y;
 
 			// Verificando se o ponto do mouse quando clicado pertence a reta
-			if (verificarPontoNaReta(mouseX, mouseY, x1, y1, x2, y2)) {
+			if (verificarPontoReta(mouseX, mouseY, x1, y1, x2, y2)) {
 				printf("Reta selecionada com sucesso!\n");
 				return i;
 			}
@@ -250,7 +258,7 @@ int selecionarReta(float mouseX, float mouseY, ListaRetas * listaRetas)
 /*
  * FUNÇÃO PARA VERIFICAR SE UM PONTO PERTENCE A UMA RETA
  */
-int verificarPontoNaReta(float mouseX, float mouseY, float x1, float y1, float x2, float y2)
+int verificarPontoReta(float mouseX, float mouseY, float x1, float y1, float x2, float y2)
 {
 	float m, b, aux;
 	int tolerancia = 3; // Representa metade do tamanho da linha desenhada da reta, dando uma área para a reta
@@ -305,7 +313,7 @@ void desenharRetas(ListaRetas * listaRetas)
 /*
  * FUNÇÃO PARA TRANSLADAR UMA RETA (ARRASTAR E SOLTAR)
  */
-int transladarReta(int chave, ListaRetas * listaRetas, MatrizTransformacao * matrizTranslacao)
+int transladarReta(int chave, ListaRetas * listaRetas, MatrizTransformacao * matrizTranslacaoReta)
 {
     // Se a lista de retas estiver vazia ou a quantidade de retas for zero
 	if (listaRetas == NULL || listaRetas->qtdRetas == 0) {
@@ -321,9 +329,9 @@ int transladarReta(int chave, ListaRetas * listaRetas, MatrizTransformacao * mat
 		MatrizPonto * matrizFinal = criarMatrizPonto(listaRetas->retas[chave].final.x, listaRetas->retas[chave].final.y);
 
 		//
-		matrizInicial = multiplicarMatrizPonto(matrizInicial, matrizTranslacao);
-		matrizCentral = multiplicarMatrizPonto(matrizCentral, matrizTranslacao);
-		matrizFinal = multiplicarMatrizPonto(matrizFinal, matrizTranslacao);
+		matrizInicial = multiplicarMatrizPonto(matrizInicial, matrizTranslacaoReta);
+		matrizCentral = multiplicarMatrizPonto(matrizCentral, matrizTranslacaoReta);
+		matrizFinal = multiplicarMatrizPonto(matrizFinal, matrizTranslacaoReta);
 
 		//
 		listaRetas->retas[chave].inicial.x = matrizInicial->matriz[0][0];
@@ -343,7 +351,7 @@ int transladarReta(int chave, ListaRetas * listaRetas, MatrizTransformacao * mat
 /*
  * FUNÇÃO PARA ROTACIONAR UMA RETA
  */
-int rotacionarReta(int chave, ListaRetas * listaRetas, MatrizTransformacao * matrizRotacao)
+int rotacionarReta(int chave, ListaRetas * listaRetas, MatrizTransformacao * matrizRotacaoReta)
 {
     // Se a lista de retas estiver vazia ou a quantidade de retas for zero
 	if (listaRetas == NULL || listaRetas->qtdRetas == 0) {
@@ -359,7 +367,7 @@ int rotacionarReta(int chave, ListaRetas * listaRetas, MatrizTransformacao * mat
 /*
  * FUNÇÃO PARA ESCALAR UMA RETA
  */
-int escalarReta(int chave, ListaRetas * listaRetas, MatrizTransformacao * matrizEscalar)
+int escalarReta(int chave, ListaRetas * listaRetas, MatrizTransformacao * matrizEscalarReta)
 {
     // Se a lista de retas estiver vazia ou a quantidade de retas for zero
 	if (listaRetas == NULL || listaRetas->qtdRetas == 0) {
