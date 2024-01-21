@@ -31,12 +31,12 @@ void imprimirListaRetas(ListaRetas * listaRetas)
 {
 	// Se a lista de retas estiver vazia ou a quantidade de retas for zero
 	if (listaRetas == NULL || listaRetas->qtdRetas == 0) {
-		printf("Lista de retas nao foi criada ou esta cheia! Nao e possivel imprimir retas!\n");
+		printf("Lista de retas nao foi criada ou nao ha retas! Nao e possivel imprimir retas!\n");
 	}
 	// Imprimir retas
 	else {
 		for (int i = 0; i < listaRetas->qtdRetas; i++) {
-			printf("Ponto %d:\n", i + 1);
+			printf("Ponto: %d:\n", i + 1);
 
 			printf("Inicial:\nx: %.1f, y: %.1f, cor: { %.1f, %.1f, %.1f }\n",
 				listaRetas->retas[i].inicial.x,
@@ -190,18 +190,18 @@ int adicionarReta(float mouseX, float mouseY, int statusObjeto, ListaRetas * lis
 /*
  * FUNÇÃO PARA EXCLUIR UMA RETA DA TELA
  */
-int excluirReta(int chaveReta, ListaRetas * listaRetas)
+int excluirReta(int chave, ListaRetas * listaRetas)
 {
 	// Se a lista de retas não foi criada ou a quantidade de retas for zero
 	if (listaRetas == NULL || listaRetas->qtdRetas == 0) {
-		printf("Lista de retas nao foi criada ou esta cheia! Nao e possivel excluir a reta!\n");
+		printf("Lista de retas nao foi criada ou nao ha retas! Nao e possivel excluir a reta!\n");
 		return 0;
 	}
 	// Remover uma reta
 	else {
 		// Laço para percorrer a lista de retas a partir da chave da reta até o final da lista
         // Para não quebrar a integridade da lista
-		for (int i = chaveReta; i < listaRetas->qtdRetas; i++) {
+		for (int i = chave; i < listaRetas->qtdRetas; i++) {
 			listaRetas->retas[i] = listaRetas->retas[i + 1];
 		}
 
@@ -220,7 +220,7 @@ int selecionarReta(float mouseX, float mouseY, ListaRetas * listaRetas)
 {
     // Se a lista de retas estiver vazia ou a quantidade de retas for zero
 	if (listaRetas == NULL || listaRetas->qtdRetas == 0) {
-		printf("Lista de retas nao foi criada ou esta cheia! Nao e possivel selecionar a reta!\n");
+		printf("Lista de retas nao foi criada ou nao ha retas! Nao e possivel selecionar a reta!\n");
 		return 0;
 	}
 	//
@@ -309,7 +309,7 @@ int transladarReta(int chave, ListaRetas * listaRetas, MatrizTransformacao * mat
 {
     // Se a lista de retas estiver vazia ou a quantidade de retas for zero
 	if (listaRetas == NULL || listaRetas->qtdRetas == 0) {
-		printf("Lista de retas nao foi criada ou esta cheia! Nao e possivel transladar a reta!\n");
+		printf("Lista de retas nao foi criada ou nao ha retas! Nao e possivel transladar a reta!\n");
 		return 0;
 	}
 	//
@@ -343,11 +343,11 @@ int transladarReta(int chave, ListaRetas * listaRetas, MatrizTransformacao * mat
 /*
  * FUNÇÃO PARA ROTACIONAR UMA RETA
  */
-int rotacionarReta(int reta, ListaRetas * listaRetas, MatrizTransformacao * matrizRotacao)
+int rotacionarReta(int chave, ListaRetas * listaRetas, MatrizTransformacao * matrizRotacao)
 {
     // Se a lista de retas estiver vazia ou a quantidade de retas for zero
 	if (listaRetas == NULL || listaRetas->qtdRetas == 0) {
-		printf("Lista de retas nao foi criada ou esta cheia! Nao e possivel rotacionar a reta!\n");
+		printf("Lista de retas nao foi criada ou nao ha retas! Nao e possivel rotacionar a reta!\n");
 		return 0;
 	}
 	//
@@ -359,11 +359,11 @@ int rotacionarReta(int reta, ListaRetas * listaRetas, MatrizTransformacao * matr
 /*
  * FUNÇÃO PARA ESCALAR UMA RETA
  */
-int escalarReta(int reta, ListaRetas * listaRetas, MatrizTransformacao * matrizEscalar)
+int escalarReta(int chave, ListaRetas * listaRetas, MatrizTransformacao * matrizEscalar)
 {
     // Se a lista de retas estiver vazia ou a quantidade de retas for zero
 	if (listaRetas == NULL || listaRetas->qtdRetas == 0) {
-		printf("Lista de retas nao foi criada ou esta cheia! Nao e possivel escalar a reta!\n");
+		printf("Lista de retas nao foi criada ou nao ha retas! Nao e possivel escalar a reta!\n");
 		return 0;
 	}
 	//

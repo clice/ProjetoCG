@@ -4,7 +4,7 @@
 /*
  * ESTRUTURA PARA A MATRIZ DO PONTO
  */
-typedef struct
+typedef struct MatrizPonto
 {
     float matriz[3][1];     // Matriz para armazenar as informações do ponto (largura, altura e cor)
 } MatrizPonto;
@@ -12,7 +12,7 @@ typedef struct
 /*
  * ESTRUTURA PARA A MATRIZ DA TRANSFORMAÇÃO
  */
-typedef struct
+typedef struct MatrizTransformacao
 {
     float matriz[3][3];   // Matriz para o cálculo da transformação realizada
 } MatrizTransformacao;

@@ -8,7 +8,7 @@
 /*
  * ESTRUTURA PARA AS CORES
  */
-typedef struct
+typedef struct Cor
 {
     float red;     // Valor da cor vermelha
     float green;   // Valor da cor verde
@@ -18,7 +18,7 @@ typedef struct
 /*
  * ESTRUTURA PARA O PONTO
  */
-typedef struct
+typedef struct Ponto
 {
     float x;   // Posição na largura
     float y;   // Posição na altura
@@ -28,7 +28,7 @@ typedef struct
 /*
  * ESTRUTURA PARA LISTA DE PONTOS
  */
-typedef struct
+typedef struct ListaPontos
 {
     int qtdPontos;              // Quantidade de pontos na lista
     Ponto pontos[MAX_PONTOS];   // Dados dos pontos da lista de pontos

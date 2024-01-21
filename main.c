@@ -3,8 +3,6 @@
 #include <stdlib.h>
 #include <GL/glut.h>
 
-#include "ponto.h"
-#include "reta.h"
 #include "poligono.h"
 
 ///////////////////////////////////////////////////////////////////
@@ -284,6 +282,10 @@ void funcoesMovimento(int x, int y)
  */
 void funcoesTeclado(unsigned char key, int x, int y)
 {
+    // Localização atualizada do mouse
+    mouseX = x - largura;  // Localização do eixo x (horizontal - largura)
+    mouseY = altura - y;   // Localização do eixo y (vertical - altura)
+
     switch (key) {
         // Excluir objetos selecionados da tela (D - Delete)
         case 'D':
@@ -309,7 +311,26 @@ void funcoesTeclado(unsigned char key, int x, int y)
             ////////// Excluir polígono
             // Se um polígono está na opção "Selecionar" e a chave contém um valor diferente de -1
             else if (opcao == 6 && chave != -1) {
+                if (excluirPoligono(chave, listaPoligonos)) {
+                    imprimirListaPoligonos(listaPoligonos);
+                    chave = -1;
+                }
+            }
 
+            break;
+
+        // Finalizar o polígono (E - end)
+        case 'E':
+        case 'e':
+            if (opcao == 3 && statusObjeto == 1) {
+
+                // Adicionar o último ponto do polígono para finalizá-lo
+                // statusObjeto = adicionarPoligono(mouseX, mouseY, statusObjeto, listaPoligonos);
+                finalizarPoligono(statusObjeto, listaPoligonos);
+                imprimirListaPoligonos(listaPoligonos);
+
+                // Mudar status do objeto para ele ser finalizado
+                statusObjeto = -1;
             }
 
             break;
