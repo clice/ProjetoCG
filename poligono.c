@@ -327,35 +327,36 @@ bool verificarPontoPoligono(float mouseX, float mouseY, Poligono * poligono)
 		// Variável para registrar caso o ponto faz parte do polígono
 		bool dentroPoligono = false;
 
-		printf("qtdLados: %d\n", poligono->qtdLados);
+		// Variáveis para auxiliar a manipulação dos dados
+		PontoPoligono * atualPontoPoligono = poligono->inicial;
+		PontoPoligono * anteriorPontoPoligono = NULL;
 
-		// Laço para percorrer todos os pontos (vertices) do polígono e fazer a verificação se o ponto passado pertende a ele
-		for (i = 0, j = poligono->qtdLados - 1; i < poligono->qtdLados; j = i++) {
-			// Calcula a diferença das coordenadas X de vertices (pontos) consecutivos
-			// Representa o comprimento horizontal da borda
-			float diferencaX = poligono->inicial[j].ponto.x - poligono->inicial[i].ponto.x;
-
-			// Calcula a distância vertical (eixo Y) entre o ponto passado e o ponto mais baixo da borda 
-			float distVerticalPontoBorda = mouseY - poligono->inicial[i].ponto.y;
-
-			// Calcula a distância vertical da borda
-			float distVerticalBorda = poligono->inicial[j].ponto.y - poligono->inicial[i].ponto.y;
-
-			// A divisão representa quanto muda a distância vertical em comparação com a mudança da distância horizontal (eixo X)
-			// A multiplicação representa a distância vertical correspondente a distância horizontal da borda
-			// A soma ajusta a posição horizontal (eixo X) da parte mais baixa da borda
-			// A expressão calcula a coordenada X na borda dado a posição vertical do ponto passado
-			float coordenadaX = diferencaX * distVerticalPontoBorda / distVerticalBorda + poligono->inicial[i].ponto.x;
-
+		// Laço para percorrer todos os pontos do polígono
+		while (atualPontoPoligono != NULL) {
 			// Conferindo se os pontos do polígono são maiores que os que foram passados
 			// Os pontos do eixo Y devem estar em diferentes lados do eixo X (horizontal)
 			// A expressão é usado para detectar se o raio horizontal se extende a partir do ponto passado com a
 			// coordenada Y, intersectando com a borda definida pelos vertices (pontos) que compoem o polígono
 			// E o ponto passado no eixo X for também menor que a coordenada X
 			// Se ambas as condições forem verdadeiras, significa que o ponto está dentro do polígono
-			if ((poligono->inicial[i].ponto.y > mouseY) != (poligono->inicial[j].ponto.y > mouseY) && (mouseX < coordenadaX)) {
+
+			// Checar se os raios se intersectam com a borda entre o ponto anterior e o atual
+			if (anteriorPontoPoligono != NULL &&
+				(anteriorPontoPoligono->ponto.y > mouseY) != (atualPontoPoligono->ponto.y > mouseY) &&
+				(mouseX < (atualPontoPoligono->ponto.x - anteriorPontoPoligono->ponto.x) * (mouseY - anteriorPontoPoligono->ponto.y) / (atualPontoPoligono->ponto.y - anteriorPontoPoligono->ponto.y) + anteriorPontoPoligono->ponto.x)) {
 				dentroPoligono = !dentroPoligono;
 			}
+
+			anteriorPontoPoligono = atualPontoPoligono;
+			atualPontoPoligono = atualPontoPoligono->prox;
+		}
+
+		// Chechar se os raios intesectam com as bordas entre o último e primeiro pontos
+		// Isso é necessário porque o laço não dá a volta para o início, então é necessa'rio pegar o último ponto e comparar com o primeiro
+		if (poligono->qtdLados >= 2 &&
+			(anteriorPontoPoligono->ponto.y > mouseY) != (poligono->inicial->ponto.y > mouseY) &&
+			(mouseX < (poligono->inicial->ponto.x - anteriorPontoPoligono->ponto.x) * (mouseY - anteriorPontoPoligono->ponto.y) / (poligono->inicial->ponto.y - anteriorPontoPoligono->ponto.y) + anteriorPontoPoligono->ponto.x)) {
+			dentroPoligono = !dentroPoligono;
 		}
 
 		return dentroPoligono;

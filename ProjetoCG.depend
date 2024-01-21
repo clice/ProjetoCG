@@ -102,7 +102,7 @@
 	<GL/glut.h>
 	"reta.h"
 
-1705802313 source:c:\users\clice\projects\cg\poligono\projetocg\main.c
+1705867193 source:c:\users\clice\projects\cg\poligono\projetocg\main.c
 	<math.h>
 	<stdio.h>
 	<stdlib.h>
@@ -141,7 +141,7 @@
 	<GL/glut.h>
 	"reta.h"
 
-1705867056 source:c:\users\clice\projects\cg\poligono\projetocg\poligono.c
+1705868179 source:c:\users\clice\projects\cg\poligono\projetocg\poligono.c
 	<stdio.h>
 	<stdlib.h>
 	<GL/glut.h>
