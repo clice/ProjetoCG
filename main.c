@@ -219,6 +219,8 @@ void funcoesMouse(int botaoMouse, int statusMouse, int x, int y)
         // Se a opção for 6 (Selecionar polígono)
         else if (opcao == 6) {
             // Retorna a chave da lista onde o polígono que foi selecionado com o mouse está
+            chave = selecionarPoligono(mouseX, mouseY, listaPoligonos);
+            printf("Chave selecionada: %d\n", chave);
         }
 
         ////////// Opção: Salvar objetos

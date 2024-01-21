@@ -292,56 +292,73 @@ int selecionarPoligono(float mouseX, float mouseY, ListaPoligonos * listaPoligon
 	}
 	// Remover um polígono
 	else {
-		// // Laço para percorrer a lista de polígonos a partir da chave do polígono até o final da lista
-        // // Para não quebrar a integridade da lista
-		// for (int i = chave; i < listaPoligonos->qtdPoligonos; i++) {
-		// 	listaPoligonos->poligonos[i] = listaPoligonos->poligonos[i + 1];
-		// }
+		// Variável para manipular os dados da lista
+		Poligono * poligonos = (Poligono *)malloc(sizeof(Poligono));
 
-		// // Diminuir uma unidade da quantidade de polígonos
-		// listaPoligonos->qtdPoligonos--;
+		// Laço para percorrer a lista de polígonos
+		for (int i = 0; i < listaPoligonos->qtdPoligonos; i++) {
+			// Inicializar com os pontos do polígono sendo verificado
+			poligonos[i] = listaPoligonos->poligonos[i];
 
-		// printf("Poligono excluido com sucesso!\n");
-		return 1;
+			// Se o ponto passado pertencer ao poligono, retornar a chave da lista de polígonos referente ao polígono
+			if (verificarPontoPoligono(mouseX, mouseY, &poligonos[i])) {
+				return i;
+			}
+		}
+
+		return 0;
 	}
 }
 
 /*
  * FUNÇÃO PARA VERIFICAR SE O PONTO PERTENCE AO POLÍGONO
  */
-int verificarPontoPoligono(float mouseX, float mouseY, ListaPoligonos * listaPoligonos)
+bool verificarPontoPoligono(float mouseX, float mouseY, Poligono * poligono)
 {
 	// Se a lista de polígonos não foi criada ou a quantidade de polígonos for zero
-	if (listaPoligonos == NULL || listaPoligonos->qtdPoligonos == 0) {
+	if (poligono == NULL) {
 		printf("Lista de poligonos nao foi criada ou nao ha poligonos! Nao e possivel verificar o ponto no poligono!\n");
-		return 0;
+		return false;
 	}
 	// Verificar ponto no polígono
-	else {
-		// Variável para manipular os dados da lista
-		PontoPoligono * inicialPontoPoligono = (PontoPoligono *)malloc(sizeof(PontoPoligono));
+	else {	
+		int i, j;
 
-		// Laço para percorrer a lista de polígonos
-		for (int i = 0; i < listaPoligonos->qtdPoligonos; i++) {
-			// Inicializar com os pontos do polígono sendo verificado
-			inicialPontoPoligono = listaPoligonos->poligonos[i].inicial->prox;
+		// Variável para registrar caso o ponto faz parte do polígono
+		bool dentroPoligono = false;
 
-			// Laço para percorrer os pontos (vertices) do polígono
-			while (inicialPontoPoligono->prox != NULL) {
-				// // Checar se o ponto passado está em uma borda ou vertice do polígono
-				// if ((inicialPontoPoligono->ponto.y > mouseY) != (polygon.vertices[j].y > point.y) &&
-            	// 	(point.x < (polygon.vertices[j].x - polygon.vertices[i].x) * (point.y - polygon.vertices[i].y) /
-                //     (polygon.vertices[j].y - polygon.vertices[i].y) + polygon.vertices[i].x)) {
+		printf("qtdLados: %d\n", poligono->qtdLados);
 
-				// }
+		// Laço para percorrer todos os pontos (vertices) do polígono e fazer a verificação se o ponto passado pertende a ele
+		for (i = 0, j = poligono->qtdLados - 1; i < poligono->qtdLados; j = i++) {
+			// Calcula a diferença das coordenadas X de vertices (pontos) consecutivos
+			// Representa o comprimento horizontal da borda
+			float diferencaX = poligono->inicial[j].ponto.x - poligono->inicial[i].ponto.x;
 
-				// Iteração para passar para o próximo ponto (vertice)
-				inicialPontoPoligono = inicialPontoPoligono->prox;
+			// Calcula a distância vertical (eixo Y) entre o ponto passado e o ponto mais baixo da borda 
+			float distVerticalPontoBorda = mouseY - poligono->inicial[i].ponto.y;
+
+			// Calcula a distância vertical da borda
+			float distVerticalBorda = poligono->inicial[j].ponto.y - poligono->inicial[i].ponto.y;
+
+			// A divisão representa quanto muda a distância vertical em comparação com a mudança da distância horizontal (eixo X)
+			// A multiplicação representa a distância vertical correspondente a distância horizontal da borda
+			// A soma ajusta a posição horizontal (eixo X) da parte mais baixa da borda
+			// A expressão calcula a coordenada X na borda dado a posição vertical do ponto passado
+			float coordenadaX = diferencaX * distVerticalPontoBorda / distVerticalBorda + poligono->inicial[i].ponto.x;
+
+			// Conferindo se os pontos do polígono são maiores que os que foram passados
+			// Os pontos do eixo Y devem estar em diferentes lados do eixo X (horizontal)
+			// A expressão é usado para detectar se o raio horizontal se extende a partir do ponto passado com a
+			// coordenada Y, intersectando com a borda definida pelos vertices (pontos) que compoem o polígono
+			// E o ponto passado no eixo X for também menor que a coordenada X
+			// Se ambas as condições forem verdadeiras, significa que o ponto está dentro do polígono
+			if ((poligono->inicial[i].ponto.y > mouseY) != (poligono->inicial[j].ponto.y > mouseY) && (mouseX < coordenadaX)) {
+				dentroPoligono = !dentroPoligono;
 			}
 		}
 
-		printf("Poligono excluido com sucesso!\n");
-		return 1;
+		return dentroPoligono;
 	}
 }
 

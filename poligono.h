@@ -3,6 +3,8 @@
 
 #define MAX_POLIGONOS 1000
 
+#include <stdbool.h>
+
 #include "reta.h"
 
 /*
@@ -52,7 +54,7 @@ PontoPoligono * buscarUltimoPontoPoligono(PontoPoligono * pontoPoligonoInicial);
 int adicionarPoligono(float mouseX, float mouseY, int statusObjeto, ListaPoligonos * listaPoligonos);
 int excluirPoligono(int chave, ListaPoligonos * listaPoligonos);
 int selecionarPoligono(float mouseX, float mouseY, ListaPoligonos * listaPoligonos);
-// int verificarPontoPoligono(float mouseX, float mouseY, ListaPoligonos * listaPoligonos);
+bool verificarPontoPoligono(float mouseX, float mouseY, Poligono * poligono);
 void desenharPoligonos(ListaPoligonos * listaPoligonos);
 
 int transladarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizTranslacaoPoligono);
