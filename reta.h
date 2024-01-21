@@ -47,6 +47,8 @@ int adicionarReta(float mouseX, float mouseY, int statusObjeto, ListaRetas * lis
 int excluirReta(int chave, ListaRetas * listaRetas);
 int selecionarReta(float mouseX, float mouseY, ListaRetas * listaRetas);
 VetorSel * verificarPontoNaReta(float mouseX, float mouseY, float x, float y);
+float casosNtriviaisX(VetorSel * v, float x1, float y1, float x2, float y2, float mouseX, float mouseY);
+float casosNtriviaisY(VetorSel * v, float x1, float y1, float x2, float y2, float mouseX, float mouseY);
 void desenharRetas(ListaRetas * listaRetas);
 
 int transladarReta(int chave, ListaRetas * listaRetas, MatrizTransformacao * matrizTranslacao);

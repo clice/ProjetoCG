@@ -116,7 +116,7 @@
 
 1705720519 c:\users\alexandre\projetocg\matriz.h
 
-1705804076 c:\users\alexandre\projetocg\reta.h
+1705871829 c:\users\alexandre\projetocg\reta.h
 	"ponto.h"
 	"matriz.h"
 
@@ -143,7 +143,7 @@
 	<GL/glut.h>
 	"ponto.h"
 
-1705800771 source:c:\users\alexandre\projetocg\reta.c
+1705868770 source:c:\users\alexandre\projetocg\reta.c
 	<math.h>
 	<stdio.h>
 	<stdlib.h>

@@ -239,15 +239,16 @@ int selecionarReta(float mouseX, float mouseY, ListaRetas * listaRetas)
 			float y2 = listaRetas->retas[i].final.y;
 
 			// Verificando se o ponto do mouse quando clicado pertence a reta
-			VetorSel * ipon = (verificarPontoNaReta(mouseX, mouseY, x1, y1));
-			VetorSel * fpon = (verificarPontoNaReta(mouseX, mouseY, x2, y2));
+			VetorSel * ipon = verificarPontoNaReta(mouseX, mouseY, x1, y1);
+			VetorSel * fpon = verificarPontoNaReta(mouseX, mouseY, x2, y2);
 			for(int j = 0; j< 4; j++){
                 if(ipon->vetor[j] == 0 ){
                     vi++ ;
-                    vnd++;
                 }
                 if(fpon->vetor[j] == 0){
                     vf++ ;
+                }
+                if(ipon->vetor[j] == 1 && fpon->vetor == 1){
                     vnd++ ;
                 }
 			}
@@ -255,10 +256,31 @@ int selecionarReta(float mouseX, float mouseY, ListaRetas * listaRetas)
                 printf("Ponto foi encontrado na lista de retas!\n");
                 return i;
 			}
-			else if(vnd == 4){
-                printf("Ponto foi encontrado na lista de retas!\n");
-                return i;
+			else if(vnd == 0){
+                vi = 0;
+                printf("%f \n", x1);
+                printf("%f \n", y1);
+                float nx1 = x1;
+                float ny1 = y1;
+			    nx1 =casosNtriviaisX(ipon, x1, y1, x2, y2, mouseX, mouseY);
+			    ny1 =casosNtriviaisY(ipon, x1, y1, x2, y2, mouseX, mouseY);
+			    VetorSel * npon = verificarPontoNaReta(mouseX, mouseY, nx1, ny1);
+			    for( int j = 0; j< 4; j++){
+                    if(npon->vetor[j] == 0){
+                        vi++;
+                    }
+			    }
+			    printf("%f \n", nx1);
+                printf("%f \n", ny1);
+			    if(vi == 4){
+                    printf("Ponto foi encontrado na lista de retas!\n");
+                    return i;
+			    }
 			}
+			free(ipon);
+            ipon = NULL;
+            free(fpon);
+            fpon = NULL;
 		}
 
 		printf("Ponto nao encontrado na lista de retas!\n");
@@ -294,7 +316,7 @@ VetorSel * verificarPontoNaReta(float mouseX, float mouseY, float x, float y)
 		printf("O ponto selecionado nao pertence a reta!\n");
 		return 0;
 	} */
-	float tolerancia = 3.0;
+	float tolerancia = 6.0;
 	VetorSel * v = (VetorSel *)malloc(sizeof(VetorSel));
 	if(mouseX <= x + tolerancia && mouseX >= x - tolerancia){
         if(mouseY <= y + tolerancia && mouseY >= y - tolerancia){
@@ -368,6 +390,59 @@ VetorSel * verificarPontoNaReta(float mouseX, float mouseY, float x, float y)
         }
 	}
 
+}
+
+/*
+*FUNÇÃO PARA OS CASOS NÃO TRIVIAIS DE SELEÇÃO
+*/
+float casosNtriviaisX(VetorSel * v, float x1, float y1, float x2, float y2, float mouseX, float mouseY){
+    float tolerancia = 6.0;
+    float xmin = mouseX - tolerancia;
+    float xmax = mouseX + tolerancia;
+    float ymin = mouseY - tolerancia;
+    float ymax = mouseY + tolerancia;
+    if(v->vetor[0] == 1){
+        y1 = y1 + ((xmin - x1) * (y2 - y1))/ (x2 - x1);
+        x1 = xmin;
+    }
+    else if(v->vetor[1] == 1){
+        y1 = y1 + ((xmax - x1) * (y2 - y1))/ (x2 - x1);
+        x1 = xmax;
+    }
+    else if(v->vetor[2] == 1){
+        x1 = x1 + ((ymin - y1) * (x2 - x1))/ (y2 - y1);
+        y1 = ymin;
+    }
+    else if(v->vetor[3] == 1){
+        x1 = x1 + ((ymax - y1) * (x2 - x1))/ (y2 - y1);
+        y1 = ymax;
+    }
+    return x1;
+}
+
+float casosNtriviaisY(VetorSel * v, float x1, float y1, float x2, float y2, float mouseX, float mouseY){
+    float tolerancia = 6.0;
+    float xmin = mouseX - tolerancia;
+    float xmax = mouseX + tolerancia;
+    float ymin = mouseY - tolerancia;
+    float ymax = mouseY + tolerancia;
+    if(v->vetor[0] == 1){
+        y1 = y1 + ((xmin - x1) * (y2 - y1))/ (x2 - x1);
+        x1 = xmin;
+    }
+    else if(v->vetor[1] == 1){
+        y1 = y1 + ((xmax - x1) * (y2 - y1))/ (x2 - x1);
+        x1 = xmax;
+    }
+    else if(v->vetor[2] == 1){
+        x1 = x1 + ((ymin - y1) * (x2 - x1))/ (y2 - y1);
+        y1 = ymin;
+    }
+    else if(v->vetor[3] == 1){
+        x1 = x1 + ((ymax - y1) * (x2 - x1))/ (y2 - y1);
+        y1 = ymax;
+    }
+    return y1;
 }
 
 /*
