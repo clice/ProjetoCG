@@ -323,10 +323,10 @@ void funcoesTeclado(unsigned char key, int x, int y)
         case 'E':
         case 'e':
             if (opcao == 3 && statusObjeto == 1) {
-
+                statusObjeto = 2;
                 // Adicionar o último ponto do polígono para finalizá-lo
-                // statusObjeto = adicionarPoligono(mouseX, mouseY, statusObjeto, listaPoligonos);
-                finalizarPoligono(statusObjeto, listaPoligonos);
+                statusObjeto = adicionarPoligono(mouseX, mouseY, statusObjeto, listaPoligonos);
+                // finalizarPoligono(statusObjeto, listaPoligonos);
                 imprimirListaPoligonos(listaPoligonos);
 
                 // Mudar status do objeto para ele ser finalizado

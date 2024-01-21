@@ -19,9 +19,9 @@ typedef struct PontoPoligono
  */
 typedef struct Poligono
 {
-    int qtdLados;   			  // Quantos lados tem o polígono
-    Ponto central;    		  // Ponto para armazenar o ponto central do polígono
-    PontoPoligono * inicial;  // PontoPoligono para o ponto inicial do polígono
+    int qtdLados;   		   // Quantos lados tem o polígono
+    Ponto centroide;    	   // Ponto para armazenar o ponto central do polígono (centróide)
+    PontoPoligono * inicial;   // PontoPoligono para o ponto inicial do polígono
 } Poligono;
 
 /*
@@ -49,7 +49,6 @@ void imprimirPontosPoligono(PontoPoligono * pontoPoligonoInicial);
 PontoPoligono * buscarUltimoPontoPoligono(PontoPoligono * pontoPoligonoInicial);
 
 int adicionarPoligono(float mouseX, float mouseY, int statusObjeto, ListaPoligonos * listaPoligonos);
-void finalizarPoligono(int statusObjeto, ListaPoligonos * listaPoligonos);
 int excluirPoligono(int chave, ListaPoligonos * listaPoligonos);
 int selecionarPoligono(float mouseX, float mouseY, ListaPoligonos * listaPoligonos);
 void desenharPoligonos(ListaPoligonos * listaPoligonos);
