@@ -52,7 +52,7 @@ void imprimirPontosPoligono(PontoPoligono * pontoPoligonoInicial);
 PontoPoligono * buscarUltimoPontoPoligono(PontoPoligono * pontoPoligonoInicial);
 
 int adicionarPoligono(float mouseX, float mouseY, int statusObjeto, ListaPoligonos * listaPoligonos);
-void calcularCentroidePoligono(ListaPoligonos * listaPoligonos);
+void calcularCentroidePoligono(int chave, ListaPoligonos * listaPoligonos);
 int excluirPoligono(int chave, ListaPoligonos * listaPoligonos);
 int selecionarPoligono(float mouseX, float mouseY, ListaPoligonos * listaPoligonos);
 bool verificarPontoPoligono(float mouseX, float mouseY, Poligono * poligono);
