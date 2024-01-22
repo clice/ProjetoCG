@@ -200,7 +200,7 @@ void funcoesMouse(int botaoMouse, int statusMouse, int x, int y)
         // Se a opção for 3 (Criar polígono)
         else if (opcao == 3) {
             statusObjeto = adicionarPoligono(mouseX, mouseY, statusObjeto, listaPoligonos);
-            // imprimirListaPoligonos(listaPoligonos);
+            imprimirListaPoligonos(listaPoligonos);
         }
 
         ////////// Opção: Selecionar
@@ -268,8 +268,8 @@ void funcoesMovimento(int x, int y)
     else if (opcao == 5 && chave != -1) {
         // Realizar o cálculo da transformação para movimentar a reta
         MatrizTransformacao * matrizTranslacaoReta = criarMatrizTranslacao(
-            mouseX - listaRetas->retas[chave].central.x,
-            mouseY - listaRetas->retas[chave].central.y
+                mouseX - listaRetas->retas[chave].central.x,
+                mouseY - listaRetas->retas[chave].central.y
             );
 
         // Realizar a translação da reta selecionada
@@ -338,9 +338,12 @@ void funcoesTeclado(unsigned char key, int x, int y)
         case 'E':
         case 'e':
             if (opcao == 3 && statusObjeto == 1) {
+                // Status do objeto para finalização
                 statusObjeto = 2;
+
                 // Adicionar o último ponto do polígono para finalizá-lo
                 statusObjeto = adicionarPoligono(mouseX, mouseY, statusObjeto, listaPoligonos);
+
                 // finalizarPoligono(statusObjeto, listaPoligonos);
                 imprimirListaPoligonos(listaPoligonos);
 
