@@ -302,14 +302,51 @@ void funcoesMovimento(int x, int y)
  */
 void funcoesTeclado(unsigned char key, int x, int y)
 {
+    float corte = 1.05;
+    float angulo = 45;
     float escala = 1.05;
-    float anguloTheta = 45;
 
     // Localização atualizada do mouse
     mouseX = x - largura;  // Localização do eixo x (horizontal - largura)
     mouseY = altura - y;   // Localização do eixo y (vertical - altura)
 
     switch (key) {
+        // Rotacionar objetos selecionados da tela no sentido anti-horário (A - Anti-clockwise)
+        // Rotaciona o ponto 45 graus apertando "R" caso esteja na opção de selecionar o ponto e um ponto esteja selecionado
+        case 'A':
+        case 'a':
+            ////////// Rotacionar ponto no sentido anti-horário
+            // Se um ponto está na opção "Selecionar" e a chave conter um valor diferente de -1
+            if (opcao == 4 && chave != -1) {
+                // Criar a matriz da rotação realizada passando o ângulo
+                Matriz3Por3 * matrizRotacaoPonto = criarMatrizRotacao(angulo);
+
+                // Realizar a rotação do ponto selecionado
+                rotacionarPonto(chave, listaPontos, matrizRotacaoPonto);
+            }
+
+            ////////// Rotacionar reta no sentido anti-horário
+            // Se uma reta está na opção "Selecionar" e a chave conter um valor diferente de -1
+            else if (opcao == 5 && chave != -1) {
+                // Criar a matriz da rotação realizada passando o ângulo
+                Matriz3Por3 * matrizRotacaoReta = criarMatrizRotacao(angulo);
+
+                // Realizar a rotação da reta selecionada
+                rotacionarReta(chave, listaRetas, matrizRotacaoReta);
+            }
+
+            ////////// Rotacionar polígono no sentido anti-horário
+            // Se um polígono está na opção "Selecionar" e a chave conter um valor diferente de -1
+            else if (opcao == 6 && chave != -1) {
+                // Criar a matriz da rotação realizada passando o ângulo
+                Matriz3Por3 * matrizRotacaoPoligono = criarMatrizRotacao(angulo);
+
+                // Realizar a rotação do polígono selecionado
+                rotacionarPoligono(chave, listaPoligonos, matrizRotacaoPoligono);
+            }
+
+            break;
+
         // Aumentar objetos selecionados da tela (B - Big)
         case 'B':
         case 'b':            
@@ -343,7 +380,7 @@ void funcoesTeclado(unsigned char key, int x, int y)
             // Se um ponto está na opção "Selecionar" e a chave conter um valor diferente de -1
             if (opcao == 4 && chave != -1) {
                 // Criar a matriz da rotação inversa realizada passando o ângulo
-                Matriz3Por3 * matrizRotacaoInversaPonto = criarMatrizRotacaoInversa(anguloTheta);
+                Matriz3Por3 * matrizRotacaoInversaPonto = criarMatrizRotacaoInversa(angulo);
 
                 // Realizar a rotação inversa do ponto selecionado
                 rotacionarPonto(chave, listaPontos, matrizRotacaoInversaPonto);
@@ -353,7 +390,7 @@ void funcoesTeclado(unsigned char key, int x, int y)
             // Se uma reta está na opção "Selecionar" e a chave conter um valor diferente de -1
             else if (opcao == 5 && chave != -1) {
                 // Criar a matriz da rotação inversa realizada passando o ângulo
-                Matriz3Por3 * matrizRotacaoInversaReta = criarMatrizRotacaoInversa(anguloTheta);
+                Matriz3Por3 * matrizRotacaoInversaReta = criarMatrizRotacaoInversa(angulo);
 
                 // Realizar a rotação inversa da reta selecionada
                 rotacionarReta(chave, listaRetas, matrizRotacaoInversaReta);
@@ -363,7 +400,7 @@ void funcoesTeclado(unsigned char key, int x, int y)
             // Se um polígono está na opção "Selecionar" e a chave conter um valor diferente de -1
             else if (opcao == 6 && chave != -1) {
                 // Criar a matriz da rotação inversa realizada passando o ângulo
-                Matriz3Por3 * matrizRotacaoInversaPoligono = criarMatrizRotacaoInversa(anguloTheta);
+                Matriz3Por3 * matrizRotacaoInversaPoligono = criarMatrizRotacaoInversa(angulo);
 
                 // Realizar a rotação inversa do polígono selecionado
                 rotacionarPoligono(chave, listaPoligonos, matrizRotacaoInversaPoligono);
@@ -422,40 +459,30 @@ void funcoesTeclado(unsigned char key, int x, int y)
 
             break;
 
-        // Rotacionar objetos selecionados da tela no sentido anti-horário (R - Rotate)
-        // Rotaciona o ponto 45 graus apertando "R" caso esteja na opção de selecionar o ponto e um ponto esteja selecionado
-        case 'R':
-        case 'r':
-            ////////// Rotacionar ponto no sentido anti-horário
+        // Refletir objetos com relação a origem
+        case 'O':
+        case 'o':
+            ////////// Refletir ponto com relação a origem
             // Se um ponto está na opção "Selecionar" e a chave conter um valor diferente de -1
             if (opcao == 4 && chave != -1) {
-                // Criar a matriz da rotação realizada passando o ângulo
-                Matriz3Por3 * matrizRotacaoPonto = criarMatrizRotacao(anguloTheta);
+                // Criar a matriz da reflexão
+                Matriz3Por3 * matrizReflexaoOrigemPonto = criarMatrizReflexaoOrigem();
 
-                // Realizar a rotação do ponto selecionado
-                rotacionarPonto(chave, listaPontos, matrizRotacaoPonto);
+                // Realizar a reflexão com a origem do ponto selecionado
+                refletirPonto(chave, listaPontos, matrizReflexaoOrigemPonto);
             }
 
-            ////////// Rotacionar reta no sentido anti-horário
+            ////////// Refletir reta com relação a origem
             // Se uma reta está na opção "Selecionar" e a chave conter um valor diferente de -1
             else if (opcao == 5 && chave != -1) {
-                // Criar a matriz da rotação realizada passando o ângulo
-                Matriz3Por3 * matrizRotacaoReta = criarMatrizRotacao(anguloTheta);
 
-                // Realizar a rotação da reta selecionada
-                rotacionarReta(chave, listaRetas, matrizRotacaoReta);
             }
 
-            ////////// Rotacionar polígono no sentido anti-horário
+            ////////// Refletir polígono com relação a origem
             // Se um polígono está na opção "Selecionar" e a chave conter um valor diferente de -1
             else if (opcao == 6 && chave != -1) {
-                // Criar a matriz da rotação realizada passando o ângulo
-                Matriz3Por3 * matrizRotacaoPoligono = criarMatrizRotacao(anguloTheta);
-
-                // Realizar a rotação do polígono selecionado
-                rotacionarPoligono(chave, listaPoligonos, matrizRotacaoPoligono);
+                
             }
-
             break;
             
         // Diminuir objetos selecionados da tela (S - small)
@@ -530,6 +557,60 @@ void funcoesTeclado(unsigned char key, int x, int y)
                 transladarPoligono(chave, listaPoligonos, matrizTranslacaoInversaPoligono);
             }
 
+            break;
+
+        // Refletir objetos com relação ao eixo X
+        case 'X':
+        case 'x':
+            ////////// Refletir ponto com relação ao eixo X
+            // Se um ponto está na opção "Selecionar" e a chave conter um valor diferente de -1
+            if (opcao == 4 && chave != -1) {
+                // Criar a matriz da reflexão
+                Matriz3Por3 * matrizReflexaoEixoXPonto = criarMatrizReflexaoEixoX();
+
+                // Realizar a reflexão com relação ao eixo X do ponto selecionado
+                refletirPonto(chave, listaPontos, matrizReflexaoEixoXPonto);
+            }
+
+            ////////// Refletir reta com relação a origem
+            // Se uma reta está na opção "Selecionar" e a chave conter um valor diferente de -1
+            else if (opcao == 5 && chave != -1) {
+
+            }
+
+            ////////// Refletir polígono com relação a origem
+            // Se um polígono está na opção "Selecionar" e a chave conter um valor diferente de -1
+            else if (opcao == 6 && chave != -1) {
+                
+            }
+            break;
+            break;
+
+        // Refletir objetos com relação ao eixo Y
+        case 'Y':
+        case 'y':
+            ////////// Refletir ponto com relação ao eixo Y
+            // Se um ponto está na opção "Selecionar" e a chave conter um valor diferente de -1
+            if (opcao == 4 && chave != -1) {
+                // Criar a matriz da reflexão
+                Matriz3Por3 * matrizReflexaoEixoYPonto = criarMatrizReflexaoEixoY();
+
+                // Realizar a reflexão com relação ao eixo Y do ponto selecionado
+                refletirPonto(chave, listaPontos, matrizReflexaoEixoYPonto);
+            }
+
+            ////////// Refletir reta com relação a origem
+            // Se uma reta está na opção "Selecionar" e a chave conter um valor diferente de -1
+            else if (opcao == 5 && chave != -1) {
+
+            }
+
+            ////////// Refletir polígono com relação a origem
+            // Se um polígono está na opção "Selecionar" e a chave conter um valor diferente de -1
+            else if (opcao == 6 && chave != -1) {
+                
+            }
+            break;
             break;
     }
 

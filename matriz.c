@@ -141,16 +141,16 @@ Matriz3Por3 * criarMatrizTranslacao(float finalX, float finalY)
 /*
  * FUNÇÃO PARA CRIAR A MATRIZ DA ROTAÇÃO
  */
-Matriz3Por3 * criarMatrizRotacao(float anguloTheta)
+Matriz3Por3 * criarMatrizRotacao(float angulo)
 {
     // Inicializando uma matriz3Por3
     Matriz3Por3 * matrizRotacao = criarMatriz3Por3();
 
     // Inicializando a matriz para a rotação
-    matrizRotacao->matriz[0][0] = cosf(anguloTheta);
-    matrizRotacao->matriz[0][1] = -sinf(anguloTheta);
-    matrizRotacao->matriz[1][0] = sinf(anguloTheta);
-    matrizRotacao->matriz[1][1] = cosf(anguloTheta);
+    matrizRotacao->matriz[0][0] = cosf(angulo);
+    matrizRotacao->matriz[0][1] = -sinf(angulo);
+    matrizRotacao->matriz[1][0] = sinf(angulo);
+    matrizRotacao->matriz[1][1] = cosf(angulo);
 
     return matrizRotacao;
 }
@@ -189,16 +189,16 @@ Matriz3Por3 * criarMatrizTranslacaoInversa(float finalX, float finalY)
 /*
  * FUNÇÃO PARA CRIAR A MATRIZ DA ROTAÇÃO INVERSA
  */
-Matriz3Por3 * criarMatrizRotacaoInversa(float anguloTheta)
+Matriz3Por3 * criarMatrizRotacaoInversa(float angulo)
 {
     // Inicializando uma matriz3Por3
     Matriz3Por3 * matrizRotacaoInversa = criarMatriz3Por3();
 
     // Inicializando a matriz para a rotação inversa
-    matrizRotacaoInversa->matriz[0][0] = cosf(anguloTheta);
-    matrizRotacaoInversa->matriz[0][1] = sinf(anguloTheta);
-    matrizRotacaoInversa->matriz[1][0] = -sinf(anguloTheta);
-    matrizRotacaoInversa->matriz[1][1] = cosf(anguloTheta);
+    matrizRotacaoInversa->matriz[0][0] = cosf(angulo);
+    matrizRotacaoInversa->matriz[0][1] = sinf(angulo);
+    matrizRotacaoInversa->matriz[1][0] = -sinf(angulo);
+    matrizRotacaoInversa->matriz[1][1] = cosf(angulo);
 
     return matrizRotacaoInversa;
 }
@@ -215,4 +215,74 @@ Matriz3Por3 * criarMatrizEscalarInversa(float escala)
     matrizEscalarInversa->matriz[1][1] = 1 / escala;
 
     return matrizEscalarInversa;
+}
+
+///////////////////////////////////////////////////////////////////
+
+/*
+ * FUNÇÃO PARA CRIAR A MATRIZ REFLEXÃO NO EIXO X
+ */
+Matriz3Por3 * criarMatrizReflexaoEixoX()
+{
+    Matriz3Por3 * matrizReflexaoEixoX = criarMatriz3Por3();
+
+    // Inicializando a matriz para a reflexão no eixo X
+    matrizReflexaoEixoX->matriz[0][0] = -1;
+
+    return matrizReflexaoEixoX;
+}
+
+/*
+ * FUNÇÃO PARA CRIAR A MATRIZ REFLEXÃO NO EIXO Y
+ */
+Matriz3Por3 * criarMatrizReflexaoEixoY()
+{
+    Matriz3Por3 * matrizReflexaoEixoY = criarMatriz3Por3();
+
+    // Inicializando a matriz para a reflexão no eixo Y
+    matrizReflexaoEixoY->matriz[1][1] = -1;
+
+    return matrizReflexaoEixoY;
+}
+
+/*
+ * FUNÇÃO PARA CRIAR A MATRIZ REFLEXÃO NA ORIGEM
+ */
+Matriz3Por3 * criarMatrizReflexaoOrigem()
+{
+    Matriz3Por3 * matrizReflexaoOrigem = criarMatriz3Por3();
+
+    // Inicializando a matriz para a reflexão na origem
+    matrizReflexaoOrigem->matriz[0][0] = -1;
+    matrizReflexaoOrigem->matriz[1][1] = -1;
+
+    return matrizReflexaoOrigem;
+}
+
+///////////////////////////////////////////////////////////////////
+
+/*
+ * FUNÇÃO PARA CRIAR A MATRIZ CISALHAMENTO NO EIXO X
+ */
+Matriz3Por3 * criarMatrizCisalhamentoEixoX(float corte)
+{
+    Matriz3Por3 * matrizReflexaoEixoX = criarMatriz3Por3();
+
+    // Inicializando a matriz para o cisalhamento no eixo X
+    matrizReflexaoEixoX->matriz[0][1] = corte;
+
+    return matrizReflexaoEixoX;
+}
+
+/*
+ * FUNÇÃO PARA CRIAR A MATRIZ CISALHAMENTO NO EIXO Y
+ */
+Matriz3Por3 * criarMatrizCisalhamentoEixoY(float corte)
+{
+    Matriz3Por3 * matrizReflexaoEixoY = criarMatriz3Por3();
+
+    // Inicializando a matriz para o cisalhamento no eixo Y
+    matrizReflexaoEixoY->matriz[1][0] = corte;
+
+    return matrizReflexaoEixoY;
 }

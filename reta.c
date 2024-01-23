@@ -365,31 +365,23 @@ int rotacionarReta(int chave, ListaRetas * listaRetas, Matriz3Por3 * matrizRotac
 		// Criar a matriz3Por3 para auxiliar nos cálculos
         // Primeiramente, a matriz contêm o resultado das multiplicações necessárias para a rotação
         Matriz3Por3 * matrizCompostaReta = multiplicarMatrizComposta(
-        	listaRetas->retas[chave].central.x, 
-        	listaRetas->retas[chave].central.y, 
-        	matrizRotacaoReta
+			listaRetas->retas[chave].central.x, 
+			listaRetas->retas[chave].central.y, 
+			matrizRotacaoReta
         );
 
         // Criar duas matriz3Por1 para auxiliar nos cálculos
         // Primeiramente, as matrizes contêm as coordenadas originais dos pontos inicial, central e final
 		Matriz3Por1 * matrizCompostaInicial = criarMatriz3Por1(listaRetas->retas[chave].inicial.x, listaRetas->retas[chave].inicial.y);
-		// Matriz3Por1 * matrizCompostaCentral = criarMatriz3Por1(listaRetas->retas[chave].central.x, listaRetas->retas[chave].central.y);
 		Matriz3Por1 * matrizCompostaFinal = criarMatriz3Por1(listaRetas->retas[chave].final.x, listaRetas->retas[chave].final.y);
 
 		// Realizar a multiplicação gerando as matrizes rotacionando os pontos inicial, central e final da reta
 		matrizCompostaInicial = multiplicarMatriz3Por3PorMatriz3Por1(matrizCompostaReta, matrizCompostaInicial);
 		matrizCompostaFinal = multiplicarMatriz3Por3PorMatriz3Por1(matrizCompostaReta, matrizCompostaFinal);
 
-		// // Realizar a multiplicação gerando as matrizes rotacionando os pontos inicial, central e final da reta
-		// matrizCompostaInicial = multiplicarMatriz3Por3PorMatriz3Por1(matrizRotacaoReta, matrizCompostaInicial);
-		// matrizCompostaCentral = multiplicarMatriz3Por3PorMatriz3Por1(matrizRotacaoReta, matrizCompostaCentral);
-		// matrizCompostaFinal = multiplicarMatriz3Por3PorMatriz3Por1(matrizRotacaoReta, matrizCompostaFinal);
-
 		// Atualizar a posição dos pontos inicial, central e final a partir do resultado do cálculo da transformação
 		listaRetas->retas[chave].inicial.x = matrizCompostaInicial->matriz[0][0];
 		listaRetas->retas[chave].inicial.y = matrizCompostaInicial->matriz[0][1];
-		// listaRetas->retas[chave].central.x = matrizCompostaCentral->matriz[0][0];
-		// listaRetas->retas[chave].central.y = matrizCompostaCentral->matriz[0][1];
 		listaRetas->retas[chave].final.x = matrizCompostaFinal->matriz[0][0];
 		listaRetas->retas[chave].final.y = matrizCompostaFinal->matriz[0][1];
 
@@ -412,31 +404,23 @@ int escalarReta(int chave, ListaRetas * listaRetas, Matriz3Por3 * matrizEscalarR
 		// Criar a matriz3Por3 para auxiliar nos cálculos
         // Primeiramente, a matriz contêm o resultado das multiplicações necessárias para a escalar
         Matriz3Por3 * matrizCompostaReta = multiplicarMatrizComposta(
-        	listaRetas->retas[chave].central.x, 
-        	listaRetas->retas[chave].central.y, 
-        	matrizEscalarReta
+			listaRetas->retas[chave].central.x, 
+			listaRetas->retas[chave].central.y, 
+			matrizEscalarReta
         );
 
         // Criar duas matriz3Por1 para auxiliar nos cálculos
         // Primeiramente, as matrizes contêm as coordenadas originais dos pontos inicial, central e final
 		Matriz3Por1 * matrizICompostaInicial = criarMatriz3Por1(listaRetas->retas[chave].inicial.x, listaRetas->retas[chave].inicial.y);
-		// Matriz3Por1 * matrizCompostaCentral = criarMatriz3Por1(listaRetas->retas[chave].central.x, listaRetas->retas[chave].central.y);
 		Matriz3Por1 * matrizCompostaFinal = criarMatriz3Por1(listaRetas->retas[chave].final.x, listaRetas->retas[chave].final.y);
 
 		// Realizar a multiplicação gerando as matrizes rotacionando os pontos inicial, central e final da reta
 		matrizICompostaInicial = multiplicarMatriz3Por3PorMatriz3Por1(matrizCompostaReta, matrizICompostaInicial);
 		matrizCompostaFinal = multiplicarMatriz3Por3PorMatriz3Por1(matrizCompostaReta, matrizCompostaFinal);
 
-		// // Realizar a multiplicação gerando as matrizes rotacionando os pontos inicial, central e final da reta
-		// matrizICompostaInicial = multiplicarMatriz3Por3PorMatriz3Por1(matrizEscalarReta, matrizICompostaInicial);
-		// matrizCompostaCentral = multiplicarMatriz3Por3PorMatriz3Por1(matrizEscalarReta, matrizCompostaCentral);
-		// matrizCompostaFinal = multiplicarMatriz3Por3PorMatriz3Por1(matrizEscalarReta, matrizCompostaFinal);
-
 		// Atualizar a posição dos pontos inicial, central e final a partir do resultado do cálculo da transformação
 		listaRetas->retas[chave].inicial.x = matrizICompostaInicial->matriz[0][0];
 		listaRetas->retas[chave].inicial.y = matrizICompostaInicial->matriz[0][1];
-		// listaRetas->retas[chave].central.x = matrizCompostaCentral->matriz[0][0];
-		// listaRetas->retas[chave].central.y = matrizCompostaCentral->matriz[0][1];
 		listaRetas->retas[chave].final.x = matrizCompostaFinal->matriz[0][0];
 		listaRetas->retas[chave].final.y = matrizCompostaFinal->matriz[0][1];
 
