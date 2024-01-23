@@ -8,7 +8,7 @@
 /*
  * ESTRUTURA PARA AS CORES
  */
-typedef struct
+typedef struct Cor
 {
     float red;     // Valor da cor vermelha
     float green;   // Valor da cor verde
@@ -18,7 +18,7 @@ typedef struct
 /*
  * ESTRUTURA PARA O PONTO
  */
-typedef struct
+typedef struct Ponto
 {
     float teta;
     float x;   // Posição na largura
@@ -30,7 +30,7 @@ typedef struct
 /*
  * ESTRUTURA PARA LISTA DE PONTOS
  */
-typedef struct
+typedef struct ListaPontos
 {
     int qtdPontos;              // Quantidade de pontos na lista
     Ponto pontos[MAX_PONTOS];   // Dados dos pontos da lista de pontos
@@ -43,6 +43,7 @@ typedef struct
  */
 ListaPontos * criarListaPontos();
 void imprimirListaPontos(ListaPontos * listaPontos);
+void liberarListaPontos(ListaPontos * listaPontos);
 void salvarListaPontos(ListaPontos * listaPontos);
 void carregarListaPontos();
 
@@ -51,7 +52,7 @@ int excluirPonto(int chave, ListaPontos * listaPontos);
 int selecionarPonto(float mouseX, float mouseY, ListaPontos * listaPontos);
 void desenharPontos(ListaPontos * listaPontos);
 
-int transladarPonto(int chave, ListaPontos * listaPontos, MatrizTransformacao * matrizTranslacao);
-int rotacionarPonto(int chave, ListaPontos * listaPontos, MatrizTransformacao * matrizRotacao);
+int transladarPonto(int chave, ListaPontos * listaPontos, Matriz3Por3 * matrizTranslacaoPonto);
+int rotacionarPonto(int chave, ListaPontos * listaPontos, Matriz3Por3 * matrizRotacaoPonto);
 
 #endif // PONTO_H

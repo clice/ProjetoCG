@@ -4,12 +4,11 @@
 #define MAX_RETAS 1000
 
 #include "ponto.h"
-#include "matriz.h"
 
 /*
  * ESTRUTURA PARA A RETA
  */
-typedef struct
+typedef struct Reta
 {
     Ponto inicial;   // Ponto inicial da reta
     Ponto central;   // Ponto central da reta
@@ -19,19 +18,11 @@ typedef struct
 /*
  * ESTRUTURA PARA LISTA DE RETAS
  */
-typedef struct
+typedef struct ListaRetas
 {
     int qtdRetas;            // Quantidade de retas na lista
     Reta retas[MAX_RETAS];   // Dados das retas da lista de retas
 } ListaRetas;
-
-/*
- * ESTRUTURA DE VETOR PARA O ALGORITIMO DE SELEÇÃO
- */
-typedef struct
-{
-    int vetor[4];
-}VetorSel;
 
 ///////////////////////////////////////////////////////////////////
 
@@ -40,19 +31,20 @@ typedef struct
  */
 ListaRetas * criarListaRetas();
 void imprimirListaRetas(ListaRetas * listaRetas);
+void liberarListaRetas(ListaRetas * listaRetas);
 void salvarListaRetas(ListaRetas * listaRetas);
 void carregarListaRetas();
 
 int adicionarReta(float mouseX, float mouseY, int statusObjeto, ListaRetas * listaRetas);
 int excluirReta(int chave, ListaRetas * listaRetas);
 int selecionarReta(float mouseX, float mouseY, ListaRetas * listaRetas);
-VetorSel * verificarPontoNaReta(float mouseX, float mouseY, float x, float y);
-float casosNtriviaisX(VetorSel * v, float x1, float y1, float x2, float y2, float mouseX, float mouseY);
-float casosNtriviaisY(VetorSel * v, float x1, float y1, float x2, float y2, float mouseX, float mouseY);
+int verificarPontoReta(float mouseX, float mouseY, float x1, float y1, float x2, float y2);
 void desenharRetas(ListaRetas * listaRetas);
 
-int transladarReta(int chave, ListaRetas * listaRetas, MatrizTransformacao * matrizTranslacao);
-int rotacionarReta(int chave, ListaRetas * listaRetas, MatrizTransformacao * matrizRotacao, MatrizTransformacao * ida, MatrizTransformacao * volta);
-int escalarReta(int chave, ListaRetas * listaRetas, MatrizTransformacao * matrizEscalar, MatrizTransformacao * ida, MatrizTransformacao * volta);
+Matriz3Por3 * multiplicarMatrizCompostaReta(float centralX, float centralY, Matriz3Por3 * matrizTransformacaoReta);
+
+int transladarReta(int chave, ListaRetas * listaRetas, Matriz3Por3 * matrizTranslacaoReta);
+int rotacionarReta(int chave, ListaRetas * listaRetas, Matriz3Por3 * matrizRotacaoReta);
+int escalarReta(int chave, ListaRetas * listaRetas, Matriz3Por3 * matrizEscalarReta);
 
 #endif // RETA_H

@@ -3,8 +3,6 @@
 #include <stdlib.h>
 #include <GL/glut.h>
 
-#include "ponto.h"
-#include "reta.h"
 #include "poligono.h"
 
 ///////////////////////////////////////////////////////////////////
@@ -27,7 +25,6 @@ static int opcao = 0;  // Opção selecionada pelo usuário
  */
 int chave = -1;        // Guarda a chave da lista para manipulação dos objetos (desenhando: > -1; finalizado: -1)
 int statusObjeto = -1; // Indica se o objeto ainda está sendo desenhado (desenhando: 1; finalizado: -1)
-float pi = M_PI;
 
 /*
  * VARIÁVEIS DAS DIMENSÕES DA TELA
@@ -50,7 +47,6 @@ int statusMouse = 0;   // Indica se o mouse foi clicado ou não (não foi clicad
 ListaPontos * listaPontos = NULL;
 ListaRetas * listaRetas = NULL;
 ListaPoligonos * listaPoligonos = NULL;
-MatrizTransformacao * matrizAnt = NULL;
 
 ///////////////////////////////////////////////////////////////////
 
@@ -95,6 +91,12 @@ int main (int argc, char ** argv)
     glutKeyboardFunc(funcoesTeclado);    // Chamadas quando o teclado ASCII é acionado
     glutDisplayFunc(telaInicial);        // Para mostrar elementos na tela rederizando os objetos
     glutMainLoop();
+
+    // Liberando espaço da memória ocupado pelas listas de objetos
+    liberarListaPontos(listaPontos);
+    liberarListaRetas(listaRetas);
+    liberarListaPoligonos(listaPoligonos);
+
     return 0;
 }
 
@@ -180,7 +182,7 @@ void funcoesMouse(int botaoMouse, int statusMouse, int x, int y)
     mouseX = x - largura;  // Localização do eixo x (horizontal - largura)
     mouseY = altura - y;   // Localização do eixo y (vertical - altura)
 
-    // Se o botão esquerdo do mouse foi pressionado
+    // Transladar objetos selecionados da tela
     if (botaoMouse == GLUT_LEFT_BUTTON && statusMouse == GLUT_DOWN) {
         printf("mouseX: %.1f, mouseY: %.1f\n", mouseX, mouseY);
 
@@ -198,7 +200,7 @@ void funcoesMouse(int botaoMouse, int statusMouse, int x, int y)
         // Se a opção for 3 (Criar polígono)
         else if (opcao == 3) {
             statusObjeto = adicionarPoligono(mouseX, mouseY, statusObjeto, listaPoligonos);
-            // imprimirListaPoligonos(listaPoligonos);
+            imprimirListaPoligonos(listaPoligonos);
         }
 
         ////////// Opção: Selecionar
@@ -217,6 +219,8 @@ void funcoesMouse(int botaoMouse, int statusMouse, int x, int y)
         // Se a opção for 6 (Selecionar polígono)
         else if (opcao == 6) {
             // Retorna a chave da lista onde o polígono que foi selecionado com o mouse está
+            chave = selecionarPoligono(mouseX, mouseY, listaPoligonos);
+            printf("Chave selecionada: %d\n", chave);
         }
 
         ////////// Opção: Salvar objetos
@@ -242,6 +246,8 @@ void funcoesMouse(int botaoMouse, int statusMouse, int x, int y)
  */
 void funcoesMovimento(int x, int y)
 {
+    float translacaoX, translacaoY;
+
     // Localização atualizada do mouse
     mouseX = x - largura;  // Localização do eixo x (horizontal - largura)
     mouseY = altura - y;   // Localização do eixo y (vertical - altura)
@@ -249,11 +255,12 @@ void funcoesMovimento(int x, int y)
     ////////// Transladar ponto
     // Se estiver na opção "Selecionar" ponto e um ponto já estiver selecionado, o mouse fica transladando o ponto
     if (opcao == 4 && chave != -1) {
-        // Realizar o cálculo da transformação para movimentar o ponto
-        MatrizTransformacao * matrizTranslacaoPonto = criarMatrizTranslacao(
-            mouseX - listaPontos->pontos[chave].x,
-            mouseY - listaPontos->pontos[chave].y
-        );
+        // Realizar o cálculo para saber o valor da translação realizada
+        translacaoX = mouseX - listaPontos->pontos[chave].x;
+        translacaoY = mouseY - listaPontos->pontos[chave].y;
+
+        // Criar a matriz da translação realizada
+        Matriz3Por3 * matrizTranslacaoPonto = criarMatrizTranslacao(translacaoX, translacaoY);
 
         // Realizar a translação do ponto selecionado
         transladarPonto(chave, listaPontos, matrizTranslacaoPonto);
@@ -262,11 +269,12 @@ void funcoesMovimento(int x, int y)
     ////////// Transladar reta
     // Se estivar na opção "Selecionar" reta e uma reta já estiver selecionada, o mouse fica transladando a reta
     else if (opcao == 5 && chave != -1) {
-        // Realizar o cálculo da transformação para movimentar a reta
-        MatrizTransformacao * matrizTranslacaoReta = criarMatrizTranslacao(
-            mouseX - listaRetas->retas[chave].central.x,
-            mouseY - listaRetas->retas[chave].central.y
-        );
+        // Realizar o cálculo para saber o valor da translação realizada
+        translacaoX = mouseX - listaRetas->retas[chave].central.x;
+        translacaoY = mouseY - listaRetas->retas[chave].central.y;
+
+        // Criar a matriz da translação realizada
+        Matriz3Por3 * matrizTranslacaoReta = criarMatrizTranslacao(translacaoX, translacaoY);
 
         // Realizar a translação da reta selecionada
         transladarReta(chave, listaRetas, matrizTranslacaoReta);
@@ -275,7 +283,15 @@ void funcoesMovimento(int x, int y)
     ////////// Transladar polígono
     // Se estiver na opção "Selecionar" polígono e um polígono já estiver selecionado, o mouse fica transladando o polígono
     else if (opcao == 6 && chave != -1) {
+        // Realizar o cálculo para saber o valor da translação realizada
+        translacaoX = mouseX - listaPoligonos->poligonos[chave].centroide.x;
+        translacaoY = mouseY - listaPoligonos->poligonos[chave].centroide.y;
 
+        // Criar a matriz da translação realizada
+        Matriz3Por3 * matrizTranslacaoPoligono = criarMatrizTranslacao(translacaoX, translacaoY);
+
+        // Realizar a translação do polígono selecionado
+        transladarPoligono(chave, listaPoligonos, matrizTranslacaoPoligono);
     }
 
     glutPostRedisplay();
@@ -286,7 +302,75 @@ void funcoesMovimento(int x, int y)
  */
 void funcoesTeclado(unsigned char key, int x, int y)
 {
+    float escala = 1.05;
+    float anguloTheta = 45;
+
+    // Localização atualizada do mouse
+    mouseX = x - largura;  // Localização do eixo x (horizontal - largura)
+    mouseY = altura - y;   // Localização do eixo y (vertical - altura)
+
     switch (key) {
+        // Aumentar objetos selecionados da tela (B - Big)
+        case 'B':
+        case 'b':            
+            ////////// Aumentar reta
+            // Se uma reta está na opção "Selecionar" e a chave contém um valor diferente de -1
+            if (opcao == 5 && chave != -1) {
+                // Criar a matriz da escalar realizada para aumentar a reta
+                Matriz3Por3 * matrizEscalarAumentaReta = criarMatrizEscalar(escala);
+
+                // Realizar o aumento da escala da reta selecionada
+                escalarReta(chave, listaRetas, matrizEscalarAumentaReta);
+            }
+
+            ////////// Aumentar polígono
+            // Se um polígono está na opção "Selecionar" e a chave contém um valor diferente de -1
+            else if (opcao == 6 && chave != -1) {
+                // Criar a matriz da escalar realizada para aumentar o polígono
+                Matriz3Por3 * matrizEscalarAumentaPoligono = criarMatrizEscalar(escala);
+
+                // Realizar aumento da escala do polígono selecionado
+                escalarPoligono(chave, listaPoligonos, matrizEscalarAumentaPoligono);
+            }
+
+            break;
+
+        // Rotacionar objetos selecionados da tela no sentido horário (C - Clockwise)
+        // Rotaciona o ponto 45 graus apertando "C" caso esteja na opção de selecionar o ponto e um ponto esteja selecionado
+        case 'C':
+        case 'c':
+            ////////// Rotacionar ponto no sentido horário
+            // Se um ponto está na opção "Selecionar" e a chave conter um valor diferente de -1
+            if (opcao == 4 && chave != -1) {
+                // Criar a matriz da rotação inversa realizada passando o ângulo
+                Matriz3Por3 * matrizRotacaoInversaPonto = criarMatrizRotacaoInversa(anguloTheta);
+
+                // Realizar a rotação inversa do ponto selecionado
+                rotacionarPonto(chave, listaPontos, matrizRotacaoInversaPonto);
+            }
+
+            ////////// Rotacionar reta no sentido horário
+            // Se uma reta está na opção "Selecionar" e a chave conter um valor diferente de -1
+            else if (opcao == 5 && chave != -1) {
+                // Criar a matriz da rotação inversa realizada passando o ângulo
+                Matriz3Por3 * matrizRotacaoInversaReta = criarMatrizRotacaoInversa(anguloTheta);
+
+                // Realizar a rotação inversa da reta selecionada
+                rotacionarReta(chave, listaRetas, matrizRotacaoInversaReta);
+            }
+
+            ////////// Rotacionar polígono no sentido horário
+            // Se um polígono está na opção "Selecionar" e a chave conter um valor diferente de -1
+            else if (opcao == 6 && chave != -1) {
+                // Criar a matriz da rotação inversa realizada passando o ângulo
+                Matriz3Por3 * matrizRotacaoInversaPoligono = criarMatrizRotacaoInversa(anguloTheta);
+
+                // Realizar a rotação inversa do polígono selecionado
+                rotacionarPoligono(chave, listaPoligonos, matrizRotacaoInversaPoligono);
+            }
+
+            break;
+
         // Excluir objetos selecionados da tela (D - Delete)
         case 'D':
         case 'd':
@@ -311,86 +395,139 @@ void funcoesTeclado(unsigned char key, int x, int y)
             ////////// Excluir polígono
             // Se um polígono está na opção "Selecionar" e a chave contém um valor diferente de -1
             else if (opcao == 6 && chave != -1) {
-
+                if (excluirPoligono(chave, listaPoligonos)) {
+                    imprimirListaPoligonos(listaPoligonos);
+                    chave = -1;
+                }
             }
 
             break;
 
-        // Rotacionar objetos selecionados da tela (R - Rotate)
-        // Rotaciona o ponto 45 graus apertando r caso esteja na opção de selecionar o ponto e um ponto esteja selecionado
+        // Finalizar o polígono (F - Finish)
+        case 'F':
+        case 'f':
+            if (opcao == 3 && statusObjeto == 1) {
+                // Status do objeto para finalização
+                statusObjeto = 2;
+
+                // Adicionar o último ponto do polígono para finalizá-lo
+                statusObjeto = adicionarPoligono(mouseX, mouseY, statusObjeto, listaPoligonos);
+
+                // finalizarPoligono(statusObjeto, listaPoligonos);
+                imprimirListaPoligonos(listaPoligonos);
+
+                // Mudar status do objeto para ele ser finalizado
+                statusObjeto = -1;
+            }
+
+            break;
+
+        // Rotacionar objetos selecionados da tela no sentido anti-horário (R - Rotate)
+        // Rotaciona o ponto 45 graus apertando "R" caso esteja na opção de selecionar o ponto e um ponto esteja selecionado
         case 'R':
         case 'r':
-            ////////// Rotacionar ponto
+            ////////// Rotacionar ponto no sentido anti-horário
             // Se um ponto está na opção "Selecionar" e a chave conter um valor diferente de -1
             if (opcao == 4 && chave != -1) {
-                MatrizTransformacao * matrizRotacao = criarMatrizRotacao(pi/36.0);
-                rotacionarPonto(chave, listaPontos, matrizRotacao);
+                // Criar a matriz da rotação realizada passando o ângulo
+                Matriz3Por3 * matrizRotacaoPonto = criarMatrizRotacao(anguloTheta);
+
+                // Realizar a rotação do ponto selecionado
+                rotacionarPonto(chave, listaPontos, matrizRotacaoPonto);
             }
 
-            ////////// Rotacionar reta
+            ////////// Rotacionar reta no sentido anti-horário
             // Se uma reta está na opção "Selecionar" e a chave conter um valor diferente de -1
             else if (opcao == 5 && chave != -1) {
-                float intx = 0.0 - listaRetas->retas[chave].central.x;
-                float inty = 0.0 - listaRetas->retas[chave].central.y;
-                MatrizTransformacao * matrizRotacaor = criarMatrizRotacao(pi/36.0);
-                MatrizTransformacao * ida = criarMatrizTranslacao(intx, inty);
-                MatrizTransformacao * volta = criarMatrizTranslacao((-1*intx), (-1*inty));
-                rotacionarReta(chave, listaRetas, matrizRotacaor, ida, volta);
+                // Criar a matriz da rotação realizada passando o ângulo
+                Matriz3Por3 * matrizRotacaoReta = criarMatrizRotacao(anguloTheta);
 
+                // Realizar a rotação da reta selecionada
+                rotacionarReta(chave, listaRetas, matrizRotacaoReta);
             }
 
-            ////////// Rotacionar polígono
+            ////////// Rotacionar polígono no sentido anti-horário
             // Se um polígono está na opção "Selecionar" e a chave conter um valor diferente de -1
             else if (opcao == 6 && chave != -1) {
+                // Criar a matriz da rotação realizada passando o ângulo
+                Matriz3Por3 * matrizRotacaoPoligono = criarMatrizRotacao(anguloTheta);
 
+                // Realizar a rotação do polígono selecionado
+                rotacionarPoligono(chave, listaPoligonos, matrizRotacaoPoligono);
             }
 
             break;
-        case 'T':
-        case 't':
-            if (opcao == 4 && chave != -1) {
-                MatrizTransformacao * matrizRotacao = criarMatrizRotacao((-1)*pi/36.0);
-                rotacionarPonto(chave, listaPontos, matrizRotacao);
-            }
-
-            ////////// Rotacionar reta
-            // Se uma reta está na opção "Selecionar" e a chave conter um valor diferente de -1
-            else if (opcao == 5 && chave != -1) {
-                float intx = 0.0 - listaRetas->retas[chave].central.x;
-                float inty = 0.0 - listaRetas->retas[chave].central.y;
-                MatrizTransformacao * matrizRotacaor = criarMatrizRotacao((-1)*pi/36.0);
-                MatrizTransformacao * ida = criarMatrizTranslacao(intx, inty);
-                MatrizTransformacao * volta = criarMatrizTranslacao((-1*intx), (-1*inty));
-                rotacionarReta(chave, listaRetas, matrizRotacaor, ida, volta);
-
-            }
-
-            ////////// Rotacionar polígono
-            // Se um polígono está na opção "Selecionar" e a chave conter um valor diferente de -1
-            else if (opcao == 6 && chave != -1) {
-
-            }
-
-            break;
-
-        // Escalar objetos selecionados da tela (S - scale)
+            
+        // Diminuir objetos selecionados da tela (S - small)
         case 'S':
         case 's':
-            ////////// Escalar reta
-            // Se uma reta está na opção "Selecionar" e a chave conter um valor diferente de -1
+            ////////// Diminuir reta
+            // Se uma reta está na opção "Selecionar" e a chave contém um valor diferente de -1
             if (opcao == 5 && chave != -1) {
-                float intx = 0.0 - listaRetas->retas[chave].central.x;
-                float inty = 0.0 - listaRetas->retas[chave].central.y;
-                MatrizTransformacao * escalaR = criarMatrizEscalar(2.0);
-                MatrizTransformacao * ida = criarMatrizTranslacao(intx, inty);
-                MatrizTransformacao * volta = criarMatrizTranslacao((-1*intx), (-1*inty));
-                escalarReta(chave, listaRetas, escalaR, ida, volta);
+                // Criar a matriz da escalar realizada para diminuir a reta
+                Matriz3Por3 * matrizEscalarDiminuirReta = criarMatrizEscalarInversa(escala);
+
+                // Realizar a diminuição da escala da reta selecionada
+                escalarReta(chave, listaRetas, matrizEscalarDiminuirReta);
             }
 
-            ////////// Escalar polígono
-            // Se um polígono está na opção "Selecionar" e a chave conter um valor diferente de -1
+            ////////// Diminuir polígono
+            // Se um polígono está na opção "Selecionar" e a chave contém um valor diferente de -1
             else if (opcao == 6 && chave != -1) {
+                // Criar a matriz da escalar realizada para diminuir o polígono
+                Matriz3Por3 * matrizEscalarDiminuirPoligono = criarMatrizEscalarInversa(escala);
 
+                // Realizar a diminuição da escala do polígono selecionado
+                escalarPoligono(chave, listaPoligonos, matrizEscalarDiminuirPoligono);
+            }
+
+            break;
+
+        // Transladar inversamente os objetos selecionados da tela em relação ao mouse(T - Translate)
+        case 'T':
+        case 't':
+            float translacaoX, translacaoY;
+
+            ////////// Transladar inversamente o ponto
+            // Se estiver na opção "Selecionar" ponto e um ponto já estiver selecionado
+            if (opcao == 4 && chave != -1) {
+                // Realizar o cálculo para saber o valor da translação inversa realizada
+                translacaoX = mouseX - listaPontos->pontos[chave].x;
+                translacaoY = mouseY - listaPontos->pontos[chave].y;
+
+                // Criar a matriz da translação inversa realizada
+                Matriz3Por3 * matrizTranslacaoInversaPonto = criarMatrizTranslacaoInversa(translacaoX, translacaoY);
+
+                // Realizar a translação inversa do ponto selecionado
+                transladarPonto(chave, listaPontos, matrizTranslacaoInversaPonto);
+            }
+
+            ////////// Transladar inversamente a reta
+            // Se estivar na opção "Selecionar" reta e uma reta já estiver selecionada
+            else if (opcao == 5 && chave != -1) {
+                // Realizar o cálculo para saber o valor da translação inversa realizada
+                translacaoX = mouseX - listaRetas->retas[chave].central.x;
+                translacaoY = mouseY - listaRetas->retas[chave].central.y;
+
+                // Criar a matriz da translação inversa realizada
+                Matriz3Por3 * matrizTranslacaoInversaReta = criarMatrizTranslacaoInversa(translacaoX, translacaoY);
+
+                // Realizar a translação inversa da reta selecionada
+                transladarReta(chave, listaRetas, matrizTranslacaoInversaReta);
+            }
+
+            ////////// Transladar inversamente o polígono
+            // Se estiver na opção "Selecionar" polígono e um polígono já estiver selecionado
+            else if (opcao == 6 && chave != -1) {
+                // Realizar o cálculo para saber o valor da translação inversa realizada
+                translacaoX = mouseX - listaPoligonos->poligonos[chave].centroide.x;
+                translacaoY = mouseY - listaPoligonos->poligonos[chave].centroide.y;
+
+                // Criar a matriz da translação inversa realizada
+                Matriz3Por3 * matrizTranslacaoInversaPoligono = criarMatrizTranslacaoInversa(translacaoX, translacaoY);
+
+                // Realizar a translação inversa do polígono selecionado
+                transladarPoligono(chave, listaPoligonos, matrizTranslacaoInversaPoligono);
             }
 
             break;
