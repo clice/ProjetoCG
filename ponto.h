@@ -20,11 +20,9 @@ typedef struct Cor
  */
 typedef struct Ponto
 {
-    float teta;
     float x;   // Posição na largura
     float y;   // Posição na altura
     Cor cor;   // Estrutura das cores
-    int vsele[4];
 } Ponto;
 
 /*
@@ -32,7 +30,7 @@ typedef struct Ponto
  */
 typedef struct ListaPontos
 {
-    int qtdPontos;              // Quantidade de pontos na lista
+    int qtdPontos;    // Quantidade de pontos na lista
     Ponto pontos[MAX_PONTOS];   // Dados dos pontos da lista de pontos
 } ListaPontos;
 
@@ -44,8 +42,8 @@ typedef struct ListaPontos
 ListaPontos * criarListaPontos();
 void imprimirListaPontos(ListaPontos * listaPontos);
 void liberarListaPontos(ListaPontos * listaPontos);
-void salvarListaPontos(ListaPontos * listaPontos);
-void carregarListaPontos();
+void salvarListaPontos(const char * nomeArquivoPontos, ListaPontos * listaPontos);
+void carregarListaPontos(const char * nomeArquivoPontos, ListaPontos * listaPontosArquivo);
 
 int adicionarPonto(float mouseX, float mouseY, ListaPontos * listaPontos);
 int excluirPonto(int chave, ListaPontos * listaPontos);

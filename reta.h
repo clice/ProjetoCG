@@ -32,8 +32,8 @@ typedef struct ListaRetas
 ListaRetas * criarListaRetas();
 void imprimirListaRetas(ListaRetas * listaRetas);
 void liberarListaRetas(ListaRetas * listaRetas);
-void salvarListaRetas(ListaRetas * listaRetas);
-void carregarListaRetas();
+void salvarListaRetas(const char * nomeArquivoRetas, ListaRetas * listaRetas);
+void carregarListaRetas(const char * nomeArquivoRetas, ListaRetas * listaRetas, ListaRetas * listaRetasArquivo);
 
 int adicionarReta(float mouseX, float mouseY, int statusObjeto, ListaRetas * listaRetas);
 int excluirReta(int chave, ListaRetas * listaRetas);

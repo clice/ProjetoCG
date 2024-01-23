@@ -76,62 +76,59 @@ void liberarListaRetas(ListaRetas * listaRetas)
 /*
  * FUNÇÃO PARA SALVAR A LISTA DE RETAS
  */
-void salvarListaRetas(ListaRetas * listaRetas)
+void salvarListaRetas(const char * nomeArquivoRetas, ListaRetas * listaRetas)
 {
 	// Se a lista de retas não está vazia
 	if (listaRetas != NULL) {
-		// Nome do arquivo
-		const char * nomeArquivo = "arquivos/retas/retas.txt";
-
 		// Abrir o arquivo para salvar a lista
-		FILE * arquivo = fopen(nomeArquivo, "w");
+		FILE * arquivoRetas = fopen(nomeArquivoRetas, "w");
 
 		// Checar se o arquivo foi aberto com sucesso
-		if (arquivo == NULL) {
-			fprintf(stderr, "Nao foi possivel abrir o arquivo %s.\n", nomeArquivo);
+		if (arquivoRetas == NULL) {
+			fprintf(stderr, "Nao foi possivel abrir o arquivo %s.\n", nomeArquivoRetas);
 			return;
 		}
 
 		// Escrever as dimensões da lista no arquivo
-		fprintf(arquivo, "%d\n", listaRetas->qtdRetas);
+		fprintf(arquivoRetas, "%d\n", listaRetas->qtdRetas);
 
 		// Escrever os elementos da lista no arquivo
 		// (inicial.x, inicial.y, central.x, central.y, final.x, final.y, red, green, blue)
 		for (int i = 0; i < listaRetas->qtdRetas; i++) {
 			////////// Ponto inicial
 			// Salvar posições do ponto inicial
-			fprintf(arquivo, "%.1f ", listaRetas->retas[i].inicial.x);
-			fprintf(arquivo, "%.1f ", listaRetas->retas[i].inicial.y);
+			fprintf(arquivoRetas, "%.1f ", listaRetas->retas[i].inicial.x);
+			fprintf(arquivoRetas, "%.1f ", listaRetas->retas[i].inicial.y);
 
 			// Salvar os dados do RGB
-			fprintf(arquivo, "%.1f ", listaRetas->retas[i].inicial.cor.red);
-			fprintf(arquivo, "%.1f ", listaRetas->retas[i].inicial.cor.green);
-			fprintf(arquivo, "%.1f ", listaRetas->retas[i].inicial.cor.blue);
+			fprintf(arquivoRetas, "%.1f ", listaRetas->retas[i].inicial.cor.red);
+			fprintf(arquivoRetas, "%.1f ", listaRetas->retas[i].inicial.cor.green);
+			fprintf(arquivoRetas, "%.1f ", listaRetas->retas[i].inicial.cor.blue);
 
 			////////// Ponto central
 			// Salvar posições do ponto central
-			fprintf(arquivo, "%.1f ", listaRetas->retas[i].central.x);
-			fprintf(arquivo, "%.1f ", listaRetas->retas[i].central.y);
+			fprintf(arquivoRetas, "%.1f ", listaRetas->retas[i].central.x);
+			fprintf(arquivoRetas, "%.1f ", listaRetas->retas[i].central.y);
 
 			// Salvar os dados do RGB
-			fprintf(arquivo, "%.1f ", listaRetas->retas[i].central.cor.red);
-			fprintf(arquivo, "%.1f ", listaRetas->retas[i].central.cor.green);
-			fprintf(arquivo, "%.1f ", listaRetas->retas[i].central.cor.blue);
+			fprintf(arquivoRetas, "%.1f ", listaRetas->retas[i].central.cor.red);
+			fprintf(arquivoRetas, "%.1f ", listaRetas->retas[i].central.cor.green);
+			fprintf(arquivoRetas, "%.1f ", listaRetas->retas[i].central.cor.blue);
 
 			////////// Ponto final
 			// Salvar posições do ponto final
-			fprintf(arquivo, "%.1f ", listaRetas->retas[i].final.x);
-			fprintf(arquivo, "%.1f ", listaRetas->retas[i].final.y);
+			fprintf(arquivoRetas, "%.1f ", listaRetas->retas[i].final.x);
+			fprintf(arquivoRetas, "%.1f ", listaRetas->retas[i].final.y);
 
 			// Salvar os dados do RGB
-			fprintf(arquivo, "%.1f ", listaRetas->retas[i].final.cor.red);
-			fprintf(arquivo, "%.1f ", listaRetas->retas[i].final.cor.green);
-			fprintf(arquivo, "%.1f ", listaRetas->retas[i].final.cor.blue);
-			fprintf(arquivo, "\n"); // Mover para a próxima linha do arquivo
+			fprintf(arquivoRetas, "%.1f ", listaRetas->retas[i].final.cor.red);
+			fprintf(arquivoRetas, "%.1f ", listaRetas->retas[i].final.cor.green);
+			fprintf(arquivoRetas, "%.1f ", listaRetas->retas[i].final.cor.blue);
+			fprintf(arquivoRetas, "\n"); // Mover para a próxima linha do arquivo
 		}
 
 		// Fechar arquivo
-		fclose(arquivo);
+		fclose(arquivoRetas);
 
 		printf("Lista de retas salva com sucesso!");
 	}
@@ -145,7 +142,7 @@ void salvarListaRetas(ListaRetas * listaRetas)
 /*
  * FUNÇÃO PARA CARREGAR A LISTA DE RETAS NA TELA
  */
-void carregarListaRetas()
+void carregarListaRetas(const char * nomeArquivoRetas, ListaRetas * listaRetas, ListaRetas * listaRetasArquivo)
 {
 
 }

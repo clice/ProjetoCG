@@ -43,8 +43,8 @@ typedef struct ListaPoligonos
 ListaPoligonos * criarListaPoligonos();
 void imprimirListaPoligonos(ListaPoligonos * listaPoligonos);
 void liberarListaPoligonos(ListaPoligonos * listaPoligonos);
-void salvarListaPoligonos(ListaPoligonos * listaPoligonos);
-void carregarListaPoligonos();
+void salvarListaPoligonos(const char * nomeArquivoPoligonos, ListaPoligonos * listaPoligonos);
+void carregarListaPoligonos(const char * nomeArquivoPoligonos, ListaPoligonos * listaPoligonos, ListaPoligonos * listaPoligonosArquivo);
 
 PontoPoligono * criarPontoPoligono(float mouseX, float mouseY);
 void inserirPontoPoligono(PontoPoligono ** pontoPoligonoInicial, float mouseX, float mouseY);

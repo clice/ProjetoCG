@@ -51,46 +51,47 @@ void imprimirListaPontos(ListaPontos * listaPontos)
  */
 void liberarListaPontos(ListaPontos * listaPontos)
 {
-    
+    // Se a lista de pontos não está vazia
+    if (listaPontos != NULL) {
+        // Liberar os pontos
+        free(listaPontos);
+    }
 }
 
 /*
  * FUNÇÃO PARA SALVAR A LISTA DE PONTOS
  */
-void salvarListaPontos(ListaPontos * listaPontos)
+void salvarListaPontos(const char * nomeArquivoPontos, ListaPontos * listaPontos)
 {
     // Se a lista de pontos não está vazia
     if (listaPontos != NULL) {
-        // Nome do arquivo
-        const char * nomeArquivo = "arquivos/pontos/pontos.txt";
-
         // Abrir o arquivo para salvar a lista
-        FILE * arquivo = fopen(nomeArquivo, "w");
+        FILE * arquivoPontos = fopen(nomeArquivoPontos, "w");
 
         // Checar se o arquivo foi aberto com sucesso
-        if (arquivo == NULL) {
-            fprintf(stderr, "Nao foi possivel abrir o arquivo %s.\n", nomeArquivo);
+        if (arquivoPontos == NULL) {
+            fprintf(stderr, "Nao foi possivel abrir o arquivo %s.\n", nomeArquivoPontos);
             return;
         }
 
         // Escrever as dimensões da lista no arquivo
-        fprintf(arquivo, "%d\n", listaPontos->qtdPontos);
+        fprintf(arquivoPontos, "%d\n", listaPontos->qtdPontos);
 
         // Escrever os elementos da lista no arquivo (x, y, red, green, blue)
         for (int i = 0; i < listaPontos->qtdPontos; i++) {
             // Salvar posições dos pontos
-            fprintf(arquivo, "%.1f ", listaPontos->pontos[i].x);
-            fprintf(arquivo, "%.1f ", listaPontos->pontos[i].y);
+            fprintf(arquivoPontos, "%.1f ", listaPontos->pontos[i].x);
+            fprintf(arquivoPontos, "%.1f ", listaPontos->pontos[i].y);
 
             // Salvar os dados do RGB
-            fprintf(arquivo, "%.1f ", listaPontos->pontos[i].cor.red);
-            fprintf(arquivo, "%.1f ", listaPontos->pontos[i].cor.green);
-            fprintf(arquivo, "%.1f", listaPontos->pontos[i].cor.blue);
-            fprintf(arquivo, "\n"); // Mover para a próxima linha do arquivo
+            fprintf(arquivoPontos, "%.1f ", listaPontos->pontos[i].cor.red);
+            fprintf(arquivoPontos, "%.1f ", listaPontos->pontos[i].cor.green);
+            fprintf(arquivoPontos, "%.1f", listaPontos->pontos[i].cor.blue);
+            fprintf(arquivoPontos, "\n"); // Mover para a próxima linha do arquivo
         }
 
         // Fechar arquivo
-        fclose(arquivo);
+        fclose(arquivoPontos);
 
         printf("Lista de pontos salva com sucesso!\n");
     }
@@ -104,59 +105,36 @@ void salvarListaPontos(ListaPontos * listaPontos)
 /*
  * FUNÇÃO PARA CARREGAR A LISTA DE PONTOS NA TELA
  */
-void carregarListaPontos()
+void carregarListaPontos(const char * nomeArquivoPontos, ListaPontos * listaPontosArquivo)
 {
-    // int ponto = -1;
-    int * qtdPontos = 0;
-    // float auxListaPontos[1][5];
-
-    ListaPontos * listaPontos = criarListaPontos();
-
-    // Nome do arquivo
-    const char * nomeArquivo = "arquivos/pontos/pontos.txt";
-
     // Abrir o arquivo para carregar a lista
-    FILE * arquivo = fopen(nomeArquivo, "r");
+    FILE * arquivoPontos = fopen(nomeArquivoPontos, "r");
 
     // Checar se o arquivo foi aberto com sucesso
-    if (arquivo == NULL) {
-        fprintf(stderr, "Nao foi possivel abrir o arquivo %s.\n", nomeArquivo);
+    if (arquivoPontos == NULL) {
+        fprintf(stderr, "Nao foi possivel abrir o arquivo %s.\n", nomeArquivoPontos);
         return;
     }
 
     // Ler as dimensões da lista no arquivo
-    fscanf(arquivo, "%d", qtdPontos);
-
-    // Adicionando a quantidade de pontos na lista
-    listaPontos->qtdPontos = *qtdPontos;
+    fscanf(arquivoPontos, "%d", &listaPontosArquivo->qtdPontos);
 
     // Ler os elementos da lista no arquivo (x, y, red, green, blue)
-    for (int i = 0; i < 9; i++) {
+    for (int i = 0; i < listaPontosArquivo->qtdPontos; i++) {
         printf("Lista de pontos carregada com sucesso!\n");
-        // // Salvar posições dos pontos
-        // fscanf(arquivo, "%.1f ", &listaPontos->pontos[i].x);
-        // fscanf(arquivo, "%.1f ", &listaPontos->pontos[i].y);
+        // Salvar posições dos pontos
+        fscanf(arquivoPontos, "%f ", &listaPontosArquivo->pontos[i].x);
+        fscanf(arquivoPontos, "%f ", &listaPontosArquivo->pontos[i].y);
 
-        // // Salvar os dados do RGB
-        // fscanf(arquivo, "%.1f ", &listaPontos->pontos[i].cor.red);
-        // fscanf(arquivo, "%.1f ", &listaPontos->pontos[i].cor.green);
-        // fscanf(arquivo, "%.1f", &listaPontos->pontos[i].cor.blue);
-        // fscanf(arquivo, "\n"); // Mover para a próxima linha do arquivo
-
-        // printf("%.1f ", &auxListaPontos[0][0]);
-        // printf("%.1f ", &auxListaPontos[0][1]);
-        // printf("%.1f ", &auxListaPontos[0][2]);
-        // printf("%.1f ", &auxListaPontos[0][3]);
-        // printf("%.1f\n", &auxListaPontos[0][4]);
-
-        // Adicionando os dados na lista de pontos
+        // Salvar os dados do RGB
+        fscanf(arquivoPontos, "%f ", &listaPontosArquivo->pontos[i].cor.red);
+        fscanf(arquivoPontos, "%f ", &listaPontosArquivo->pontos[i].cor.green);
+        fscanf(arquivoPontos, "%f", &listaPontosArquivo->pontos[i].cor.blue);
+        fscanf(arquivoPontos, "\n"); // Mover para a próxima linha do arquivo
     }
 
-    // Desenhar na tela os pontos da lista
-    // desenharPontos(ponto, listaPontos);
-
     // Fechar arquivo
-    fclose(arquivo);
+    fclose(arquivoPontos);
 
     printf("Lista de pontos carregada com sucesso!\n");
 }

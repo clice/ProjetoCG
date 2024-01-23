@@ -92,11 +92,6 @@ int main (int argc, char ** argv)
     glutDisplayFunc(telaInicial);        // Para mostrar elementos na tela rederizando os objetos
     glutMainLoop();
 
-    // Liberando espaço da memória ocupado pelas listas de objetos
-    liberarListaPontos(listaPontos);
-    liberarListaRetas(listaRetas);
-    liberarListaPoligonos(listaPoligonos);
-
     return 0;
 }
 
@@ -178,6 +173,11 @@ void selecionarOpcao(int opcaoSelecionada)
  */
 void funcoesMouse(int botaoMouse, int statusMouse, int x, int y)
 {
+    // Variáveis para auxiliar o salvamento e o carregamento dos objetos na tela
+    const char * nomeArquivoPontos = "arquivos/pontos/pontos.txt";
+    const char * nomeArquivoRetas = "arquivos/retas/retas.txt";
+    const char * nomeArquivoPoligonos = "arquivos/poligonos/poligonos.txt";
+
     // Localização atualizada do mouse
     mouseX = x - largura;  // Localização do eixo x (horizontal - largura)
     mouseY = altura - y;   // Localização do eixo y (vertical - altura)
@@ -225,16 +225,33 @@ void funcoesMouse(int botaoMouse, int statusMouse, int x, int y)
 
         ////////// Opção: Salvar objetos
         else if (opcao == 7) {
-            salvarListaPontos(listaPontos);
-            salvarListaRetas(listaRetas);
-            // salvarListaPoligonos(listaPoligonos);
+            salvarListaPontos(nomeArquivoPontos, listaPontos);
+            salvarListaRetas(nomeArquivoRetas, listaRetas);
+            salvarListaPoligonos(nomeArquivoPoligonos, listaPoligonos);
         }
 
         ////////// Opção: Carregar objetos
         else if (opcao == 8) {
-            carregarListaPontos();
-            // carregarListaRetas(listaRetas);
-            // carregarListaPoligonos(listaPoligonos);
+            // Variáveis para auxiliar o carregamento dos objetos na tela
+            ListaPontos listaPontosArquivo;
+            ListaRetas listaRetasArquivo;
+            ListaPoligonos listaPoligonosArquivo;
+
+            // Carregar as variáveis com os dados dos arquivos
+            carregarListaPontos(nomeArquivoPontos, &listaPontosArquivo);
+            carregarListaRetas(nomeArquivoRetas, listaRetas, &listaRetasArquivo);
+            carregarListaPoligonos(nomeArquivoPoligonos, listaPoligonos, &listaPoligonosArquivo);
+
+            // Passar os dados das variáveis para as listas de pontos
+            listaPontos = &listaPontosArquivo;
+        }
+
+        ////////// Opção: Sair
+        else if (opcao == -1) {
+            // Liberando espaço da memória antes de sair do programa
+            liberarListaPontos(listaPontos);
+            liberarListaRetas(listaRetas);
+            liberarListaPoligonos(listaPoligonos);
         }
     }
 

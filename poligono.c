@@ -55,7 +55,7 @@ void liberarListaPoligonos(ListaPoligonos * listaPoligonos)
 /*
  * FUNÇÃO PARA SALVAR A LISTA DE POLÍGONOS
  */
-void salvarListaPoligonos(ListaPoligonos * listaPoligonos)
+void salvarListaPoligonos(const char * nomeArquivoPoligonos, ListaPoligonos * listaPoligonos)
 {
 
 }
@@ -63,7 +63,7 @@ void salvarListaPoligonos(ListaPoligonos * listaPoligonos)
 /*
  * FUNÇÃO PARA CARREGAR A LISTA DE POLÍGONOS NA TELA
  */
-void carregarListaPoligonos()
+void carregarListaPoligonos(const char * nomeArquivoPoligonos, ListaPoligonos * listaPoligonos, ListaPoligonos * listaPoligonosArquivo)
 {
 
 }
