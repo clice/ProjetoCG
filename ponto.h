@@ -50,7 +50,7 @@ int excluirPonto(int chave, ListaPontos * listaPontos);
 int selecionarPonto(float mouseX, float mouseY, ListaPontos * listaPontos);
 void desenharPontos(ListaPontos * listaPontos);
 
-int transladarPonto(int chave, ListaPontos * listaPontos, MatrizTransformacao * matrizTranslacaoPonto);
-int rotacionarPonto(int chave, ListaPontos * listaPontos, MatrizTransformacao * matrizRotacaoPonto);
+int transladarPonto(int chave, ListaPontos * listaPontos, Matriz3Por3 * matrizTranslacaoPonto);
+int rotacionarPonto(int chave, ListaPontos * listaPontos, Matriz3Por3 * matrizRotacaoPonto);
 
 #endif // PONTO_H

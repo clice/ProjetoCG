@@ -264,7 +264,7 @@ void desenharPontos(ListaPontos * listaPontos)
 /*
  * FUNÇÃO PARA TRANSLADAR UM PONTO (ARRASTAR E SOLTAR)
  */
-int transladarPonto(int chave, ListaPontos * listaPontos, MatrizTransformacao * matrizTranslacaoPonto)
+int transladarPonto(int chave, ListaPontos * listaPontos, Matriz3Por3 * matrizTranslacaoPonto)
 {
     // Se a lista de pontos não foi criada ou a quantidade de pontos for zero
     if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
@@ -273,16 +273,17 @@ int transladarPonto(int chave, ListaPontos * listaPontos, MatrizTransformacao * 
     }
     // Transladar ponto
     else {
-        // Criar a matriz composta com a posição do mouse onde o objeto foi clicado
-        // para realizar a mudança de local do ponto onde foi selecionado
-        MatrizPonto * matrizComposta = criarMatrizPonto(listaPontos->pontos[chave].x, listaPontos->pontos[chave].y);
+        // Criar a matriz3Por1 para auxiliar nos cálculos
+        // Primeiramente, a matriz contêm as coordenadas originais do ponto
+        Matriz3Por1 * matrizCompostaPonto = criarMatriz3Por1(listaPontos->pontos[chave].x, listaPontos->pontos[chave].y);
 
-        //
-        matrizComposta = multiplicarMatrizPonto(matrizComposta, matrizTranslacaoPonto);
+        // Realizar a multiplicação gerando a matriz composta
+        matrizCompostaPonto = multiplicarMatriz3Por3PorMatriz3Por1(matrizTranslacaoPonto, matrizCompostaPonto);
 
-        // Modifica a posição do ponto a partir do resultado do cálculo da translação
-        listaPontos->pontos[chave].x = matrizComposta->matriz[0][0];
-        listaPontos->pontos[chave].y = matrizComposta->matriz[0][1];
+        // Atualizar a posição do ponto a partir do resultado do cálculo da transformação
+        listaPontos->pontos[chave].x = matrizCompostaPonto->matriz[0][0];
+        listaPontos->pontos[chave].y = matrizCompostaPonto->matriz[0][1];  
+
         return 1;
     }
 }
@@ -290,7 +291,7 @@ int transladarPonto(int chave, ListaPontos * listaPontos, MatrizTransformacao * 
 /*
  * FUNÇÃO PARA ROTACIONAR UM PONTO (GIRAR PONTO NA TELA A PARTIR DE GRAUS)
  */
-int rotacionarPonto(int chave, ListaPontos * listaPontos, MatrizTransformacao * matrizRotacaoPonto)
+int rotacionarPonto(int chave, ListaPontos * listaPontos, Matriz3Por3 * matrizRotacaoPonto)
 {
     // Se a lista de pontos não foi criada ou a quantidade de pontos for zero
     if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
@@ -299,12 +300,17 @@ int rotacionarPonto(int chave, ListaPontos * listaPontos, MatrizTransformacao * 
     }
     // Rotacionar ponto
     else {
-        MatrizPonto * matrizPonto = criarMatrizPonto(listaPontos->pontos[chave].x, listaPontos->pontos[chave].y);
-        matrizPonto = multiplicarMatrizPonto(matrizPonto, matrizRotacaoPonto);
+        // Criar a matriz3Por1 para auxiliar nos cálculos
+        // Primeiramente, a matriz contêm as coordenadas originais do ponto
+        Matriz3Por1 * matrizCompostaPonto = criarMatriz3Por1(listaPontos->pontos[chave].x, listaPontos->pontos[chave].y);
+
+        // Realizar a multiplicação gerando a matriz composta
+        matrizCompostaPonto = multiplicarMatriz3Por3PorMatriz3Por1(matrizRotacaoPonto, matrizCompostaPonto);
 
         // Modifica a posição do ponto a partir do resultado do cálculo da rotação
-        listaPontos->pontos[chave].x = matrizPonto->matriz[0][0];
-        listaPontos->pontos[chave].y = matrizPonto->matriz[0][1];
+        listaPontos->pontos[chave].x = matrizCompostaPonto->matriz[0][0];
+        listaPontos->pontos[chave].y = matrizCompostaPonto->matriz[0][1];
+
         return 1;
     }
 }
