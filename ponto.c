@@ -314,3 +314,30 @@ int rotacionarPonto(int chave, ListaPontos * listaPontos, Matriz3Por3 * matrizRo
         return 1;
     }
 }
+
+/*
+ * FUNÇÃO PARA REFLETIR UM PONTO
+ */
+int refletirPonto(int chave, ListaPontos * listaPontos, Matriz3Por3 * matrizReflexaoPonto)
+{
+    // Se a lista de pontos não foi criada ou a quantidade de pontos for zero
+    if (listaPontos == NULL || listaPontos->qtdPontos == 0) {
+        printf("Lista de pontos nao foi criada ou nao ha pontos! Nao e possivel refletir o ponto!\n");
+        return 0;
+    }
+    // Refletir ponto
+    else {
+        // Criar a matriz3Por1 para auxiliar nos cálculos
+        // Primeiramente, a matriz contêm as coordenadas originais do ponto
+        Matriz3Por1 * matrizCompostaPonto = criarMatriz3Por1(listaPontos->pontos[chave].x, listaPontos->pontos[chave].y);
+
+        // Realizar a multiplicação gerando a matriz composta
+        matrizCompostaPonto = multiplicarMatriz3Por3PorMatriz3Por1(matrizReflexaoPonto, matrizCompostaPonto);
+
+        // Modifica a posição do ponto a partir do resultado do cálculo da rotação
+        listaPontos->pontos[chave].x = matrizCompostaPonto->matriz[0][0];
+        listaPontos->pontos[chave].y = matrizCompostaPonto->matriz[0][1];
+
+        return 1;
+    }
+}

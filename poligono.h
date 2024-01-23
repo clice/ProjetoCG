@@ -58,10 +58,10 @@ int selecionarPoligono(float mouseX, float mouseY, ListaPoligonos * listaPoligon
 bool verificarPontoPoligono(float mouseX, float mouseY, Poligono * poligono);
 void desenharPoligonos(ListaPoligonos * listaPoligonos);
 
-// Matriz3Por3 * multiplicarMatrizCompostaPoligono(float centralX, float centralY, Matriz3Por3 * matrizTransformacaoReta);
-
 int transladarPoligono(int chave, ListaPoligonos * listaPoligonos, Matriz3Por3 * matrizTranslacaoPoligono);
 int rotacionarPoligono(int chave, ListaPoligonos * listaPoligonos, Matriz3Por3 * matrizRotacaoPoligono);
 int escalarPoligono(int chave, ListaPoligonos * listaPoligonos, Matriz3Por3 * matrizEscalarPoligono);
+int refletirPoligono(int chave, ListaPoligonos * listaPoligonos, Matriz3Por3 * matrizReflexaoPoligono);
+int cisalharPoligono(int chave, ListaPoligonos * listaPoligonos, Matriz3Por3 * matrizCisalharPoligono);
 
 #endif // POLIGONO_H

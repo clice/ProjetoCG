@@ -41,10 +41,9 @@ int selecionarReta(float mouseX, float mouseY, ListaRetas * listaRetas);
 int verificarPontoReta(float mouseX, float mouseY, float x1, float y1, float x2, float y2);
 void desenharRetas(ListaRetas * listaRetas);
 
-Matriz3Por3 * multiplicarMatrizCompostaReta(float centralX, float centralY, Matriz3Por3 * matrizTransformacaoReta);
-
 int transladarReta(int chave, ListaRetas * listaRetas, Matriz3Por3 * matrizTranslacaoReta);
 int rotacionarReta(int chave, ListaRetas * listaRetas, Matriz3Por3 * matrizRotacaoReta);
 int escalarReta(int chave, ListaRetas * listaRetas, Matriz3Por3 * matrizEscalarReta);
+int refletirReta(int chave, ListaRetas * listaRetas, Matriz3Por3 * matrizReflexaoReta);
 
 #endif // RETA_H

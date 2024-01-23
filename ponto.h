@@ -54,5 +54,6 @@ void desenharPontos(ListaPontos * listaPontos);
 
 int transladarPonto(int chave, ListaPontos * listaPontos, Matriz3Por3 * matrizTranslacaoPonto);
 int rotacionarPonto(int chave, ListaPontos * listaPontos, Matriz3Por3 * matrizRotacaoPonto);
+int refletirPonto(int chave, ListaPontos * listaPontos, Matriz3Por3 * matrizReflexaoPonto);
 
 #endif // PONTO_H

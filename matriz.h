@@ -28,12 +28,21 @@ Matriz3Por1 * multiplicarMatriz3Por3PorMatriz3Por1(Matriz3Por3 * matriz3Por3, Ma
 Matriz3Por3 * criarMatriz3Por3();
 Matriz3Por3 * multiplicarMatrizes3Por3(Matriz3Por3 * matriz1, Matriz3Por3 * matriz2);
 
+Matriz3Por3 * multiplicarMatrizComposta(float centralX, float centralY, Matriz3Por3 * matrizTransformacao);
+
 Matriz3Por3 * criarMatrizTranslacao(float finalX, float finalY);
-Matriz3Por3 * criarMatrizRotacao(float anguloTheta);
+Matriz3Por3 * criarMatrizRotacao(float angulo);
 Matriz3Por3 * criarMatrizEscalar(float escala);
 
 Matriz3Por3 * criarMatrizTranslacaoInversa(float finalX, float finalY);
-Matriz3Por3 * criarMatrizRotacaoInversa(float anguloTheta);
+Matriz3Por3 * criarMatrizRotacaoInversa(float angulo);
 Matriz3Por3 * criarMatrizEscalarInversa(float escala);
+
+Matriz3Por3 * criarMatrizReflexaoEixoX();
+Matriz3Por3 * criarMatrizReflexaoEixoY();
+Matriz3Por3 * criarMatrizReflexaoOrigem();
+
+Matriz3Por3 * criarMatrizCisalhamentoEixoX(float corte);
+Matriz3Por3 * criarMatrizCisalhamentoEixoY(float corte);
 
 #endif // MATRIZ_H
