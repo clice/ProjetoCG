@@ -444,11 +444,8 @@ void funcoesTeclado(unsigned char key, int x, int y)
         case 'F':
         case 'f':
             if (opcao == 3 && statusObjeto == 1) {
-                // Status do objeto para finalização
-                statusObjeto = 2;
-
-                // Adicionar o último ponto do polígono para finalizá-lo
-                statusObjeto = adicionarPoligono(mouseX, mouseY, statusObjeto, listaPoligonos);
+                // Finalizar o desenho do polígono
+                finalizarPoligono(statusObjeto, listaPoligonos);
 
                 // finalizarPoligono(statusObjeto, listaPoligonos);
                 imprimirListaPoligonos(listaPoligonos);

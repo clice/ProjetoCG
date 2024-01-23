@@ -119,7 +119,7 @@ void imprimirPontosPoligono(PontoPoligono * pontoPoligonoInicial)
 	// Laço para percorrer a lista encadeada dos pontos pertencentes ao polígono
 	// A variável do pontoPoligonoInicial na iteração vai apontando para o próximo ponto até encontrar um ponteiro nulo
 	int i = 0;
-	while (pontoPoligonoInicial->prox != NULL) {
+	while (pontoPoligonoInicial != NULL) {
 		printf("Ponto %d: x: %.1f, y: %.1f, cor: { %.1f, %.1f, %.1f }\n",
 			i + 1,
 			pontoPoligonoInicial->ponto.x,
@@ -174,7 +174,7 @@ int adicionarPoligono(float mouseX, float mouseY, int statusObjeto, ListaPoligon
 			inserirPontoPoligono(&listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].inicial, mouseX, mouseY);
 
 			// Adicionando mais um quantidade de lados do polígono
-			listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].qtdLados = 0;
+			listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].qtdLados = 1;
 
 			// Retornar para continuar a adição de pontos ao polígono
 			return 1;
@@ -190,21 +190,35 @@ int adicionarPoligono(float mouseX, float mouseY, int statusObjeto, ListaPoligon
 			// Retornar o status que o objeto ainda terá mais pontos
 			return 1;
 		}
+
+		// Se não tem lados o suficiente para montar um polígono
+        printf("Nao ha lados suficientes para montar o poligono!\n");
+        return 1;
+	}
+}
+
+/*
+ * FUNÇÃO PARA FINALIZAR O POLÍGONO SENDO DESENHADO
+ */
+void finalizarPoligono(int statusObjeto, ListaPoligonos * listaPoligonos)
+{
+	// Se a lista de polígonos não foi criada ou está cheia, não é possível adicionar mais polígonos
+	if (listaPoligonos == NULL || listaPoligonos->qtdPoligonos == MAX_POLIGONOS) {
+		printf("Lista de poligonos nao foi criada ou esta cheia! Nao e possivel finalizar o poligono!\n");
+	}
+	// Finalizar polígono
+	else {
 		// Se for finalizar o polígono e ele tiver 3 ou mais lados
-		else if (statusObjeto == 2 && listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].qtdLados > 2) {
+		if (statusObjeto == 1 && listaPoligonos->poligonos[listaPoligonos->qtdPoligonos].qtdLados >= 3) {
 			// Calcular o centróide do polígono
 			calcularCentroidePoligono(listaPoligonos->qtdPoligonos, listaPoligonos);
 
 			// Acrescentando um polígono a lista
 			listaPoligonos->qtdPoligonos++;
-
-			// Retornar ao status inicial para finalizar o polígono
-			return -1;
 		}
 
 		// Se não tem lados o suficiente para montar um polígono
         printf("Nao ha lados suficientes para montar o poligono!\n");
-        return 1;
 	}
 }
 
@@ -225,6 +239,7 @@ void calcularCentroidePoligono(int chave, ListaPoligonos * listaPoligonos)
 
 	// Se a quantidade de lados do polígono for 3
 	if (listaPoligonos->poligonos[chave].qtdLados == 3) {
+		printf("entrou\n");
 		// Laço para percorrer toda a lista de pontos do polígono
 		// Utilizando também a fórmula do cálculo do centróide de um triângulo
 		while (inicialPontoPoligono != NULL) {
@@ -415,8 +430,10 @@ void desenharPoligonos(ListaPoligonos * listaPoligonos)
 		// Recebe os mesmos dados do ponto inicial para manipulação
 		auxPontoPoligono = listaPoligonos->poligonos[i].inicial;
 
+		printf("qtdLados: %d\n", listaPoligonos->poligonos[i].qtdLados);
+
 		// Laço para percorrer toda a lista de pontos do polígono
-		while (auxPontoPoligono->prox != NULL) {
+		while (auxPontoPoligono != NULL) {
 			// Imprimindo os valores e intensidades de cores RGB
 			glColor3f(auxPontoPoligono->ponto.cor.red, auxPontoPoligono->ponto.cor.green, auxPontoPoligono->ponto.cor.blue);
 			// Posicionando o ponto na largura e altura corretas do mouse
@@ -451,7 +468,7 @@ int transladarPoligono(int chave, ListaPoligonos * listaPoligonos, Matriz3Por3 *
 		atualPontoPoligono = listaPoligonos->poligonos[chave].inicial;
 
 		// Laço para percorrer toda a lista de pontos do polígono
-		while (atualPontoPoligono->prox != NULL) {
+		while (atualPontoPoligono != NULL) {
 			// Criar matriz de ponto para auxiliar nos cálculos
        		// Primeiramente, a matriz contêm as coordenadas originais do ponto atual
 			Matriz3Por1 * matrizPontoPoligono = criarMatriz3Por1(atualPontoPoligono->ponto.x, atualPontoPoligono->ponto.y);
@@ -501,7 +518,7 @@ int rotacionarPoligono(int chave, ListaPoligonos * listaPoligonos, Matriz3Por3 *
 		atualPontoPoligono = listaPoligonos->poligonos[chave].inicial;
 
 		// Laço para percorrer toda a lista de pontos do polígono
-		while (atualPontoPoligono->prox != NULL) {
+		while (atualPontoPoligono != NULL) {
 			// Criar matriz de ponto para auxiliar nos cálculos
        		// Primeiramente, a matriz contêm as coordenadas originais do ponto atual
 			Matriz3Por1 * matrizPontoPoligono = criarMatriz3Por1(atualPontoPoligono->ponto.x, atualPontoPoligono->ponto.y);
@@ -551,7 +568,7 @@ int escalarPoligono(int chave, ListaPoligonos * listaPoligonos, Matriz3Por3 * ma
 		atualPontoPoligono = listaPoligonos->poligonos[chave].inicial;
 
 		// Laço para percorrer toda a lista de pontos do polígono
-		while (atualPontoPoligono->prox != NULL) {
+		while (atualPontoPoligono != NULL) {
 			// Criar matriz de ponto para auxiliar nos cálculos
        		// Primeiramente, a matriz contêm as coordenadas originais do ponto atual
 			Matriz3Por1 * matrizPontoPoligono = criarMatriz3Por1(atualPontoPoligono->ponto.x, atualPontoPoligono->ponto.y);
@@ -593,7 +610,7 @@ int refletirPoligono(int chave, ListaPoligonos * listaPoligonos, Matriz3Por3 * m
 		atualPontoPoligono = listaPoligonos->poligonos[chave].inicial;
 
 		// Laço para percorrer toda a lista de pontos do polígono
-		while (atualPontoPoligono->prox != NULL) {
+		while (atualPontoPoligono != NULL) {
 			// Criar matriz de ponto para auxiliar nos cálculos
        		// Primeiramente, a matriz contêm as coordenadas originais do ponto atual
 			Matriz3Por1 * matrizPontoPoligono = criarMatriz3Por1(atualPontoPoligono->ponto.x, atualPontoPoligono->ponto.y);
@@ -643,7 +660,7 @@ int cisalharPoligono(int chave, ListaPoligonos * listaPoligonos, Matriz3Por3 * m
 		atualPontoPoligono = listaPoligonos->poligonos[chave].inicial;
 
 		// Laço para percorrer toda a lista de pontos do polígono
-		while (atualPontoPoligono->prox != NULL) {
+		while (atualPontoPoligono != NULL) {
 			// Criar matriz de ponto para auxiliar nos cálculos
        		// Primeiramente, a matriz contêm as coordenadas originais do ponto atual
 			Matriz3Por1 * matrizPontoPoligono = criarMatriz3Por1(atualPontoPoligono->ponto.x, atualPontoPoligono->ponto.y);
