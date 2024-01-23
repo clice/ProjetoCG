@@ -616,44 +616,52 @@ int refletirPoligono(int chave, ListaPoligonos * listaPoligonos, Matriz3Por3 * m
 	}
 }
 
-// /*
-//  * FUNÇÃO PARA TRANSLADAR UM POLÍGONO (ARRASTAR E SOLTAR)
-//  */
-// int transladarPoligono(int chave, ListaPoligonos * listaPoligonos, Matriz3Por3 * matrizTranslacaoPoligono)
-// {
-//     // Se a lista de polígonos não foi criada ou a quantidade de polígonos for zero
-// 	if (listaPoligonos == NULL || listaPoligonos->qtdPoligonos == 0) {
-// 		printf("Lista de poligonos nao foi criada ou nao ha poligonos! Nao e possivel transladar o poligono!\n");
-// 		return 0;
-// 	}
-// 	// Transladar um polígono
-// 	else {
-// 		// Variável para a lista de polígonos auxiliando a manipulação de dados
-// 		PontoPoligono * atualPontoPoligono = (PontoPoligono *)malloc(sizeof(PontoPoligono));
+/*
+ * FUNÇÃO PARA CISALHAR UM POLÍGONO
+ */
+int cisalharPoligono(int chave, ListaPoligonos * listaPoligonos, Matriz3Por3 * matrizCisalharPoligono)
+{
+    // Se a lista de polígonos não foi criada ou a quantidade de polígonos for zero
+	if (listaPoligonos == NULL || listaPoligonos->qtdPoligonos == 0) {
+		printf("Lista de poligonos nao foi criada ou nao ha poligonos! Nao e possivel cisalhar o poligono!\n");
+		return 0;
+	}
+	// Cisalhar um polígono
+	else {
+		// Criar a matriz3Por3 para auxiliar nos cálculos
+        // Primeiramente, a matriz contêm o resultado das multiplicações necessárias para a rotação
+        Matriz3Por3 * matrizCompostaPoligono = multiplicarMatrizComposta(
+			listaPoligonos->poligonos[chave].centroide.x, 
+			listaPoligonos->poligonos[chave].centroide.y, 
+			matrizCisalharPoligono
+        );
 
-// 		// Recebendo os dados do ponto inicial do polígono
-// 		atualPontoPoligono = listaPoligonos->poligonos[chave].inicial;
+        // Variável para a lista de polígonos auxiliando a manipulação de dados
+		PontoPoligono * atualPontoPoligono = (PontoPoligono *)malloc(sizeof(PontoPoligono));
 
-// 		// Laço para percorrer toda a lista de pontos do polígono
-// 		while (atualPontoPoligono->prox != NULL) {
-// 			// Criar matriz de ponto para auxiliar nos cálculos
-//        		// Primeiramente, a matriz contêm as coordenadas originais do ponto atual
-// 			Matriz3Por1 * matrizPontoPoligono = criarMatriz3Por1(atualPontoPoligono->ponto.x, atualPontoPoligono->ponto.y);
+		// Recebendo os dados do ponto inicial do polígono
+		atualPontoPoligono = listaPoligonos->poligonos[chave].inicial;
 
-// 			// Realizar a multiplicação para a transformação
-// 			matrizPontoPoligono = multiplicarMatriz3Por3PorMatriz3Por1(matrizTranslacaoPoligono, matrizPontoPoligono);
+		// Laço para percorrer toda a lista de pontos do polígono
+		while (atualPontoPoligono->prox != NULL) {
+			// Criar matriz de ponto para auxiliar nos cálculos
+       		// Primeiramente, a matriz contêm as coordenadas originais do ponto atual
+			Matriz3Por1 * matrizPontoPoligono = criarMatriz3Por1(atualPontoPoligono->ponto.x, atualPontoPoligono->ponto.y);
 
-// 			// Atualizar a posição do ponto a partir do resultado do cálculo da transformação
-// 			atualPontoPoligono->ponto.x = matrizPontoPoligono->matriz[0][0];
-// 			atualPontoPoligono->ponto.y = matrizPontoPoligono->matriz[0][1];
+			// Realizar a multiplicação para a transformação
+			matrizPontoPoligono = multiplicarMatriz3Por3PorMatriz3Por1(matrizCompostaPoligono, matrizPontoPoligono);
 
-// 			// Iteração para o próximo ponto da lista
-// 			atualPontoPoligono = atualPontoPoligono->prox;
-// 		}
+			// Atualizar a posição do ponto a partir do resultado do cálculo da transformação
+			atualPontoPoligono->ponto.x = matrizPontoPoligono->matriz[0][0];
+			atualPontoPoligono->ponto.y = matrizPontoPoligono->matriz[0][1];
 
-// 		// Calcular o centróide do novo lugar para o polígono
-// 		calcularCentroidePoligono(chave, listaPoligonos);
+			// Iteração para o próximo ponto da lista
+			atualPontoPoligono = atualPontoPoligono->prox;
+		}
 
-// 		return 1;
-// 	}
-// }
+		// Calcular o centróide do novo lugar para o polígono
+		calcularCentroidePoligono(chave, listaPoligonos);
+
+		return 1;
+	}
+}

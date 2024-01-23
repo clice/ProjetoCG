@@ -302,8 +302,8 @@ void funcoesMovimento(int x, int y)
  */
 void funcoesTeclado(unsigned char key, int x, int y)
 {
-    float corte = 1.05;
-    float angulo = 45;
+    float corte = 0.5;
+    float angulo = 45.0;
     float escala = 1.05;
 
     // Localização atualizada do mouse
@@ -457,6 +457,36 @@ void funcoesTeclado(unsigned char key, int x, int y)
                 statusObjeto = -1;
             }
 
+            break;        
+
+        // Cisalhar objetos com relação ao eixo X
+        case 'M':
+        case 'm':
+            ////////// Cisalhar polígono com relação ao eixo X
+            // Se um polígono está na opção "Selecionar" e a chave conter um valor diferente de -1
+            if (opcao == 6 && chave != -1) {
+                // Criar a matriz do cisalhamento
+                Matriz3Por3 * matrizCisalhamentoEixoXPoligono = criarMatrizCisalhamentoEixoX(corte);
+
+                // Realizar o cisalhamento com relação ao eixo X
+                cisalharPoligono(chave, listaPoligonos, matrizCisalhamentoEixoXPoligono);
+            }
+            
+            break;
+
+        // Cisalhar objetos com relação ao eixo Y
+        case 'N':
+        case 'n':
+            ////////// Cisalhar polígono com relação ao eixo Y
+            // Se um polígono está na opção "Selecionar" e a chave conter um valor diferente de -1
+            if (opcao == 6 && chave != -1) {
+                // Criar a matriz do cisalhamento
+                Matriz3Por3 * matrizCisalhamentoEixoYPoligono = criarMatrizCisalhamentoEixoY(corte);
+
+                // Realizar o cisalhamento com relação ao eixo Y
+                cisalharPoligono(chave, listaPoligonos, matrizCisalhamentoEixoYPoligono);
+            }
+            
             break;
 
         // Refletir objetos com relação a origem
