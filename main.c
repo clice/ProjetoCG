@@ -246,6 +246,8 @@ void funcoesMouse(int botaoMouse, int statusMouse, int x, int y)
  */
 void funcoesMovimento(int x, int y)
 {
+    float translacaoX, translacaoY;
+
     // Localização atualizada do mouse
     mouseX = x - largura;  // Localização do eixo x (horizontal - largura)
     mouseY = altura - y;   // Localização do eixo y (vertical - altura)
@@ -253,11 +255,12 @@ void funcoesMovimento(int x, int y)
     ////////// Transladar ponto
     // Se estiver na opção "Selecionar" ponto e um ponto já estiver selecionado, o mouse fica transladando o ponto
     if (opcao == 4 && chave != -1) {
-        // Realizar o cálculo da transformação para movimentar o ponto
-        MatrizTransformacao * matrizTranslacaoPonto = criarMatrizTranslacao(
-                mouseX - listaPontos->pontos[chave].x,
-                mouseY - listaPontos->pontos[chave].y
-            );
+        // Realizar o cálculo para saber o valor da translação realizada
+        translacaoX = mouseX - listaPontos->pontos[chave].x;
+        translacaoY = mouseY - listaPontos->pontos[chave].y;
+
+        // Criar a matriz da translação realizada
+        Matriz3Por3 * matrizTranslacaoPonto = criarMatrizTranslacao(translacaoX, translacaoY);
 
         // Realizar a translação do ponto selecionado
         transladarPonto(chave, listaPontos, matrizTranslacaoPonto);
@@ -266,11 +269,12 @@ void funcoesMovimento(int x, int y)
     ////////// Transladar reta
     // Se estivar na opção "Selecionar" reta e uma reta já estiver selecionada, o mouse fica transladando a reta
     else if (opcao == 5 && chave != -1) {
-        // Realizar o cálculo da transformação para movimentar a reta
-        MatrizTransformacao * matrizTranslacaoReta = criarMatrizTranslacao(
-                mouseX - listaRetas->retas[chave].central.x,
-                mouseY - listaRetas->retas[chave].central.y
-            );
+        // Realizar o cálculo para saber o valor da translação realizada
+        translacaoX = mouseX - listaRetas->retas[chave].central.x;
+        translacaoY = mouseY - listaRetas->retas[chave].central.y;
+
+        // Criar a matriz da translação realizada
+        Matriz3Por3 * matrizTranslacaoReta = criarMatrizTranslacao(translacaoX, translacaoY);
 
         // Realizar a translação da reta selecionada
         transladarReta(chave, listaRetas, matrizTranslacaoReta);
@@ -279,11 +283,12 @@ void funcoesMovimento(int x, int y)
     ////////// Transladar polígono
     // Se estiver na opção "Selecionar" polígono e um polígono já estiver selecionado, o mouse fica transladando o polígono
     else if (opcao == 6 && chave != -1) {
-        // Realizar o cálculo da transformação para movimentar o polígono
-        MatrizTransformacao * matrizTranslacaoPoligono = criarMatrizTranslacao(
-                mouseX - listaPoligonos->poligonos[chave].centroide.x,
-                mouseY - listaPoligonos->poligonos[chave].centroide.y
-            );
+        // Realizar o cálculo para saber o valor da translação realizada
+        translacaoX = mouseX - listaPoligonos->poligonos[chave].centroide.x;
+        translacaoY = mouseY - listaPoligonos->poligonos[chave].centroide.y;
+
+        // Criar a matriz da translação realizada
+        Matriz3Por3 * matrizTranslacaoPoligono = criarMatrizTranslacao(translacaoX, translacaoY);
 
         // Realizar a translação do polígono selecionado
         transladarPoligono(chave, listaPoligonos, matrizTranslacaoPoligono);
@@ -360,20 +365,31 @@ void funcoesTeclado(unsigned char key, int x, int y)
             ////////// Rotacionar ponto
             // Se um ponto está na opção "Selecionar" e a chave conter um valor diferente de -1
             if (opcao == 4 && chave != -1) {
-                MatrizTransformacao * matrizRotacao = criarMatrizRotacao(45);
-                rotacionarPonto(chave, listaPontos, matrizRotacao);
+                // Criar a matriz da rotação realizada passando o ângulo
+                Matriz3Por3 * matrizRotacaoPonto = criarMatrizRotacao(45);
+
+                // Realizar a rotação do ponto selecionado
+                rotacionarPonto(chave, listaPontos, matrizRotacaoPonto);
             }
 
             ////////// Rotacionar reta
             // Se uma reta está na opção "Selecionar" e a chave conter um valor diferente de -1
             else if (opcao == 5 && chave != -1) {
+                // Criar a matriz da rotação realizada passando o ângulo
+                Matriz3Por3 * matrizRotacaoReta = criarMatrizRotacao(45);
 
+                // Realizar a rotação da reta selecionada
+                rotacionarReta(chave, listaRetas, matrizRotacaoReta);
             }
 
             ////////// Rotacionar polígono
             // Se um polígono está na opção "Selecionar" e a chave conter um valor diferente de -1
             else if (opcao == 6 && chave != -1) {
+                // Criar a matriz da rotação realizada passando o ângulo
+                Matriz3Por3 * matrizRotacaoPoligono = criarMatrizRotacao(45);
 
+                // Realizar a rotação do polígono selecionado
+                rotacionarPoligono(chave, listaPoligonos, matrizRotacaoPoligono);
             }
 
             break;

@@ -223,44 +223,66 @@ void calcularCentroidePoligono(int chave, ListaPoligonos * listaPoligonos)
 	inicialPontoPoligono = listaPoligonos->poligonos[chave].inicial;
 	finalPontoPoligono = listaPoligonos->poligonos[chave].inicial->prox;
 
-	// Laço para percorrer toda a lista de pontos do polígono
-	// Utilizando o finalPontoPoligono como condição de parada (já que ele está mais a frente na iteração)
-	// Utilizando também a fórmula do cálculo do centróide de um polígono
-	while (finalPontoPoligono != NULL) {
-		// Variável auxiliar para o cálculo da área e do centróide do polígono
-		// Realizando a subtração das variáveis que serão utilizadas nos cálculos necessários
-		auxPoligono = (inicialPontoPoligono->ponto.x * finalPontoPoligono->ponto.y) - (finalPontoPoligono->ponto.x * inicialPontoPoligono->ponto.y);
+	// Se a quantidade de lados do polígono for 3
+	if (listaPoligonos->poligonos[chave].qtdLados == 3) {
+		// Laço para percorrer toda a lista de pontos do polígono
+		// Utilizando também a fórmula do cálculo do centróide de um triângulo
+		while (inicialPontoPoligono != NULL) {
+			// Somatório para o cálculo do centróide
+			// Sendo Cx = soma(xI)
+			centroideX += inicialPontoPoligono->ponto.x;
+			// Sendo Cy = soma(yI)
+			centroideY += inicialPontoPoligono->ponto.y;
 
-		// Somatório para o cálculo do centróide
-		// Sendo Cx = soma((xI + xImais1) * (xI * yImais1 - yI * xImais1)) / (6 * A)
+			// Passando para os próximos pontos da lista
+			inicialPontoPoligono = inicialPontoPoligono->prox;
+		}
+
+		// Atribuindo o valor do cálculo do centróide a variável referente a ele na lista de polígonos
+		listaPoligonos->poligonos[chave].centroide.x = centroideX / 3;
+		listaPoligonos->poligonos[chave].centroide.y = centroideY / 3;
+	}
+	// Se a quantidade de lados do polígono for 4 ou mais
+	else if (listaPoligonos->poligonos[chave].qtdLados >= 4) {
+		// Laço para percorrer toda a lista de pontos do polígono
+		// Utilizando o finalPontoPoligono como condição de parada (já que ele está mais a frente na iteração)
+		// Utilizando também a fórmula do cálculo do centróide de um polígono
+		while (finalPontoPoligono != NULL) {
+			// Variável auxiliar para o cálculo da área e do centróide do polígono
+			// Realizando a subtração das variáveis que serão utilizadas nos cálculos necessários
+			auxPoligono = (inicialPontoPoligono->ponto.x * finalPontoPoligono->ponto.y) - (finalPontoPoligono->ponto.x * inicialPontoPoligono->ponto.y);
+
+			// Somatório para o cálculo do centróide
+			// Sendo Cx = soma((xI + xImais1) * (xI * yImais1 - yI * xImais1)) / (6 * A)
+			centroideX += (inicialPontoPoligono->ponto.x + finalPontoPoligono->ponto.x) * auxPoligono;
+			// Sendo Cy = soma((yI + yImais1) * (xI * yImais1 - yI * xImais1)) / (6 * A)
+			centroideY += (inicialPontoPoligono->ponto.y + finalPontoPoligono->ponto.y) * auxPoligono;
+
+			// Sendo a área A = soma(xI * yImais1 - yI * xImais1) / 2, onde i é igual a quantidade de ponto de um polígono
+			areaPoligono += auxPoligono;
+
+			// Passando para os próximos pontos da lista
+			inicialPontoPoligono = inicialPontoPoligono->prox;
+			finalPontoPoligono = finalPontoPoligono->prox;
+		}
+
+		// Atribuindo a variável finalPontoPoligono com o último ponto que está na inicialPontoPoligono
+		finalPontoPoligono = inicialPontoPoligono;
+		inicialPontoPoligono = listaPoligonos->poligonos[chave].inicial;
+
+		// Atribuindo o valor para finalizar a soma do cálculo da área do polígono
+		auxPoligono = (finalPontoPoligono->ponto.x * inicialPontoPoligono->ponto.y) - (inicialPontoPoligono->ponto.x * finalPontoPoligono->ponto.y);
+		areaPoligono += auxPoligono;
+		areaPoligono = areaPoligono / 2;
+
+		// Atribuindo o valor para finalizar a soma do cálculo do centróide
 		centroideX += (inicialPontoPoligono->ponto.x + finalPontoPoligono->ponto.x) * auxPoligono;
-		// Sendo Cy = soma((yI + yImais1) * (xI * yImais1 - yI * xImais1)) / (6 * A)
 		centroideY += (inicialPontoPoligono->ponto.y + finalPontoPoligono->ponto.y) * auxPoligono;
 
-		// Sendo a área A = soma(xI * yImais1 - yI * xImais1) / 2, onde i é igual a quantidade de ponto de um polígono
-		areaPoligono += auxPoligono;
-
-		// Passando para os próximos pontos da lista
-		inicialPontoPoligono = inicialPontoPoligono->prox;
-		finalPontoPoligono = finalPontoPoligono->prox;
+		// Atribuindo o valor do cálculo do centróide a variável referente a ele na lista de polígonos
+		listaPoligonos->poligonos[chave].centroide.x = centroideX / (6 * areaPoligono);
+		listaPoligonos->poligonos[chave].centroide.y = centroideY / (6 * areaPoligono);
 	}
-
-	// Atribuindo a variável finalPontoPoligono com o último ponto que está na inicialPontoPoligono
-	finalPontoPoligono = inicialPontoPoligono;
-	inicialPontoPoligono = listaPoligonos->poligonos[chave].inicial;
-
-	// Atribuindo o valor para finalizar a soma do cálculo da área do polígono
-	auxPoligono = (finalPontoPoligono->ponto.x * inicialPontoPoligono->ponto.y) - (inicialPontoPoligono->ponto.x * finalPontoPoligono->ponto.y);
-	areaPoligono += auxPoligono;
-	areaPoligono = areaPoligono / 2;
-
-	// Atribuindo o valor para finalizar a soma do cálculo do centróide
-	centroideX += (inicialPontoPoligono->ponto.x + finalPontoPoligono->ponto.x) * auxPoligono;
-	centroideY += (inicialPontoPoligono->ponto.y + finalPontoPoligono->ponto.y) * auxPoligono;
-
-	// Atribuindo o valor do cálculo do centróide a variável referente a ele na lista de polígonos
-	listaPoligonos->poligonos[chave].centroide.x = centroideX / (6 * areaPoligono);
-	listaPoligonos->poligonos[chave].centroide.y = centroideY / (6 * areaPoligono);
 
 	printf("Centroide: (%.1f, %.1f)\n", listaPoligonos->poligonos[chave].centroide.x, listaPoligonos->poligonos[chave].centroide.y);
 }
@@ -413,7 +435,7 @@ void desenharPoligonos(ListaPoligonos * listaPoligonos)
 /*
  * FUNÇÃO PARA TRANSLADAR UM POLÍGONO (ARRASTAR E SOLTAR)
  */
-int transladarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizTranslacaoPoligono)
+int transladarPoligono(int chave, ListaPoligonos * listaPoligonos, Matriz3Por3 * matrizTranslacaoPoligono)
 {
     // Se a lista de polígonos não foi criada ou a quantidade de polígonos for zero
 	if (listaPoligonos == NULL || listaPoligonos->qtdPoligonos == 0) {
@@ -422,17 +444,22 @@ int transladarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransfo
 	}
 	// Transladar um polígono
 	else {
-		// Variáveis para iterar a lista de polígonos auxiliando a manipulação de dados
+		// Variável para a lista de polígonos auxiliando a manipulação de dados
 		PontoPoligono * atualPontoPoligono = (PontoPoligono *)malloc(sizeof(PontoPoligono));
+
+		// Recebendo os dados do ponto inicial do polígono
 		atualPontoPoligono = listaPoligonos->poligonos[chave].inicial;
 
 		// Laço para percorrer toda a lista de pontos do polígono
 		while (atualPontoPoligono->prox != NULL) {
-			// Criar a matriz composta com a posição do mouse onde o objeto foi clicado
-			// para realizar a mudança de local do ponto onde foi selecionado
-			MatrizPonto * matrizPontoPoligono = criarMatrizPonto(atualPontoPoligono->ponto.x, atualPontoPoligono->ponto.y);
-			matrizPontoPoligono = multiplicarMatrizPonto(matrizPontoPoligono, matrizTranslacaoPoligono);
+			// Criar matriz de ponto para auxiliar nos cálculos
+       		// Primeiramente, a matriz contêm as coordenadas originais do ponto atual
+			Matriz3Por1 * matrizPontoPoligono = criarMatriz3Por1(atualPontoPoligono->ponto.x, atualPontoPoligono->ponto.y);
 
+			// Realizar a multiplicação para a transformação
+			matrizPontoPoligono = multiplicarMatriz3Por3PorMatriz3Por1(matrizTranslacaoPoligono, matrizPontoPoligono);
+
+			// Atualizar a posição do ponto a partir do resultado do cálculo da transformação
 			atualPontoPoligono->ponto.x = matrizPontoPoligono->matriz[0][0];
 			atualPontoPoligono->ponto.y = matrizPontoPoligono->matriz[0][1];
 
@@ -450,7 +477,7 @@ int transladarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransfo
 /*
  * FUNÇÃO PARA ROTACIONAR UM POLÍGONO
  */
-int rotacionarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizRotacaoPoligono)
+int rotacionarPoligono(int chave, ListaPoligonos * listaPoligonos, Matriz3Por3 * matrizRotacaoPoligono)
 {
     // Se a lista de polígonos não foi criada ou a quantidade de polígonos for zero
 	if (listaPoligonos == NULL || listaPoligonos->qtdPoligonos == 0) {
@@ -459,6 +486,49 @@ int rotacionarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransfo
 	}
 	// Rotacionar um polígono
 	else {
+		// // Variável para a lista de polígonos auxiliando a manipulação de dados
+		// PontoPoligono * atualPontoPoligono = (PontoPoligono *)malloc(sizeof(PontoPoligono));
+
+		// // Recebendo os dados do ponto inicial do polígono
+		// atualPontoPoligono = listaPoligonos->poligonos[chave].inicial;
+
+		// // Laço para percorrer toda a lista de pontos do polígono
+		// while (atualPontoPoligono->prox != NULL) {
+		// 	// Criar matriz de ponto para auxiliar nos cálculos
+       	// 	// Primeiramente, a matriz contêm as coordenadas originais do ponto atual
+		// 	MatrizPonto * matrizCompostaPoligono = criarMatrizPonto(atualPontoPoligono->ponto.x, atualPontoPoligono->ponto.y);
+
+		// 	// Realizar a multiplicação para a transformação
+		// 	matrizCompostaPoligono = multiplicarMatriz3Por3PorMatrizPonto(matrizTranslacaoPoligono, matrizCompostaPoligono);
+
+		// 	// Atualizar a posição do ponto a partir do resultado do cálculo da transformação
+		// 	atualPontoPoligono->ponto.x = matrizPontoPoligono->matriz[0][0];
+		// 	atualPontoPoligono->ponto.y = matrizPontoPoligono->matriz[0][1];
+
+		// 	// Iteração para o próximo ponto da lista
+		// 	atualPontoPoligono = atualPontoPoligono->prox;
+		// }
+
+		// // Calcular o centróide do novo lugar para o polígono
+		// calcularCentroidePoligono(chave, listaPoligonos);
+
+		// // Realizar a multiplicação transformação de cada um dos pontos inicial, central e final
+		// matrizCompostaInicial = multiplicarMatriz3Por3PorMatriz3Por1(matrizTranslacaoReta, matrizCompostaInicial);
+		// matrizCompostaCentral = multiplicarMatriz3Por3PorMatriz3Por1(matrizTranslacaoReta, matrizCompostaCentral);
+		// matrizCompostaFinal = multiplicarMatriz3Por3PorMatriz3Por1(matrizTranslacaoReta, matrizCompostaFinal);
+
+		// // Atualizar a posição do ponto inicial a partir do resultado do cálculo da transformação
+		// listaRetas->retas[chave].inicial.x = matrizCompostaInicial->matriz[0][0];
+		// listaRetas->retas[chave].inicial.y = matrizCompostaInicial->matriz[0][1];
+
+		// // Atualizar a posição do ponto central a partir do resultado do cálculo da transformação
+		// listaRetas->retas[chave].central.x = matrizCompostaCentral->matriz[0][0];
+		// listaRetas->retas[chave].central.y = matrizCompostaCentral->matriz[0][1];
+
+		// // Atualizar a posição do ponto final a partir do resultado do cálculo da transformação
+		// listaRetas->retas[chave].final.x = matrizCompostaFinal->matriz[0][0];
+		// listaRetas->retas[chave].final.y = matrizCompostaFinal->matriz[0][1];
+		
 		return 1;
 	}
 }
@@ -466,7 +536,7 @@ int rotacionarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransfo
 /*
  * FUNÇÃO PARA ESCALAR UM POLÍGONO
  */
-int escalarPoligono(int chave, ListaPoligonos * listaPoligonos, MatrizTransformacao * matrizEscalarPoligono)
+int escalarPoligono(int chave, ListaPoligonos * listaPoligonos, Matriz3Por3 * matrizEscalarPoligono)
 {
     // Se a lista de polígonos não foi criada ou a quantidade de polígonos for zero
 	if (listaPoligonos == NULL || listaPoligonos->qtdPoligonos == 0) {
