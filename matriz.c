@@ -93,11 +93,10 @@ Matriz3Por3 * multiplicarMatrizes3Por3(Matriz3Por3 * matriz1, Matriz3Por3 * matr
     }
 }
 
-
 ///////////////////////////////////////////////////////////////////
 
 /*
- * FUNÇÃO PARA CRIAR A MATRIZ DA TRANSLAÇÃO COM OS PONTOS CORRETOS
+ * FUNÇÃO PARA CRIAR A MATRIZ DA TRANSLAÇÃO
  */
 Matriz3Por3 * criarMatrizTranslacao(float finalX, float finalY)
 {
@@ -112,7 +111,7 @@ Matriz3Por3 * criarMatrizTranslacao(float finalX, float finalY)
 }
 
 /*
- * FUNÇÃO PARA CRIAR A MATRIZ DA ROTAÇÃO COM O ÂNGULO CORRETO
+ * FUNÇÃO PARA CRIAR A MATRIZ DA ROTAÇÃO
  */
 Matriz3Por3 * criarMatrizRotacao(float anguloTheta)
 {
@@ -129,7 +128,7 @@ Matriz3Por3 * criarMatrizRotacao(float anguloTheta)
 }
 
 /*
- * FUNÇÃO PARA CRIAR A MATRIZ ESCALAR COM AS ESCALAS CORRETAS
+ * FUNÇÃO PARA CRIAR A MATRIZ ESCALAR
  */
 Matriz3Por3 * criarMatrizEscalar(float escala)
 {
@@ -140,4 +139,52 @@ Matriz3Por3 * criarMatrizEscalar(float escala)
     matrizEscalar->matriz[1][1] = escala;
 
     return matrizEscalar;
+}
+
+///////////////////////////////////////////////////////////////////
+
+/*
+ * FUNÇÃO PARA CRIAR A MATRIZ DA TRANSLAÇÃO INVERSA
+ */
+Matriz3Por3 * criarMatrizTranslacaoInversa(float finalX, float finalY)
+{
+    // Inicializando uma matriz3Por3
+    Matriz3Por3 * matrizTranslacaoInversa = criarMatriz3Por3();
+
+    // Inicializando a matriz para a translação inversa
+    matrizTranslacaoInversa->matriz[0][2] = -finalX;
+    matrizTranslacaoInversa->matriz[1][2] = -finalY;
+
+    return matrizTranslacaoInversa;
+}
+
+/*
+ * FUNÇÃO PARA CRIAR A MATRIZ DA ROTAÇÃO INVERSA
+ */
+Matriz3Por3 * criarMatrizRotacaoInversa(float anguloTheta)
+{
+    // Inicializando uma matriz3Por3
+    Matriz3Por3 * matrizRotacaoInversa = criarMatriz3Por3();
+
+    // Inicializando a matriz para a rotação inversa
+    matrizRotacaoInversa->matriz[0][0] = cosf(anguloTheta);
+    matrizRotacaoInversa->matriz[0][1] = sinf(anguloTheta);
+    matrizRotacaoInversa->matriz[1][0] = -sinf(anguloTheta);
+    matrizRotacaoInversa->matriz[1][1] = cosf(anguloTheta);
+
+    return matrizRotacaoInversa;
+}
+
+/*
+ * FUNÇÃO PARA CRIAR A MATRIZ ESCALAR INVERSA
+ */
+Matriz3Por3 * criarMatrizEscalarInversa(float escala)
+{
+    Matriz3Por3 * matrizEscalarInversa = criarMatriz3Por3();
+
+    // Inicializando a matriz para a escala inversa
+    matrizEscalarInversa->matriz[0][0] = 1 / escala;
+    matrizEscalarInversa->matriz[1][1] = 1 / escala;
+
+    return matrizEscalarInversa;
 }

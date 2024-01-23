@@ -275,14 +275,14 @@ int transladarPonto(int chave, ListaPontos * listaPontos, Matriz3Por3 * matrizTr
     else {
         // Criar a matriz3Por1 para auxiliar nos cálculos
         // Primeiramente, a matriz contêm as coordenadas originais do ponto
-        Matriz3Por1 * matrizComposta = criarMatriz3Por1(listaPontos->pontos[chave].x, listaPontos->pontos[chave].y);
+        Matriz3Por1 * matrizCompostaPonto = criarMatriz3Por1(listaPontos->pontos[chave].x, listaPontos->pontos[chave].y);
 
         // Realizar a multiplicação gerando a matriz composta
-        matrizComposta = multiplicarMatriz3Por3PorMatriz3Por1(matrizTranslacaoPonto, matrizComposta);
+        matrizCompostaPonto = multiplicarMatriz3Por3PorMatriz3Por1(matrizTranslacaoPonto, matrizCompostaPonto);
 
         // Atualizar a posição do ponto a partir do resultado do cálculo da transformação
-        listaPontos->pontos[chave].x = matrizComposta->matriz[0][0];
-        listaPontos->pontos[chave].y = matrizComposta->matriz[0][1];  
+        listaPontos->pontos[chave].x = matrizCompostaPonto->matriz[0][0];
+        listaPontos->pontos[chave].y = matrizCompostaPonto->matriz[0][1];  
 
         return 1;
     }
@@ -302,14 +302,14 @@ int rotacionarPonto(int chave, ListaPontos * listaPontos, Matriz3Por3 * matrizRo
     else {
         // Criar a matriz3Por1 para auxiliar nos cálculos
         // Primeiramente, a matriz contêm as coordenadas originais do ponto
-        Matriz3Por1 * matrizComposta = criarMatriz3Por1(listaPontos->pontos[chave].x, listaPontos->pontos[chave].y);
+        Matriz3Por1 * matrizCompostaPonto = criarMatriz3Por1(listaPontos->pontos[chave].x, listaPontos->pontos[chave].y);
 
         // Realizar a multiplicação gerando a matriz composta
-        matrizComposta = multiplicarMatriz3Por3PorMatriz3Por1(matrizRotacaoPonto, matrizComposta);
+        matrizCompostaPonto = multiplicarMatriz3Por3PorMatriz3Por1(matrizRotacaoPonto, matrizCompostaPonto);
 
         // Modifica a posição do ponto a partir do resultado do cálculo da rotação
-        listaPontos->pontos[chave].x = matrizComposta->matriz[0][0];
-        listaPontos->pontos[chave].y = matrizComposta->matriz[0][1];
+        listaPontos->pontos[chave].x = matrizCompostaPonto->matriz[0][0];
+        listaPontos->pontos[chave].y = matrizCompostaPonto->matriz[0][1];
 
         return 1;
     }

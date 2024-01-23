@@ -32,4 +32,8 @@ Matriz3Por3 * criarMatrizTranslacao(float finalX, float finalY);
 Matriz3Por3 * criarMatrizRotacao(float anguloTheta);
 Matriz3Por3 * criarMatrizEscalar(float escala);
 
+Matriz3Por3 * criarMatrizTranslacaoInversa(float finalX, float finalY);
+Matriz3Por3 * criarMatrizRotacaoInversa(float anguloTheta);
+Matriz3Por3 * criarMatrizEscalarInversa(float escala);
+
 #endif // MATRIZ_H
