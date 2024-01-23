@@ -70,7 +70,11 @@ void imprimirListaRetas(ListaRetas * listaRetas)
  */
 void liberarListaRetas(ListaRetas * listaRetas)
 {
-    
+    // Se a lista de retas não está vazia
+    if (listaRetas != NULL) {
+        // Liberar as retas
+        free(listaRetas);
+    }
 }
 
 /*
@@ -130,7 +134,7 @@ void salvarListaRetas(const char * nomeArquivoRetas, ListaRetas * listaRetas)
 		// Fechar arquivo
 		fclose(arquivoRetas);
 
-		printf("Lista de retas salva com sucesso!");
+		printf("Lista de retas salva com sucesso!\n");
 	}
 	// Se a lista de retas está vazia
 	else {

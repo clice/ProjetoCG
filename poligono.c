@@ -49,7 +49,11 @@ void imprimirListaPoligonos(ListaPoligonos * listaPoligonos)
  */
 void liberarListaPoligonos(ListaPoligonos * listaPoligonos)
 {
-
+	// Se a lista de polígonos não está vazia
+    if (listaPoligonos != NULL) {
+        // Liberar os polígonos
+        free(listaPoligonos);
+    }
 }
 
 /*
@@ -57,7 +61,69 @@ void liberarListaPoligonos(ListaPoligonos * listaPoligonos)
  */
 void salvarListaPoligonos(const char * nomeArquivoPoligonos, ListaPoligonos * listaPoligonos)
 {
+	// Se a lista de polígonos não está vazia
+	if (listaPoligonos != NULL) {
+		// Variável para iterar a lista de polígonos
+		PontoPoligono * atualPontoPoligono = (PontoPoligono *)malloc(sizeof(PontoPoligono));
+		
+		// Abrir o arquivo para salvar a lista
+		FILE * arquivoPoligonos = fopen(nomeArquivoPoligonos, "w");
 
+		// Checar se o arquivo foi aberto com sucesso
+		if (arquivoPoligonos == NULL) {
+			fprintf(stderr, "Nao foi possivel abrir o arquivo %s.\n", nomeArquivoPoligonos);
+			return;
+		}
+
+		// Escrever as dimensões da lista no arquivo
+		fprintf(arquivoPoligonos, "%d\n\n", listaPoligonos->qtdPoligonos);
+
+		// Escrever os elementos da lista no arquivo
+		// inicial.x, inicial.y,
+		// ...,
+		// final.x, final.y,
+		// centroide.x, centroide.y, red, green, blue)
+		for (int i = 0; i < listaPoligonos->qtdPoligonos; i++) {
+			// Escrever as dimensões da lista de pontos do polígono no arquivo
+			fprintf(arquivoPoligonos, "%d\n", listaPoligonos->poligonos[i].qtdLados);
+
+			// Inicializando a variável com o primeiro ponto
+			atualPontoPoligono = listaPoligonos->poligonos[i].inicial;
+
+			// Laço para iterar os pontos do polígono
+			while (atualPontoPoligono != NULL) {
+				////////// Ponto atual
+				// Salvar posições do ponto atual
+				fprintf(arquivoPoligonos, "%.1f ", atualPontoPoligono->ponto.x);
+				fprintf(arquivoPoligonos, "%.1f", atualPontoPoligono->ponto.y);
+				fprintf(arquivoPoligonos, "\n"); // Mover para a próxima linha do arquivo
+
+				// Mover para o próximo ponto
+				atualPontoPoligono = atualPontoPoligono->prox;
+			}
+
+			////////// Ponto centroide
+			// Salvar posições do ponto centroide
+			fprintf(arquivoPoligonos, "%.1f ", listaPoligonos->poligonos[i].centroide.x);
+			fprintf(arquivoPoligonos, "%.1f ", listaPoligonos->poligonos[i].centroide.y);
+
+			// Salvar os dados do RGB
+			fprintf(arquivoPoligonos, "%.1f ", listaPoligonos->poligonos[i].centroide.cor.red);
+			fprintf(arquivoPoligonos, "%.1f ", listaPoligonos->poligonos[i].centroide.cor.green);
+			fprintf(arquivoPoligonos, "%.1f\n", listaPoligonos->poligonos[i].centroide.cor.blue);
+			fprintf(arquivoPoligonos, "\n"); // Mover para a próxima linha do arquivo
+		}
+
+		// Fechar arquivo
+		fclose(arquivoPoligonos);
+
+		printf("Lista de poligonos salva com sucesso!\n");
+	}
+	// Se a lista de polígonos está vazia
+	else {
+		printf("A lista de poligonos esta vazia. Nada foi salvo no arquivo.\n");
+		return;
+	}
 }
 
 /*
@@ -65,7 +131,57 @@ void salvarListaPoligonos(const char * nomeArquivoPoligonos, ListaPoligonos * li
  */
 void carregarListaPoligonos(const char * nomeArquivoPoligonos, ListaPoligonos * listaPoligonosArquivo)
 {
+	float pontoX, pontoY;
 
+	// Abrir o arquivo para carregar a lista
+    FILE * arquivoPoligonos = fopen(nomeArquivoPoligonos, "r");
+
+    // Checar se o arquivo foi aberto com sucesso
+    if (arquivoPoligonos == NULL) {
+        fprintf(stderr, "Nao foi possivel abrir o arquivo %s.\n", nomeArquivoPoligonos);
+        return;
+    }
+
+    // Ler as dimensões da lista no arquivo
+    fscanf(arquivoPoligonos, "%d\n\n", &listaPoligonosArquivo->qtdPoligonos);
+
+    // Ler os elementos da lista no arquivo
+	// inicial.x, inicial.y,,
+	// ...,
+	// final.x, final.y,,
+	// centroide.x, centroide.y, red, green, blue)
+    for (int i = 0; i < listaPoligonosArquivo->qtdPoligonos; i++) {
+    	// Ler as dimensões da lista de pontos do polígono no arquivo
+		fscanf(arquivoPoligonos, "%d\n", &listaPoligonosArquivo->poligonos[i].qtdLados);
+
+		// Laço para iterar os pontos do polígono
+		for (int j = 0; j < listaPoligonosArquivo->poligonos[i].qtdLados; j++) {
+			////////// Ponto atual
+			// Ler posições do ponto atual
+			fscanf(arquivoPoligonos, "%f ", &pontoX);
+			fscanf(arquivoPoligonos, "%f", &pontoY);
+			fscanf(arquivoPoligonos, "\n"); // Mover para a próxima linha do arquivo
+
+			// Inserir o ponto do polígono no próximo ponteiro da lista
+			inserirPontoPoligono(&listaPoligonosArquivo->poligonos[i].inicial, pontoX, pontoY);
+		}	
+
+		////////// Ponto centroide
+		// Ler posições do ponto centroide
+		fscanf(arquivoPoligonos, "%f ", &listaPoligonosArquivo->poligonos[i].centroide.x);
+		fscanf(arquivoPoligonos, "%f ", &listaPoligonosArquivo->poligonos[i].centroide.y);
+
+		// Ler os dados do RGB
+		fscanf(arquivoPoligonos, "%f ", &listaPoligonosArquivo->poligonos[i].centroide.cor.red);
+		fscanf(arquivoPoligonos, "%f ", &listaPoligonosArquivo->poligonos[i].centroide.cor.green);
+		fscanf(arquivoPoligonos, "%f\n", &listaPoligonosArquivo->poligonos[i].centroide.cor.blue);
+		fscanf(arquivoPoligonos, "\n"); // Mover para a próxima linha do arquivo
+    }
+
+    // Fechar arquivo
+    fclose(arquivoPoligonos);
+
+    printf("Lista de poligonos carregada com sucesso!\n");
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -299,6 +415,9 @@ void calcularCentroidePoligono(int chave, ListaPoligonos * listaPoligonos)
 		listaPoligonos->poligonos[chave].centroide.y = centroideY / (6 * areaPoligono);
 	}
 
+	// Atribuindo a cor ao centróide
+	listaPoligonos->poligonos[chave].centroide.cor = magenta;
+
 	printf("Centroide: (%.1f, %.1f)\n", listaPoligonos->poligonos[chave].centroide.x, listaPoligonos->poligonos[chave].centroide.y);
 }
 
@@ -429,8 +548,6 @@ void desenharPoligonos(ListaPoligonos * listaPoligonos)
 
 		// Recebe os mesmos dados do ponto inicial para manipulação
 		auxPontoPoligono = listaPoligonos->poligonos[i].inicial;
-
-		printf("qtdLados: %d\n", listaPoligonos->poligonos[i].qtdLados);
 
 		// Laço para percorrer toda a lista de pontos do polígono
 		while (auxPontoPoligono != NULL) {

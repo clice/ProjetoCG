@@ -204,16 +204,19 @@ void funcoesMouse(int botaoMouse, int statusMouse, int x, int y)
         ////////// Opções: Criar
         // Se a opção for 1 (Criar ponto)
         if (opcao == 1) {
+            // Adicionar ponto a lista
             adicionarPonto(mouseX, mouseY, listaPontos);
             imprimirListaPontos(listaPontos);
         }
         // Se a opção for 2 (Criar segmento de reta)
         else if (opcao == 2) {
+            // Adicionar reta a lista
             statusObjeto = adicionarReta(mouseX, mouseY, statusObjeto, listaRetas);
             imprimirListaRetas(listaRetas);
         }
         // Se a opção for 3 (Criar polígono)
         else if (opcao == 3) {
+            // Adicionar polígono a lista
             statusObjeto = adicionarPoligono(mouseX, mouseY, statusObjeto, listaPoligonos);
             imprimirListaPoligonos(listaPoligonos);
         }
@@ -243,51 +246,42 @@ void funcoesMouse(int botaoMouse, int statusMouse, int x, int y)
         else if (opcao == 7) {
             // Salvar no arquivo os pontos desenhados da tela
             salvarListaPontos(nomeArquivoPontos, listaPontos);
+            imprimirListaPontos(listaPontos);
         }
         // Se a opção for 8 (Salvar retas)
         else if (opcao == 8) {  
-        // Salvar no arquivo as retas desenhadas da tela          
+            // Salvar no arquivo as retas desenhadas da tela          
             salvarListaRetas(nomeArquivoRetas, listaRetas);
+            imprimirListaRetas(listaRetas);
         }
         // Se a opção for 9 (Salvar polígonos)
         else if (opcao == 9) {
             // Salvar no arquivo os polígonos desenhados da tela
             salvarListaPoligonos(nomeArquivoPoligonos, listaPoligonos);
+            imprimirListaPoligonos(listaPoligonos);
         }
 
         ////////// Opção: Carregar objetos
         // Se a opção for 10 (Carregar pontos)
         else if (opcao == 10) {
-            // Variáveis para auxiliar o carregamento dos objetos na tela
-            ListaPontos listaPontosArquivo;
-
-            // Carregar as variáveis com os dados do arquivo
-            carregarListaPontos(nomeArquivoPontos, &listaPontosArquivo);
-
-            // Passar os dados das variáveis para a lista
-            listaPontos = &listaPontosArquivo;
+            ListaPontos listaPontosArquivo;                                // Variável para auxiliar o carregamento dos objetos na tela
+            carregarListaPontos(nomeArquivoPontos, &listaPontosArquivo);   // Carregar as variáveis com os dados do arquivo
+            listaPontos = &listaPontosArquivo;                             // Passar os dados das variáveis para a lista
+            imprimirListaPontos(listaPontos);                              // Imprimir a lista de pontos
         }
         // Se a opção for 11 (Carregar retas)
         else if (opcao == 11) {
-            // Variáveis para auxiliar o carregamento dos objetos na tela
-            ListaRetas listaRetasArquivo;
-
-            // Carregar as variáveis com os dados do arquivo
-            carregarListaRetas(nomeArquivoRetas, &listaRetasArquivo);
-
-            // Passar os dados das variáveis para a lista
-            listaRetas = &listaRetasArquivo;
+            ListaRetas listaRetasArquivo;                               // Variável para auxiliar o carregamento dos objetos na tela
+            carregarListaRetas(nomeArquivoRetas, &listaRetasArquivo);   // Carregar as variáveis com os dados do arquivo
+            listaRetas = &listaRetasArquivo;                            // Passar os dados das variáveis para a lista
+            imprimirListaRetas(listaRetas);                             // Imprimir a lista de retas
         }
         // Se a opção for 12 (Carregar polígonos)
         else if (opcao == 12) {
-            // Variáveis para auxiliar o carregamento dos objetos na tela
-            ListaPoligonos listaPoligonosArquivo;
-
-            // Carregar as variáveis com os dados do arquivo
-            carregarListaPoligonos(nomeArquivoPoligonos, &listaPoligonosArquivo);
-
-            // Passar os dados das variáveis para a lista
-            listaPoligonos = &listaPoligonosArquivo;
+            ListaPoligonos listaPoligonosArquivo;                                   // Variáveis para auxiliar o carregamento dos objetos na tela
+            carregarListaPoligonos(nomeArquivoPoligonos, &listaPoligonosArquivo);   // Carregar as variáveis com os dados do arquivo
+            listaPoligonos = &listaPoligonosArquivo;                                // Passar os dados das variáveis para a lista
+            imprimirListaPoligonos(listaPoligonos);                                 // Imprimir a lista de polígonos
         }
 
         ////////// Opção: Sair
