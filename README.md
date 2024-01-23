@@ -60,11 +60,11 @@ Também é possível utilizar o Code::Blocks para a compilar e testar o projeto,
 
 #### 8. Cisalhar polígonos
 
-É necessário escolher a opção 'Selecionar' > 'Polígono' para a seleção dos objetos. Após esse passo, basta clicar em cima do objeto desejado. Depois há duas opções de cisalhamento que podem ser realizadas. Usando 'M' para cisalhar os objetos em referência ao eixo X ou usando 'N' para cisalhar os objetos em referência ao eixo Y.
+É necessário escolher a opção 'Selecionar' > 'Polígono' para a seleção dos objetos. Após esse passo, basta clicar em cima do objeto desejado. Depois há duas opções de cisalhamento que podem ser realizadas. Usando 'M' para cisalhar os objetos em referência ao eixo X ou usando 'N' para cisalhar os objetos em referência ao eixo Y. OBS: Não é possível cisalhar pontos ou segmentos de reta, isso por conta da natureza desses objetos, ele tem uma estrutura única.
 
 #### 9. Salvar objetos da tela
 
-É necessário escolher a opção 'Salvar objetos'. Após esse passo, todos os objetos, tanto pontos, segmentos de reta e polígonos, caso tenham esses tipos de objeto desenhados na tela, as coordenadas dos mesmos serão salvas em um arquivo .txt, um para cada tipo de objeto (ponto, segmento de reta e poligono, onde terá a quantidade de cada objeto para poder realizar as iterações necessárias par buscar os dados. No caso do arquivo para os polígonos, além de salvar a quantidade de polígonos criados, também é salvo a quantidade de lados que cada polígono possui, também para o mesmo propósito da quantidade de objetos, realizar as iterações.
+É necessário escolher a opção 'Salvar objetos'. Após esse passo, todos os objetos, tanto pontos, segmentos de reta e polígonos, caso tenham esses tipos de objeto desenhados na tela, as coordenadas dos mesmos serão salvas em um arquivo .txt, um para cada tipo de objeto (ponto, segmento de reta e poligono), onde terá a quantidade de cada objeto para poder realizar as iterações necessárias par buscar os dados. No caso do arquivo para os polígonos, além de salvar a quantidade de polígonos criados, também é salvo a quantidade de lados que cada polígono possui, também para o mesmo propósito da quantidade de objetos, realizar as iterações.
 
 #### 10. Carregar objetos a partir de arquivos
 
