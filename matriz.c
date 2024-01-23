@@ -96,6 +96,34 @@ Matriz3Por3 * multiplicarMatrizes3Por3(Matriz3Por3 * matriz1, Matriz3Por3 * matr
 ///////////////////////////////////////////////////////////////////
 
 /*
+ * FUNÇÃO PARA REALIZAR AS MULTIPLICAÇÕES DAS TRANSFORMAÇÕES
+ */
+Matriz3Por3 * multiplicarMatrizComposta(float centralX, float centralY, Matriz3Por3 * matrizTransformacao)
+{
+    // Criar a matriz3Por3 para auxiliar nos cálculos
+    // Primeiramente, a matriz é uma matriz identidade
+    Matriz3Por3 * matrizComposta = criarMatriz3Por3();
+
+    // Criar matriz translação com os pontos centrais
+    Matriz3Por3 * matrizCentral = criarMatrizTranslacao(centralX, centralY);
+
+    // Realizar a multiplicação das matrizes
+    // Primeiro passo da transformação, multiplicar a matriz translação central pela matriz transformação
+    matrizComposta = multiplicarMatrizes3Por3(matrizCentral, matrizTransformacao);
+
+    // Criar matriz translação com os pontos da diferença entre a origem e o centro
+    Matriz3Por3 * matrizOrigemCentral = criarMatrizTranslacao(0 - centralX, 0 - centralY);
+
+    // Realizar a multiplicação das matrizes
+    // Segundo passo da transformação, multiplicar a matriz resultante pela matriz referente a origem
+    matrizComposta = multiplicarMatrizes3Por3(matrizComposta, matrizOrigemCentral);
+
+    return matrizComposta;
+}
+
+///////////////////////////////////////////////////////////////////
+
+/*
  * FUNÇÃO PARA CRIAR A MATRIZ DA TRANSLAÇÃO
  */
 Matriz3Por3 * criarMatrizTranslacao(float finalX, float finalY)

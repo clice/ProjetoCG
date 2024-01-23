@@ -28,6 +28,8 @@ Matriz3Por1 * multiplicarMatriz3Por3PorMatriz3Por1(Matriz3Por3 * matriz3Por3, Ma
 Matriz3Por3 * criarMatriz3Por3();
 Matriz3Por3 * multiplicarMatrizes3Por3(Matriz3Por3 * matriz1, Matriz3Por3 * matriz2);
 
+Matriz3Por3 * multiplicarMatrizComposta(float centralX, float centralY, Matriz3Por3 * matrizTransformacao);
+
 Matriz3Por3 * criarMatrizTranslacao(float finalX, float finalY);
 Matriz3Por3 * criarMatrizRotacao(float anguloTheta);
 Matriz3Por3 * criarMatrizEscalar(float escala);
