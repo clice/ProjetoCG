@@ -63,7 +63,7 @@ void salvarListaPoligonos(const char * nomeArquivoPoligonos, ListaPoligonos * li
 /*
  * FUNÇÃO PARA CARREGAR A LISTA DE POLÍGONOS NA TELA
  */
-void carregarListaPoligonos(const char * nomeArquivoPoligonos, ListaPoligonos * listaPoligonos, ListaPoligonos * listaPoligonosArquivo)
+void carregarListaPoligonos(const char * nomeArquivoPoligonos, ListaPoligonos * listaPoligonosArquivo)
 {
 
 }

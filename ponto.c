@@ -121,7 +121,6 @@ void carregarListaPontos(const char * nomeArquivoPontos, ListaPontos * listaPont
 
     // Ler os elementos da lista no arquivo (x, y, red, green, blue)
     for (int i = 0; i < listaPontosArquivo->qtdPontos; i++) {
-        printf("Lista de pontos carregada com sucesso!\n");
         // Salvar posições dos pontos
         fscanf(arquivoPontos, "%f ", &listaPontosArquivo->pontos[i].x);
         fscanf(arquivoPontos, "%f ", &listaPontosArquivo->pontos[i].y);

@@ -14,6 +14,8 @@ static int tela;
 static int menuPrincipal;
 static int menuCriarObjetos;
 static int menuSelecionarObjetos;
+static int menuSalvarObjetos;
+static int menuCarregarObjetos;
 
 /*
  * VALOR RECEBIDO PELO USUÁRIO PARA OPÇÃO
@@ -72,6 +74,7 @@ int main (int argc, char ** argv)
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
     glutInitWindowSize(800, 600);
     glutInitWindowPosition(100, 100);
+
     tela = glutCreateWindow("Paint - Computacao Grafica");
 
     // Mostrar menu
@@ -130,12 +133,24 @@ void opcoesMenu()
     glutAddMenuEntry("Segmento de Reta", 5);
     glutAddMenuEntry("Poligono", 6);
 
+    // Opção de salvar os pontos, segmentos de reta ou poligonos
+    menuSalvarObjetos = glutCreateMenu(selecionarOpcao);
+    glutAddMenuEntry("Pontos", 7);
+    glutAddMenuEntry("Segmentos de Reta", 8);
+    glutAddMenuEntry("Poligonos", 9);
+
+    // Opção de carregar os pontos, segmentos de reta ou poligonos
+    menuCarregarObjetos = glutCreateMenu(selecionarOpcao);
+    glutAddMenuEntry("Pontos", 10);
+    glutAddMenuEntry("Segmentos de Reta", 11);
+    glutAddMenuEntry("Poligonos", 12);
+
     // Menu principal para mostrar opções
     menuPrincipal = glutCreateMenu(selecionarOpcao);
     glutAddSubMenu("Criar", menuCriarObjetos);
     glutAddSubMenu("Selecionar", menuSelecionarObjetos);
-    glutAddMenuEntry("Salvar objetos", 7);
-    glutAddMenuEntry("Carregar objetos", 8);
+    glutAddSubMenu("Salvar objetos", menuSalvarObjetos);
+    glutAddSubMenu("Carregar objetos", menuCarregarObjetos);
     glutAddMenuEntry("Cancelar", 0);
     glutAddMenuEntry("Sair", -1);
 
@@ -224,26 +239,55 @@ void funcoesMouse(int botaoMouse, int statusMouse, int x, int y)
         }
 
         ////////// Opção: Salvar objetos
+        // Se a opção for 7 (Salvar pontos)
         else if (opcao == 7) {
+            // Salvar no arquivo os pontos desenhados da tela
             salvarListaPontos(nomeArquivoPontos, listaPontos);
+        }
+        // Se a opção for 8 (Salvar retas)
+        else if (opcao == 8) {  
+        // Salvar no arquivo as retas desenhadas da tela          
             salvarListaRetas(nomeArquivoRetas, listaRetas);
+        }
+        // Se a opção for 9 (Salvar polígonos)
+        else if (opcao == 9) {
+            // Salvar no arquivo os polígonos desenhados da tela
             salvarListaPoligonos(nomeArquivoPoligonos, listaPoligonos);
         }
 
         ////////// Opção: Carregar objetos
-        else if (opcao == 8) {
+        // Se a opção for 10 (Carregar pontos)
+        else if (opcao == 10) {
             // Variáveis para auxiliar o carregamento dos objetos na tela
             ListaPontos listaPontosArquivo;
+
+            // Carregar as variáveis com os dados do arquivo
+            carregarListaPontos(nomeArquivoPontos, &listaPontosArquivo);
+
+            // Passar os dados das variáveis para a lista
+            listaPontos = &listaPontosArquivo;
+        }
+        // Se a opção for 11 (Carregar retas)
+        else if (opcao == 11) {
+            // Variáveis para auxiliar o carregamento dos objetos na tela
             ListaRetas listaRetasArquivo;
+
+            // Carregar as variáveis com os dados do arquivo
+            carregarListaRetas(nomeArquivoRetas, &listaRetasArquivo);
+
+            // Passar os dados das variáveis para a lista
+            listaRetas = &listaRetasArquivo;
+        }
+        // Se a opção for 12 (Carregar polígonos)
+        else if (opcao == 12) {
+            // Variáveis para auxiliar o carregamento dos objetos na tela
             ListaPoligonos listaPoligonosArquivo;
 
-            // Carregar as variáveis com os dados dos arquivos
-            carregarListaPontos(nomeArquivoPontos, &listaPontosArquivo);
-            carregarListaRetas(nomeArquivoRetas, listaRetas, &listaRetasArquivo);
-            carregarListaPoligonos(nomeArquivoPoligonos, listaPoligonos, &listaPoligonosArquivo);
+            // Carregar as variáveis com os dados do arquivo
+            carregarListaPoligonos(nomeArquivoPoligonos, &listaPoligonosArquivo);
 
-            // Passar os dados das variáveis para as listas de pontos
-            listaPontos = &listaPontosArquivo;
+            // Passar os dados das variáveis para a lista
+            listaPoligonos = &listaPoligonosArquivo;
         }
 
         ////////// Opção: Sair

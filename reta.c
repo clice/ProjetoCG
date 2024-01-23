@@ -123,7 +123,7 @@ void salvarListaRetas(const char * nomeArquivoRetas, ListaRetas * listaRetas)
 			// Salvar os dados do RGB
 			fprintf(arquivoRetas, "%.1f ", listaRetas->retas[i].final.cor.red);
 			fprintf(arquivoRetas, "%.1f ", listaRetas->retas[i].final.cor.green);
-			fprintf(arquivoRetas, "%.1f ", listaRetas->retas[i].final.cor.blue);
+			fprintf(arquivoRetas, "%.1f", listaRetas->retas[i].final.cor.blue);
 			fprintf(arquivoRetas, "\n"); // Mover para a próxima linha do arquivo
 		}
 
@@ -142,9 +142,58 @@ void salvarListaRetas(const char * nomeArquivoRetas, ListaRetas * listaRetas)
 /*
  * FUNÇÃO PARA CARREGAR A LISTA DE RETAS NA TELA
  */
-void carregarListaRetas(const char * nomeArquivoRetas, ListaRetas * listaRetas, ListaRetas * listaRetasArquivo)
+void carregarListaRetas(const char * nomeArquivoRetas, ListaRetas * listaRetasArquivo)
 {
+	// Abrir o arquivo para carregar a lista
+    FILE * arquivoRetas = fopen(nomeArquivoRetas, "r");
 
+    // Checar se o arquivo foi aberto com sucesso
+    if (arquivoRetas == NULL) {
+        fprintf(stderr, "Nao foi possivel abrir o arquivo %s.\n", nomeArquivoRetas);
+        return;
+    }
+
+    // Ler as dimensões da lista no arquivo
+    fscanf(arquivoRetas, "%d", &listaRetasArquivo->qtdRetas);
+
+    // Ler os elementos da lista no arquivo (x, y, red, green, blue)
+    for (int i = 0; i < listaRetasArquivo->qtdRetas; i++) {
+        ////////// Ponto inicial
+		// Ler posições do ponto inicial
+		fscanf(arquivoRetas, "%f ", &listaRetasArquivo->retas[i].inicial.x);
+		fscanf(arquivoRetas, "%f ", &listaRetasArquivo->retas[i].inicial.y);
+
+		// Ler os dados do RGB
+		fscanf(arquivoRetas, "%f ", &listaRetasArquivo->retas[i].inicial.cor.red);
+		fscanf(arquivoRetas, "%f ", &listaRetasArquivo->retas[i].inicial.cor.green);
+		fscanf(arquivoRetas, "%f ", &listaRetasArquivo->retas[i].inicial.cor.blue);
+
+		////////// Ponto central
+		// Ler posições do ponto central
+		fscanf(arquivoRetas, "%f ", &listaRetasArquivo->retas[i].central.x);
+		fscanf(arquivoRetas, "%f ", &listaRetasArquivo->retas[i].central.y);
+
+		// Ler os dados do RGB
+		fscanf(arquivoRetas, "%f ", &listaRetasArquivo->retas[i].central.cor.red);
+		fscanf(arquivoRetas, "%f ", &listaRetasArquivo->retas[i].central.cor.green);
+		fscanf(arquivoRetas, "%f ", &listaRetasArquivo->retas[i].central.cor.blue);
+
+		////////// Ponto final
+		// Ler posições do ponto final
+		fscanf(arquivoRetas, "%f ", &listaRetasArquivo->retas[i].final.x);
+		fscanf(arquivoRetas, "%f ", &listaRetasArquivo->retas[i].final.y);
+
+		// Ler os dados do RGB
+		fscanf(arquivoRetas, "%f ", &listaRetasArquivo->retas[i].final.cor.red);
+		fscanf(arquivoRetas, "%f ", &listaRetasArquivo->retas[i].final.cor.green);
+		fscanf(arquivoRetas, "%f", &listaRetasArquivo->retas[i].final.cor.blue);
+		fscanf(arquivoRetas, "\n"); // Mover para a próxima linha do arquivo
+    }
+
+    // Fechar arquivo
+    fclose(arquivoRetas);
+
+    printf("Lista de retas carregada com sucesso!\n");
 }
 
 ///////////////////////////////////////////////////////////////////
