@@ -485,11 +485,11 @@ void funcoesTeclado(unsigned char key, int x, int y)
             ////////// Refletir polígono com relação a origem
             // Se um polígono está na opção "Selecionar" e a chave conter um valor diferente de -1
             else if (opcao == 6 && chave != -1) {
-                // // Criar a matriz da reflexão
-                // Matriz3Por3 * matrizReflexaoOrigemPoligono = criarMatrizReflexaoOrigem();
+                // Criar a matriz da reflexão
+                Matriz3Por3 * matrizReflexaoOrigemPoligono = criarMatrizReflexaoOrigem();
 
-                // // Realizar a reflexão com a origem
-                // refletirPoligono(chave, listaPoligonos, matrizReflexaoOrigemPoligono);
+                // Realizar a reflexão com a origem
+                refletirPoligono(chave, listaPoligonos, matrizReflexaoOrigemPoligono);
             }
             break;
             
@@ -593,11 +593,11 @@ void funcoesTeclado(unsigned char key, int x, int y)
             ////////// Refletir polígono com relação a origem
             // Se um polígono está na opção "Selecionar" e a chave conter um valor diferente de -1
             else if (opcao == 6 && chave != -1) {
-                // // Criar a matriz da reflexão
-                // Matriz3Por3 * matrizReflexaoEixoXPoligono = criarMatrizReflexaoEixoX();
+                // Criar a matriz da reflexão
+                Matriz3Por3 * matrizReflexaoEixoXPoligono = criarMatrizReflexaoEixoX();
 
-                // // Realizar a reflexão com relação ao eixo X
-                // refletirPoligono(chave, listaPoligonos, matrizReflexaoEixoXPoligono);
+                // Realizar a reflexão com relação ao eixo X
+                refletirPoligono(chave, listaPoligonos, matrizReflexaoEixoXPoligono);
             }
             
             break;
@@ -628,11 +628,11 @@ void funcoesTeclado(unsigned char key, int x, int y)
             ////////// Refletir polígono com relação a origem
             // Se um polígono está na opção "Selecionar" e a chave conter um valor diferente de -1
             else if (opcao == 6 && chave != -1) {
-                // // Criar a matriz da reflexão
-                // Matriz3Por3 * matrizReflexaoEixoYPoligono = criarMatrizReflexaoEixoY();
+                // Criar a matriz da reflexão
+                Matriz3Por3 * matrizReflexaoEixoYPoligono = criarMatrizReflexaoEixoY();
 
-                // // Realizar a reflexão com relação ao eixo X
-                // refletirPoligono(chave, listaPoligonos, matrizReflexaoEixoYPoligono);
+                // Realizar a reflexão com relação ao eixo X
+                refletirPoligono(chave, listaPoligonos, matrizReflexaoEixoYPoligono);
             }
             
             break;

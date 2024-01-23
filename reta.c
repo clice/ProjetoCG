@@ -431,7 +431,7 @@ int escalarReta(int chave, ListaRetas * listaRetas, Matriz3Por3 * matrizEscalarR
 /*
  * FUNÇÃO PARA REFLETIR UMA RETA
  */
-int refletirReta(int chave, ListaRetas * listaRetas, Matriz3Por3 * matrizRefletirReta)
+int refletirReta(int chave, ListaRetas * listaRetas, Matriz3Por3 * matrizReflexaoReta)
 {
     // Se a lista de retas estiver vazia ou a quantidade de retas for zero
 	if (listaRetas == NULL || listaRetas->qtdRetas == 0) {
@@ -447,9 +447,9 @@ int refletirReta(int chave, ListaRetas * listaRetas, Matriz3Por3 * matrizRefleti
 		Matriz3Por1 * matrizCompostaFinal = criarMatriz3Por1(listaRetas->retas[chave].final.x, listaRetas->retas[chave].final.y);
 
 		// Realizar a multiplicação transformação de cada um dos pontos inicial, central e final
-		matrizCompostaInicial = multiplicarMatriz3Por3PorMatriz3Por1(matrizRefletirReta, matrizCompostaInicial);
-		matrizCompostaCentral = multiplicarMatriz3Por3PorMatriz3Por1(matrizRefletirReta, matrizCompostaCentral);
-		matrizCompostaFinal = multiplicarMatriz3Por3PorMatriz3Por1(matrizRefletirReta, matrizCompostaFinal);
+		matrizCompostaInicial = multiplicarMatriz3Por3PorMatriz3Por1(matrizReflexaoReta, matrizCompostaInicial);
+		matrizCompostaCentral = multiplicarMatriz3Por3PorMatriz3Por1(matrizReflexaoReta, matrizCompostaCentral);
+		matrizCompostaFinal = multiplicarMatriz3Por3PorMatriz3Por1(matrizReflexaoReta, matrizCompostaFinal);
 
 		// Atualizar a posição do ponto inicial a partir do resultado do cálculo da transformação
 		listaRetas->retas[chave].inicial.x = matrizCompostaInicial->matriz[0][0];
