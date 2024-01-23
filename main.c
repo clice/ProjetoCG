@@ -302,11 +302,38 @@ void funcoesMovimento(int x, int y)
  */
 void funcoesTeclado(unsigned char key, int x, int y)
 {
+    float escala = 1.05;
+
     // Localização atualizada do mouse
     mouseX = x - largura;  // Localização do eixo x (horizontal - largura)
     mouseY = altura - y;   // Localização do eixo y (vertical - altura)
 
     switch (key) {
+        // Aumentar objetos selecionados da tela (A - Amplify)
+        case 'A':
+        case 'a':
+            ////////// Aumentar reta
+            // Se uma reta está na opção "Selecionar" e a chave contém um valor diferente de -1
+            if (opcao == 5 && chave != -1) {
+                // Criar a matriz da escalar realizada para aumentar a reta
+                Matriz3Por3 * matrizEscalarAumentaReta = criarMatrizEscalar(escala);
+
+                // Realizar o aumento da escala da reta selecionada
+                escalarReta(chave, listaRetas, matrizEscalarAumentaReta);
+            }
+
+            ////////// Aumentar polígono
+            // Se um polígono está na opção "Selecionar" e a chave contém um valor diferente de -1
+            else if (opcao == 6 && chave != -1) {
+                // Criar a matriz da escalar realizada para aumentar o polígono
+                Matriz3Por3 * matrizEscalarAumentaPoligono = criarMatrizEscalar(escala);
+
+                // Realizar aumento da escala do polígono selecionado
+                escalarPoligono(chave, listaPoligonos, matrizEscalarAumentaPoligono);
+            }
+
+            break;
+
         // Excluir objetos selecionados da tela (D - Delete)
         case 'D':
         case 'd':
@@ -393,20 +420,28 @@ void funcoesTeclado(unsigned char key, int x, int y)
             }
 
             break;
-
-        // Escalar objetos selecionados da tela (S - scale)
+            
+        // Diminuir objetos selecionados da tela (S - small)
         case 'S':
         case 's':
-            ////////// Escalar reta
-            // Se uma reta está na opção "Selecionar" e a chave conter um valor diferente de -1
+            ////////// Diminuir reta
+            // Se uma reta está na opção "Selecionar" e a chave contém um valor diferente de -1
             if (opcao == 5 && chave != -1) {
+                // Criar a matriz da escalar realizada para diminuir a reta
+                Matriz3Por3 * matrizEscalarDiminuiReta = criarMatrizEscalar(1 / escala);
 
+                // Realizar a diminuição da escala da reta selecionada
+                escalarReta(chave, listaRetas, matrizEscalarDiminuiReta);
             }
 
-            ////////// Escalar polígono
-            // Se um polígono está na opção "Selecionar" e a chave conter um valor diferente de -1
+            ////////// Diminuir polígono
+            // Se um polígono está na opção "Selecionar" e a chave contém um valor diferente de -1
             else if (opcao == 6 && chave != -1) {
+                // Criar a matriz da escalar realizada para diminuir o polígono
+                Matriz3Por3 * matrizEscalarDiminuiPoligono = criarMatrizEscalar(1 / escala);
 
+                // Realizar a diminuição da escala do polígono selecionado
+                escalarPoligono(chave, listaPoligonos, matrizEscalarDiminuiPoligono);
             }
 
             break;

@@ -112,18 +112,18 @@ Matriz3Por3 * criarMatrizTranslacao(float finalX, float finalY)
 }
 
 /*
- * FUNÇÃO PARA CRIAR A MATRIZ DA ROTAÇÃO COM OS ÂNGULOS CORRETOS
+ * FUNÇÃO PARA CRIAR A MATRIZ DA ROTAÇÃO COM O ÂNGULO CORRETO
  */
-Matriz3Por3 * criarMatrizRotacao(float theta)
+Matriz3Por3 * criarMatrizRotacao(float anguloTheta)
 {
     // Inicializando uma matriz3Por3
     Matriz3Por3 * matrizRotacao = criarMatriz3Por3();
 
     // Inicializando a matriz para a rotação
-    matrizRotacao->matriz[0][0] = cosf(theta);
-    matrizRotacao->matriz[0][1] = -sinf(theta);
-    matrizRotacao->matriz[1][0] = sinf(theta);
-    matrizRotacao->matriz[1][1] = cosf(theta);
+    matrizRotacao->matriz[0][0] = cosf(anguloTheta);
+    matrizRotacao->matriz[0][1] = -sinf(anguloTheta);
+    matrizRotacao->matriz[1][0] = sinf(anguloTheta);
+    matrizRotacao->matriz[1][1] = cosf(anguloTheta);
 
     return matrizRotacao;
 }
@@ -140,18 +140,4 @@ Matriz3Por3 * criarMatrizEscalar(float escala)
     matrizEscalar->matriz[1][1] = escala;
 
     return matrizEscalar;
-}
-
-Matriz3Por3 * testeMatriz(float centralX, float centralY, Matriz3Por3 * matriz)
-{
-    // Criar a Matriz3Por3 para auxiliar nos cálculos
-    // Primeiramente, a matriz é uma matriz identidade
-    Matriz3Por3 * matrizComposta = criarMatriz3Por3();
-
-    // 
-    Matriz3Por3 * matrizCentral = criarMatrizTranslacao(centralX, centralY);
-
-    matrizComposta = multiplicarMatrizes3Por3(matrizComposta, matriz);
-
-    return matrizComposta;
 }
