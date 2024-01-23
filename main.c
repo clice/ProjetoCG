@@ -468,20 +468,28 @@ void funcoesTeclado(unsigned char key, int x, int y)
                 // Criar a matriz da reflexão
                 Matriz3Por3 * matrizReflexaoOrigemPonto = criarMatrizReflexaoOrigem();
 
-                // Realizar a reflexão com a origem do ponto selecionado
+                // Realizar a reflexão com a origem
                 refletirPonto(chave, listaPontos, matrizReflexaoOrigemPonto);
             }
 
             ////////// Refletir reta com relação a origem
             // Se uma reta está na opção "Selecionar" e a chave conter um valor diferente de -1
             else if (opcao == 5 && chave != -1) {
+                // Criar a matriz da reflexão
+                Matriz3Por3 * matrizReflexaoOrigemReta = criarMatrizReflexaoOrigem();
 
+                // Realizar a reflexão com a origem
+                refletirReta(chave, listaRetas, matrizReflexaoOrigemReta);
             }
 
             ////////// Refletir polígono com relação a origem
             // Se um polígono está na opção "Selecionar" e a chave conter um valor diferente de -1
             else if (opcao == 6 && chave != -1) {
-                
+                // // Criar a matriz da reflexão
+                // Matriz3Por3 * matrizReflexaoOrigemPoligono = criarMatrizReflexaoOrigem();
+
+                // // Realizar a reflexão com a origem
+                // refletirPoligono(chave, listaPoligonos, matrizReflexaoOrigemPoligono);
             }
             break;
             
@@ -568,22 +576,30 @@ void funcoesTeclado(unsigned char key, int x, int y)
                 // Criar a matriz da reflexão
                 Matriz3Por3 * matrizReflexaoEixoXPonto = criarMatrizReflexaoEixoX();
 
-                // Realizar a reflexão com relação ao eixo X do ponto selecionado
+                // Realizar a reflexão com relação ao eixo X
                 refletirPonto(chave, listaPontos, matrizReflexaoEixoXPonto);
             }
 
             ////////// Refletir reta com relação a origem
             // Se uma reta está na opção "Selecionar" e a chave conter um valor diferente de -1
             else if (opcao == 5 && chave != -1) {
+                // Criar a matriz da reflexão
+                Matriz3Por3 * matrizReflexaoEixoXReta = criarMatrizReflexaoEixoX();
 
+                // Realizar a reflexão com relação ao eixo X
+                refletirReta(chave, listaRetas, matrizReflexaoEixoXReta);
             }
 
             ////////// Refletir polígono com relação a origem
             // Se um polígono está na opção "Selecionar" e a chave conter um valor diferente de -1
             else if (opcao == 6 && chave != -1) {
-                
+                // // Criar a matriz da reflexão
+                // Matriz3Por3 * matrizReflexaoEixoXPoligono = criarMatrizReflexaoEixoX();
+
+                // // Realizar a reflexão com relação ao eixo X
+                // refletirPoligono(chave, listaPoligonos, matrizReflexaoEixoXPoligono);
             }
-            break;
+            
             break;
 
         // Refletir objetos com relação ao eixo Y
@@ -602,15 +618,23 @@ void funcoesTeclado(unsigned char key, int x, int y)
             ////////// Refletir reta com relação a origem
             // Se uma reta está na opção "Selecionar" e a chave conter um valor diferente de -1
             else if (opcao == 5 && chave != -1) {
+                // Criar a matriz da reflexão
+                Matriz3Por3 * matrizReflexaoEixoYReta = criarMatrizReflexaoEixoY();
 
+                // Realizar a reflexão com relação ao eixo X
+                refletirReta(chave, listaRetas, matrizReflexaoEixoYReta);
             }
 
             ////////// Refletir polígono com relação a origem
             // Se um polígono está na opção "Selecionar" e a chave conter um valor diferente de -1
             else if (opcao == 6 && chave != -1) {
-                
+                // // Criar a matriz da reflexão
+                // Matriz3Por3 * matrizReflexaoEixoYPoligono = criarMatrizReflexaoEixoY();
+
+                // // Realizar a reflexão com relação ao eixo X
+                // refletirPoligono(chave, listaPoligonos, matrizReflexaoEixoYPoligono);
             }
-            break;
+            
             break;
     }
 

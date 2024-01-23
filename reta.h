@@ -44,5 +44,6 @@ void desenharRetas(ListaRetas * listaRetas);
 int transladarReta(int chave, ListaRetas * listaRetas, Matriz3Por3 * matrizTranslacaoReta);
 int rotacionarReta(int chave, ListaRetas * listaRetas, Matriz3Por3 * matrizRotacaoReta);
 int escalarReta(int chave, ListaRetas * listaRetas, Matriz3Por3 * matrizEscalarReta);
+int refletirReta(int chave, ListaRetas * listaRetas, Matriz3Por3 * matrizRefletirReta);
 
 #endif // RETA_H

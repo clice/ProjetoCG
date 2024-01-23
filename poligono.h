@@ -61,5 +61,7 @@ void desenharPoligonos(ListaPoligonos * listaPoligonos);
 int transladarPoligono(int chave, ListaPoligonos * listaPoligonos, Matriz3Por3 * matrizTranslacaoPoligono);
 int rotacionarPoligono(int chave, ListaPoligonos * listaPoligonos, Matriz3Por3 * matrizRotacaoPoligono);
 int escalarPoligono(int chave, ListaPoligonos * listaPoligonos, Matriz3Por3 * matrizEscalarPoligono);
+int refletirReta(int chave, ListaPoligonos * listaPoligonos, Matriz3Por3 * matrizRefletirPoligono);
+int cisalharReta(int chave, ListaPoligonos * listaPoligonos, Matriz3Por3 * matrizCisalharPoligono);
 
 #endif // POLIGONO_H
