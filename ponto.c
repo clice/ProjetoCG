@@ -54,22 +54,21 @@ void salvarListaPontos(ListaPontos * listaPontos)
     // Se a lista de pontos não está vazia
     if (listaPontos != NULL) {
         // Nome do arquivo
-        const char * nomeArquivo = "arquivos/pontos/pontos.txt";
+        const char * nomeArquivo = "arquivos/pontos/pontos.bin";
 
         // Abrir o arquivo para salvar a lista
-        FILE * arquivo = fopen(nomeArquivo, "w");
+        FILE * arquivo = fopen(nomeArquivo, "wb");
 
         // Checar se o arquivo foi aberto com sucesso
         if (arquivo == NULL) {
             fprintf(stderr, "Nao foi possivel abrir o arquivo %s.\n", nomeArquivo);
-            return;
         }
 
         // Escrever as dimensões da lista no arquivo
-        fprintf(arquivo, "%d\n", listaPontos->qtdPontos);
+        fwrite(listaPontos, sizeof(ListaPontos), listaPontos->qtdPontos, arquivo);
 
         // Escrever os elementos da lista no arquivo (x, y, red, green, blue)
-        for (int i = 0; i < listaPontos->qtdPontos; i++) {
+       /* for (int i = 0; i < listaPontos->qtdPontos; i++) {
             // Salvar posições dos pontos
             fprintf(arquivo, "%.1f ", listaPontos->pontos[i].x);
             fprintf(arquivo, "%.1f ", listaPontos->pontos[i].y);
@@ -79,7 +78,7 @@ void salvarListaPontos(ListaPontos * listaPontos)
             fprintf(arquivo, "%.1f ", listaPontos->pontos[i].cor.green);
             fprintf(arquivo, "%.1f", listaPontos->pontos[i].cor.blue);
             fprintf(arquivo, "\n"); // Mover para a próxima linha do arquivo
-        }
+        }*/
 
         // Fechar arquivo
         fclose(arquivo);
@@ -89,38 +88,40 @@ void salvarListaPontos(ListaPontos * listaPontos)
     // Se a lista de pontos está vazia
     else {
         printf("A lista de pontos esta vazia! Nada foi salvo no arquivo!\n");
-        return;
     }
 }
 
 /*
  * FUNÇÃO PARA CARREGAR A LISTA DE PONTOS NA TELA
  */
-void carregarListaPontos()
+void carregarListaPontos(ListaPontos *listaPontos)
 {
     // int ponto = -1;
-    int * qtdPontos;
+    /*int * qtdPontos;
     float auxListaPontos[1][5];
 
-    ListaPontos * listaPontos = criarListaPontos();
+    ListaPontos * listaPontos = criarListaPontos();*/
+    free(listaPontos);
+    listaPontos = NULL;
 
     // Nome do arquivo
-    const char * nomeArquivo = "arquivos/pontos/pontos.txt";
+    const char * nomeArquivo = "arquivos/pontos/pontos.bin";
 
     // Abrir o arquivo para carregar a lista
-    FILE * arquivo = fopen(nomeArquivo, "r");
+    FILE * arquivo = fopen(nomeArquivo, "rb");
 
     // Checar se o arquivo foi aberto com sucesso
     if (arquivo == NULL) {
         fprintf(stderr, "Nao foi possivel abrir o arquivo %s.\n", nomeArquivo);
-        return;
+        system ("pause");
+        exit(1);
     }
 
     // Ler as dimensões da lista no arquivo
-    fscanf(arquivo, "%d", qtdPontos);
+    fread(listaPontos, sizeof(ListaPontos), 1, arquivo);
 
     // Adicionando a quantidade de pontos na lista
-    listaPontos->qtdPontos = *qtdPontos;
+    /*listaPontos->qtdPontos = *qtdPontos;
 
     // Ler os elementos da lista no arquivo (x, y, red, green, blue)
     for (int i = 0; i < 9; i++) {
@@ -142,7 +143,7 @@ void carregarListaPontos()
         // printf("%.1f\n", &auxListaPontos[0][4]);
 
         // Adicionando os dados na lista de pontos
-    }
+    }*/
 
     // Desenhar na tela os pontos da lista
     // desenharPontos(ponto, listaPontos);

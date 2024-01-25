@@ -222,13 +222,13 @@ void funcoesMouse(int botaoMouse, int statusMouse, int x, int y)
         ////////// Opção: Salvar objetos
         else if (opcao == 7) {
             salvarListaPontos(listaPontos);
-            salvarListaRetas(listaRetas);
+            //salvarListaRetas(listaRetas);
             // salvarListaPoligonos(listaPoligonos);
         }
 
         ////////// Opção: Carregar objetos
         else if (opcao == 8) {
-            carregarListaPontos();
+            carregarListaPontos(listaPontos);
             // carregarListaRetas(listaRetas);
             // carregarListaPoligonos(listaPoligonos);
         }

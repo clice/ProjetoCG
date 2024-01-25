@@ -102,7 +102,7 @@
 	<GL/glut.h>
 	"reta.h"
 
-1705801490 source:c:\users\alexandre\projetocg\main.c
+1705882978 source:c:\users\alexandre\projetocg\main.c
 	<math.h>
 	<stdio.h>
 	<stdlib.h>
@@ -111,7 +111,7 @@
 	"reta.h"
 	"poligono.h"
 
-1705803226 c:\users\alexandre\projetocg\ponto.h
+1705882862 c:\users\alexandre\projetocg\ponto.h
 	"matriz.h"
 
 1705720519 c:\users\alexandre\projetocg\matriz.h
@@ -137,13 +137,13 @@
 	"ponto.h"
 	"matriz.h"
 
-1705787250 source:c:\users\alexandre\projetocg\ponto.c
+1705882911 source:c:\users\alexandre\projetocg\ponto.c
 	<stdio.h>
 	<stdlib.h>
 	<GL/glut.h>
 	"ponto.h"
 
-1705868770 source:c:\users\alexandre\projetocg\reta.c
+1705878500 source:c:\users\alexandre\projetocg\reta.c
 	<math.h>
 	<stdio.h>
 	<stdlib.h>
