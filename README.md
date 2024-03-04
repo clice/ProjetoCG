@@ -1,6 +1,8 @@
 # Computação Gráfica
 
-**Equipe:** Alexandre Marques Cabral e Clice Bezerra Brito Romão
+**Equipe:** 
+ - Alexandre Marques Cabral
+ - Clice Bezerra Brito Romão
 
 ## Construção de um "Paint"
 
