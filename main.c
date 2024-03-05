@@ -64,6 +64,8 @@ void funcoesMouse(int botaoMouse, int statusMouse, int x, int y);
 void funcoesMovimento(int x, int y);
 void funcoesTeclado(unsigned char key, int x, int y);
 
+///////////////////////////////////////////////////////////////////
+
 /*
  * FUNÇÃO PARA INICIAR O SISTEMA
  */
