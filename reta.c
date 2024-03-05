@@ -346,14 +346,14 @@ void desenharRetas(ListaRetas * listaRetas)
 
     for (int i = 0; i < listaRetas->qtdRetas; i++) {
     	// Imprimindo os valores e intensidades de cores RGB
-		glColor3f(listaRetas->retas[i].inicial.cor.red, listaRetas->retas[i].inicial.cor.green, listaRetas->retas[i].inicial.cor.blue);
-		// Posicionando o ponto inicial na largura e altura corretas do mouse
-		glVertex2f(listaRetas->retas[i].inicial.x, listaRetas->retas[i].inicial.y);
+	glColor3f(listaRetas->retas[i].inicial.cor.red, listaRetas->retas[i].inicial.cor.green, listaRetas->retas[i].inicial.cor.blue);
+	// Posicionando o ponto inicial na largura e altura corretas do mouse
+	glVertex2f(listaRetas->retas[i].inicial.x, listaRetas->retas[i].inicial.y);
 
-		// Imprimindo os valores e intensidades de cores RGB
-		glColor3f(listaRetas->retas[i].final.cor.red, listaRetas->retas[i].final.cor.green, listaRetas->retas[i].final.cor.blue);
-		// Posicionando o ponto final na largura e altura corretas do mouse
-		glVertex2f(listaRetas->retas[i].final.x, listaRetas->retas[i].final.y);
+	// Imprimindo os valores e intensidades de cores RGB
+	glColor3f(listaRetas->retas[i].final.cor.red, listaRetas->retas[i].final.cor.green, listaRetas->retas[i].final.cor.blue);
+	// Posicionando o ponto final na largura e altura corretas do mouse
+	glVertex2f(listaRetas->retas[i].final.x, listaRetas->retas[i].final.y);
     }
 
     glEnd();
