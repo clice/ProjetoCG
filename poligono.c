@@ -543,7 +543,7 @@ void desenharPoligonos(ListaPoligonos * listaPoligonos)
 	glLineWidth(6.0);
 
 	// Laço para percorrer toda a lista de polígonos
-    for (int i = 0; i < listaPoligonos->qtdPoligonos; i++) {
+    	for (int i = 0; i < listaPoligonos->qtdPoligonos; i++) {
 		glBegin(GL_POLYGON);
 
 		// Recebe os mesmos dados do ponto inicial para manipulação
